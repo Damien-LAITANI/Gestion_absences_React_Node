@@ -1,5 +1,7 @@
 # `Projet final Diginamic`
 
+[Trello](https://trello.com/b/n3ftyVDE/projet-final)
+
 ## `Dévellopeurs`
 
 -   `Damien` : d.laitani@gmail.com
