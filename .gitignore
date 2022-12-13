@@ -1,3 +1,11 @@
+# * Général
 otmane.md
 damien.md
 valentin.md
+
+# * React
+app-react/package-lock.json
+
+# * NodeJS
+api-node/node_modules
+api-node/package-lock.json
