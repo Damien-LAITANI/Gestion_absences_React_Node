@@ -27,6 +27,6 @@ Todolist fullstack de Valentin [gitlab](https://gitlab.com/ValentinSILVESTRE/dig
 -   Absence :
     -   startDate: Date
     -   endDate: Date
-    -   types: 'congé payé' | 'RTT employé' | 'RTT employeur' | 'congé sans solde'
+    -   types: 'congé payé' | 'RTT' | 'congé sans solde'
     -   motif: string
     -   status: 'INITIALE' | 'EN_ATTENTE_VALIDATION' | 'VALIDEE' | 'REJETEE'
