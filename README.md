@@ -23,6 +23,7 @@ Todolist fullstack de Valentin [gitlab](https://gitlab.com/ValentinSILVESTRE/dig
     -   roles: 'Admin' | 'Manager' | 'Employee'
     -   poste ?: string
     -   avatar: string
+    -   absences: Absence[]
 
 -   Absence :
     -   startDate: Date
