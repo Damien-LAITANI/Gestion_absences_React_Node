@@ -25,6 +25,10 @@
 - Absence :
   - startDate: Date
   - endDate: Date
+<<<<<<< HEAD
   - types: 'congé payé', 'RTT employé', 'RTT employeur', 'congé sans solde'
+=======
+  - types: 'congé payé', RTT, 'congé sans solde'
+>>>>>>> 84c07dc74f5b2948d713758badf0e7227362e03f
   - motif: string
   - status: 'INITIALE'| 'EN_ATTENTE_VALIDATION'| 'VALIDEE'| 'REJETEE'
