@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose';
 import { IAbsence } from './IAbsence';
 
-const absenceSchema = new Schema<IAbsence>({
+export const absenceSchema = new Schema<IAbsence>({
 	startDate: { type: Date, required: true },
 	endDate: { type: Date, required: true },
 	types: { type: String, required: true },
