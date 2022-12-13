@@ -1,5 +1,9 @@
 # `Projet final Diginamic`
 
-valentin.silvestre@hotmail.com
-d.laitani@gmail.com
-otmane.boujlam@gmail.com
+## `Dévellopeurs`
+
+-   `Damien` : d.laitani@gmail.com
+
+-   `Otmane` : otmane.boujlam@gmail.com
+
+-   `Valentin` : valentin.silvestre@hotmail.com
