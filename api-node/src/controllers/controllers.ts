@@ -27,6 +27,14 @@ export const postOne = (req: Request, res: Response) => {
 		roles: 'admin',
 		absences: [absence],
 	});
+	const user = new User({
+		firstname: 'test',
+		lastname: 'test',
+		email: 'email',
+		password: 'password',
+		roles: 'admin',
+		absences: [absence],
+	});
 
 	User.create(user, (error) => {
 		console.log(user);
