@@ -20,7 +20,11 @@ export const getUser = (req: Request, res: Response) => {
 
 export const addUser = (req: Request, res: Response) => {
 	User.create(req.body, (error: any, user: typeof User) => {
-		res.status(201).json(user);
+		console.log(req.body);
+		if (user) {
+			return res.status(201).json(user);
+		}
+		res.status(404).json({ message: 'Erreur' });
 	});
 };
 
@@ -39,30 +43,5 @@ export const deleteUser = (req: Request, res: Response) => {
 	const { id } = req.params;
 	User.deleteOne({ _id: id }, (error: any, user: typeof User) => {
 		res.status(200).json(user);
-	});
-};
-
-export const postOne = (req: Request, res: Response) => {
-	const absence = {
-		startDate: Date.now(),
-		endDate: Date.now(),
-		types: 'congé payé',
-		motif: 'string',
-		status: 'REJETEE',
-	};
-
-	const user = new User({
-		firstname: 'test',
-		lastname: 'test',
-		email: 'email',
-		password: 'password',
-		roles: 'admin',
-		absences: [absence],
-	});
-
-	User.create(user, (error) => {
-		console.log(user);
-		console.log(error);
-		res.end();
 	});
 };
