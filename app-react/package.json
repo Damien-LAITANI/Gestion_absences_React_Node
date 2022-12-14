@@ -12,6 +12,7 @@
     "@types/react-dom": "^18.0.9",
     "axios": "^1.2.1",
     "bootstrap": "^5.2.3",
+    "bootstrap-icons": "^1.10.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router": "^6.4.5",
@@ -43,5 +44,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/bootstrap": "^5.2.6"
   }
 }
