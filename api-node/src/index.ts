@@ -8,5 +8,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(router);
 
 app.listen(port, () => {
-	console.log(`Connected at port ${port}`);
+	console.clear();
+	console.log(`
+\t\t\t\t********************************************
+\t\t\t\t*                                          *
+\t\t\t\t*      API Node : listen on port ${port}      *
+\t\t\t\t*                                          *
+\t\t\t\t********************************************
+`);
 });

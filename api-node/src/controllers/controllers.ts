@@ -13,27 +13,32 @@ export const getAllUser = (req: Request, res: Response) => {
 
 export const getUser = (req: Request, res: Response) => {
 	User.findById(req.params.id, (error: any, user: typeof User) => {
-		console.log(user);
 		res.status(200).json(user);
 	});
 };
 
-export const addUser = async (req: Request, res: Response) => {
-	await User.create(req.body, (error: any, user: typeof User) => {
+export const addUser = (req: Request, res: Response) => {
+	User.create(req.body, (error: any, user: typeof User) => {
 		res.status(201).json(user);
 	});
 };
 
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUser = (req: Request, res: Response) => {
 	const updatedUser = req.body;
-	const user = await User.replaceOne({ _id: req.body._id }, updatedUser);
-	res.status(200).json(user);
+	User.replaceOne(
+		{ _id: req.body._id },
+		updatedUser,
+		(error: any, user: typeof User) => {
+			res.status(200).json(user);
+		}
+	);
 };
 
-export const deleteUser = async (req: Request, res: Response) => {
-	const { _id } = req.params;
-	const user = await User.deleteOne({ _id: _id });
-	res.status(200).json(user);
+export const deleteUser = (req: Request, res: Response) => {
+	const { id } = req.params;
+	User.deleteOne({ _id: id }, (error: any, user: typeof User) => {
+		res.status(200).json(user);
+	});
 };
 
 export const postOne = (req: Request, res: Response) => {
