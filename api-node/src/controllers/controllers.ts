@@ -7,8 +7,9 @@ const dbURI = 'mongodb://127.0.0.1:27017/absenceApp';
 connect(dbURI);
 
 export const getAllUser = (req: Request, res: Response) => {
-	const users = User.find({});
-	res.status(200).json(users);
+	User.find({}, (error: any, users: typeof User[]) => {
+		res.status(200).json(users);
+	});
 };
 
 export const getUser = (req: Request, res: Response) => {
