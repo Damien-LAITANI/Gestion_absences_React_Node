@@ -1,3 +1,4 @@
+import AbsenceModal from '../AbsenceModal/AbsenceModal';
 const AbsenceList = () => {
 	return (
 		<>
@@ -5,10 +6,11 @@ const AbsenceList = () => {
 			<table className="table table-hover">
 				<thead>
 					<tr>
-						<th scope="col">#</th>
-						<th scope="col">First</th>
-						<th scope="col">Last</th>
-						<th scope="col">Handle</th>
+						<th scope="col">Date de début</th>
+						<th scope="col">Date de fin</th>
+						<th scope="col">Type</th>
+						<th scope="col">Statut</th>
+						<th scope="col">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -18,25 +20,23 @@ const AbsenceList = () => {
 						<td>Otto</td>
 						<td>@mdo</td>
 					</tr>
-					<tr>
-						<th scope="row">2</th>
-						<td>Jacob</td>
-						<td>Thornton</td>
-						<td>@fat</td>
-					</tr>
-					<tr>
-						<th scope="row">3</th>
-						<td colSpan={2}>Larry the Bird</td>
-						<td>@twitter</td>
-					</tr>
 				</tbody>
 			</table>
-			<button>Demander une absence</button>
+			<button className="btn btn-info">Demander une absence</button>
 			<p>Soldes des compteurs</p>
 			<ul>
 				<li>Congés payés : 15</li>
 				<li>RTT : 3</li>
 			</ul>
+			{/* <button
+				type="button"
+				className="btn btn-primary"
+				data-bs-toggle="modal"
+				data-bs-target="#deleteAbsence"
+			>
+				Launch demo modal
+			</button> */}
+			<AbsenceModal />
 		</>
 	);
 };
