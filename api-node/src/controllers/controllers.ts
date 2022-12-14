@@ -11,8 +11,9 @@ export const getAllUser = (req: Request, res: Response) => {
 	res.status(200).json(users);
 };
 
-export const getUser = async (req: Request, res: Response) => {
-	await User.findById(req.params._id, (error: any, user: typeof User) => {
+export const getUser = (req: Request, res: Response) => {
+	User.findById(req.params.id, (error: any, user: typeof User) => {
+		console.log(user);
 		res.status(200).json(user);
 	});
 };
