@@ -9,4 +9,6 @@ export interface IUser {
 	password: string;
 	roles: UserRole[];
 	absences: IAbsence[];
+	employees: string[]; // IDs
+	superior: string; // ID
 }
