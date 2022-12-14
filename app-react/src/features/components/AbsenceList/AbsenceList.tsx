@@ -10,19 +10,29 @@ const AbsenceList = () => {
 						<th scope="col">Date de fin</th>
 						<th scope="col">Type</th>
 						<th scope="col">Statut</th>
-						<th scope="col">Actions</th>
+						<th scope="col" className="text-center">
+							Actions
+						</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>30/10/2020</td>
-						<td>15/11/2021</td>
-						<td>Congé payé</td>
-						<td>Validée</td>
+					<tr className="container align-items-center w-100">
 						<td>
+							<p className="my-2">30/10/2020</p>
+						</td>
+						<td>
+							<p className="my-2">15/11/2021</p>
+						</td>
+						<td>
+							<p className="my-2">Congé payé</p>
+						</td>
+						<td>
+							<p className="my-2">Validée</p>
+						</td>
+						<td className="d-flex justify-content-center align-items-center">
 							<button
 								type="button"
-								className="btn btn-danger"
+								className="h-75 btn btn-danger"
 								data-bs-toggle="modal"
 								data-bs-target="#deleteAbsence"
 							>
