@@ -6,6 +6,12 @@
 
 -   [Mongoose](https://mongoosejs.com/docs/guide.html)
 
+-   [Icônes Bootstrap](https://icons.getbootstrap.com/)
+
+-   [React](https://reactjs.org/docs/getting-started.html)
+
+-   [React Typescript](https://react-typescript-cheatsheet.netlify.app/docs/basic/setup)
+
 ## `Dévellopeurs`
 
 -   `Damien` : d.laitani@gmail.com
