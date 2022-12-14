@@ -1,8 +1,8 @@
 const AbsenceList = () => {
 	return (
-		<>
-			<h1>Gestion des absences</h1>
-			<table className="table table-hover">
+		<div className="w-50 d-flex flex-column mx-auto container">
+			<h1 className="text-center my-3">Gestion des absences</h1>
+			<table className="table table-hover border shadow">
 				<thead>
 					<tr>
 						<th scope="col">#</th>
@@ -31,13 +31,15 @@ const AbsenceList = () => {
 					</tr>
 				</tbody>
 			</table>
-			<button>Demander une absence</button>
+			<button className="ms-auto" style={{ width: 'fit-content' }}>
+				Demander une absence
+			</button>
 			<p>Soldes des compteurs</p>
 			<ul>
 				<li>Congés payés : 15</li>
 				<li>RTT : 3</li>
 			</ul>
-		</>
+		</div>
 	);
 };
 
