@@ -6,6 +6,7 @@ const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(router);
+console.log('test');
 
 app.listen(port, () => {
 	console.clear();
