@@ -4,6 +4,7 @@ import Header from './components/Header/Header';
 import AbsenceProcess from './features/components/AbsenceProcess/AbsenceProcess';
 import Absences from './features/components/Absences/Absences';
 import Holiday from './features/components/Holiday/Holiday';
+import Login from './features/components/Login/Login';
 import Planning from './features/components/Planning/Planning';
 import ReportList from './features/components/ReportList/ReportList';
 
@@ -22,6 +23,7 @@ const App = () => {
 					/>
 					<Route path="/report-list" element={<ReportList />} />
 					<Route path="/holiday" element={<Holiday />} />
+					<Route path="/login" element={<Login />} />
 					<Route path="*" element={<Navigate to="/" />} />
 				</Routes>
 			</main>
