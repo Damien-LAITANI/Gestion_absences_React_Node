@@ -28,9 +28,12 @@
     -   lastname: string
     -   email: string
     -   password: string
-    -   roles: 'Admin'| 'Manager'| 'Employee'
-    -   poste ?: string
-    -   avatar: string
+    -   userRoles: 'Admin'| 'Manager'| 'Employee'
+    -   position ?: string
+    -   profilPicture: string
+    -   superiorId: string // ID
+    -   employeesId: string[] // ID[]
+    -   absences: Absence[]
 
 -   Absence :
     -   startDate: Date
