@@ -1,9 +1,9 @@
 import AbsenceModal from '../AbsenceModal/AbsenceModal';
 const AbsenceList = () => {
 	return (
-		<>
-			<h1>Gestion des absences</h1>
-			<table className="table table-hover">
+		<div className="w-50 d-flex flex-column mx-auto container">
+			<h1 className="text-center my-3">Gestion des absences</h1>
+			<table className="table table-hover border shadow">
 				<thead>
 					<tr>
 						<th scope="col">Date de début</th>
@@ -22,7 +22,13 @@ const AbsenceList = () => {
 					</tr>
 				</tbody>
 			</table>
-			<button className="btn btn-info">Demander une absence</button>
+			<button
+				className="btn btn-info"
+				className="ms-auto"
+				style={{ width: 'fit-content' }}
+			>
+				Demander une absence
+			</button>
 			<p>Soldes des compteurs</p>
 			<ul>
 				<li>Congés payés : 15</li>
@@ -37,7 +43,7 @@ const AbsenceList = () => {
 				Launch demo modal
 			</button> */}
 			<AbsenceModal />
-		</>
+		</div>
 	);
 };
 

@@ -10,7 +10,7 @@ import ReportList from './features/components/ReportList/ReportList';
 
 const App = () => {
 	return (
-		<div className="app container-fluid d-flex flex-column">
+		<div className="app container-fluid d-flex flex-column p-5">
 			<Header />
 			<main className="flex-grow">
 				<Routes>
