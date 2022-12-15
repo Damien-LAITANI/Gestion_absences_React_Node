@@ -2,13 +2,20 @@ const Holiday = () => {
 	return (
 		<div className="w-50 d-flex flex-column mx-auto container">
 			<h1 className="text-center my-3">Jours fériés et RTT employeurs</h1>
-			<select id="year" className="form-select">
-				<option value="2020">2020</option>
-				<option value="2021">2021</option>
-				<option value="2022" selected>
-					2022
-				</option>
-			</select>
+
+			<div className="form-floating mb-3">
+				<select
+					className="form-select"
+					aria-label="Floating label select example"
+					defaultValue={'2021'}
+				>
+					<option value="2020">2020</option>
+					<option value="2021">2021</option>
+					<option value="2022">2022</option>
+				</select>
+				<label>Année</label>
+			</div>
+
 			<table className="table table-hover border shadow">
 				<thead>
 					<tr>
@@ -37,7 +44,7 @@ const Holiday = () => {
 						</td>
 						<td className="d-flex justify-content-center align-items-center">
 							<ul className="m-0 p-0 d-inline text-center">
-								<li className="d-inline-block me-1">
+								<li className="d-inline-block me-2">
 									<button
 										type="button"
 										className="btn btn-warning"
@@ -56,7 +63,7 @@ const Holiday = () => {
 										</svg>
 									</button>
 								</li>
-								<li className="d-inline-block me-1">
+								<li className="d-inline-block">
 									<button
 										type="button"
 										className="btn btn-danger"
