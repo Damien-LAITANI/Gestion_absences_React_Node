@@ -19,3 +19,8 @@ export interface IUser {
 	employees: string[]; // IDs
 	superior: string; // ID
 }
+
+export interface ILogin {
+	email: string;
+	password: string;
+}
