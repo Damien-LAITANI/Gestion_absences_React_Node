@@ -57,7 +57,7 @@ const AbsenceList = ({ setShowAbsenceForm, user }: IAbsenceListProps) => {
 								<td className="d-flex justify-content-center align-items-center">
 									<button
 										type="button"
-										className="h-75 btn btn-danger"
+										className="btn btn-danger"
 										data-bs-toggle="modal"
 										data-bs-target="#deleteAbsence"
 									>
