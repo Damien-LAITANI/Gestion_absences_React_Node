@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { IUser } from './IUser';
 
 const instance = axios.create({
 	baseURL: 'http://localhost:3000',
@@ -29,6 +30,33 @@ export const getAllEmployeeFromAPI = async (id: string) => {
 export const getUserFromApi = async (id: string) => {
 	try {
 		const response = await instance.get(`/user/${id}`);
+		return response;
+	} catch (error: any) {
+		return error.response;
+	}
+};
+
+export const postUserToApi = async (params: IUser) => {
+	try {
+		const response = await instance.post(`/user`, params);
+		return response;
+	} catch (error: any) {
+		return error.response;
+	}
+};
+
+export const updateUserToApi = async (params: IUser) => {
+	try {
+		const response = await instance.put(`/user`, params);
+		return response;
+	} catch (error: any) {
+		return error.response;
+	}
+};
+
+export const deleteUserToApi = async (id: string) => {
+	try {
+		const response = await instance.delete(`/user/${id}`);
 		return response;
 	} catch (error: any) {
 		return error.response;
