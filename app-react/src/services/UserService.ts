@@ -17,6 +17,15 @@ export const getAllUserFromAPI = async () => {
 	}
 };
 
+export const getAllEmployeeFromAPI = async (id: string) => {
+	try {
+		const response = await instance.get(`/employees/manager/${id}`);
+		return response;
+	} catch (error: any) {
+		return error.response;
+	}
+};
+
 export const getUserFromApi = async (id: string) => {
 	try {
 		const response = await instance.get(`/user/${id}`);
