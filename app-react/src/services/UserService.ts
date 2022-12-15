@@ -8,9 +8,18 @@ const instance = axios.create({
 	},
 });
 
-export const getAllUser = async () => {
+export const getAllUserFromAPI = async () => {
 	try {
 		const response = await instance.get('/user');
+		return response;
+	} catch (error: any) {
+		return error.response;
+	}
+};
+
+export const getUserFromApi = async (id: string) => {
+	try {
+		const response = await instance.get(`/user/${id}`);
 		return response;
 	} catch (error: any) {
 		return error.response;

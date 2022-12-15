@@ -8,15 +8,21 @@ import Holiday from './features/components/Holiday/Holiday';
 import Login from './features/components/Login/Login';
 import Planning from './features/components/Planning/Planning';
 import ReportList from './features/components/ReportList/ReportList';
-import { getAllUser } from './services/UserService';
+import { getAllUserFromAPI, getUserFromApi } from './services/UserService';
 
 const App = () => {
 	const getAll = async () => {
-		const response = await getAllUser();
+		const response = await getAllUserFromAPI();
 		console.log(response);
 	};
+
+	const getUser = async () => {
+		const response = await getUserFromApi('6399b638770d91e6e0b21c2d');
+		console.log(response);
+	};
+
 	useEffect(() => {
-		getAll();
+		getUser();
 	}, []);
 
 	return (
