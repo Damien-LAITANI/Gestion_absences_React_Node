@@ -27,7 +27,7 @@ const AbsenceList = ({ setShowAbsenceForm, user }: IAbsenceListProps) => {
 				</thead>
 				<tbody>
 					{user.absences.map((absence: any) => {
-						console.log(absence);
+						console.log(absence.startDate);
 
 						return (
 							<tr
@@ -36,16 +36,20 @@ const AbsenceList = ({ setShowAbsenceForm, user }: IAbsenceListProps) => {
 							>
 								<td>
 									<p className="my-2">
-										{absence.startDate.toDateString()}
+										{new Date(
+											absence.startDate
+										).toLocaleDateString()}
 									</p>
 								</td>
 								<td>
 									<p className="my-2">
-										{absence.endDate.toDateString()}
+										{new Date(
+											absence.endDate
+										).toLocaleDateString()}
 									</p>
 								</td>
 								<td>
-									<p className="my-2">{absence.type}</p>
+									<p className="my-2">{absence.types}</p>
 								</td>
 								<td>
 									<p className="my-2">{absence.status}</p>

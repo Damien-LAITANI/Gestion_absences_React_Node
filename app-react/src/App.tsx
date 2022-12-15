@@ -11,60 +11,63 @@ import Planning from './features/components/Planning/Planning';
 import ReportList from './features/components/ReportList/ReportList';
 import { getAllUserFromAPI, getUserFromApi } from './services/UserService';
 
+const defaultAbsences = [
+	{
+		startDate: '2022-12-12T23:00:00:000Z',
+		endDate: '2022-12-24T23:00:00:000Z',
+		type: 'congés payés',
+		motif: 'vacances',
+		status: 'EN_ATTENTE_VALIDATION',
+	},
+	{
+		startDate: '2022-12-24T23:00:00:000Z',
+		endDate: '2022-12-31T23:00:00:000Z',
+		type: 'congés payés',
+		motif: 'vacances',
+		status: 'VALIDEE',
+	},
+];
+
+const defaultUser: {
+	firstname: string;
+	lastname: string;
+	email: string;
+	password: string;
+	roles: string[];
+	absences: any[];
+	employees: string[]; // IDs
+	superior: string; // ID
+	id: string;
+} = {
+	firstname: 'Valentin',
+	lastname: 'SILVESTRE',
+	email: 'val@gmail.fr',
+	password: '123456789',
+	roles: ['ADMIN', 'MANAGER'],
+	absences: defaultAbsences,
+	employees: [], // IDs
+	superior: 'ae123456', // ID
+	id: 'azeertsddv',
+};
+
 const App = () => {
+	const [user, setUser] = useState(defaultUser);
+	const userID = '6399b395ba1d4a74d1521322';
+
 	const getAll = async () => {
 		const response = await getAllUserFromAPI();
-		console.log(response);
+		// console.log(response);
 	};
 
 	const getUser = async () => {
-		const response = await getUserFromApi('6399b638770d91e6e0b21c2d');
-		console.log(response);
+		const userData = await getUserFromApi(userID);
+		// console.log(userData.data);
+		setUser(userData.data);
 	};
 
 	useEffect(() => {
 		getUser();
 	}, []);
-
-	const absences = [
-		{
-			startDate: new Date(2022, 12, 12),
-			endDate: new Date(2022, 12, 24),
-			type: 'congés payés',
-			motif: 'vacances',
-			status: 'EN ATTENTE',
-		},
-		{
-			startDate: new Date(2022, 12, 24),
-			endDate: new Date(2022, 12, 31),
-			type: 'congés payés',
-			motif: 'vacances',
-			status: 'FINI',
-		},
-	];
-	const connectedUser: {
-		firstname: string;
-		lastname: string;
-		email: string;
-		password: string;
-		roles: string[];
-		absences: any[];
-		employees: string[]; // IDs
-		superior: string; // ID
-		id: string;
-	} = {
-		firstname: 'Valentin',
-		lastname: 'SILVESTRE',
-		email: 'val@gmail.fr',
-		password: '123456789',
-		roles: ['ADMIN', 'MANAGER'],
-		absences: absences,
-		employees: [], // IDs
-		superior: 'ae123456', // ID
-		id: 'azeertsddv',
-	};
-
-	const [user, setUser] = useState(connectedUser);
 
 	return (
 		<div className="app container-fluid min-vh-100 d-flex flex-column p-5">
@@ -79,7 +82,7 @@ const App = () => {
 					<Route path="/planning" element={<Planning />} />
 					<Route
 						path="/absences-process"
-						element={<AbsenceProcess />}
+						element={<AbsenceProcess user={user} />}
 					/>
 					<Route path="/report-list" element={<ReportList />} />
 					<Route path="/holiday" element={<Holiday />} />
