@@ -8,7 +8,7 @@ import Holiday from './features/components/Holiday/Holiday';
 import Login from './features/components/Login/Login';
 import Planning from './features/components/Planning/Planning';
 import ReportList from './features/components/ReportList/ReportList';
-import { IUser } from './services/IUser';
+import { IUser } from './services/IService';
 import {
 	deleteUserToApi,
 	getAllUserFromAPI,
@@ -57,7 +57,7 @@ const defaultUser: {
 };
 
 const App = () => {
-	const [user, setUser] = useState(defaultUser);
+	const [user, setUser] = useState({});
 	const userID = '6399b395ba1d4a74d1521322';
 
 	const getAll = async () => {
@@ -145,8 +145,8 @@ const App = () => {
 	};
 
 	useEffect(() => {
-		deleteUser();
-	}, []);
+		console.log(user);
+	}, [user]);
 
 	return (
 		<div className="app container-fluid min-vh-100 d-flex flex-column p-5">
@@ -165,7 +165,10 @@ const App = () => {
 					/>
 					<Route path="/report-list" element={<ReportList />} />
 					<Route path="/holiday" element={<Holiday />} />
-					<Route path="/login" element={<Login />} />
+					<Route
+						path="/login"
+						element={<Login setUser={setUser} />}
+					/>
 					<Route path="*" element={<Navigate to="/" />} />
 				</Routes>
 			</main>
