@@ -8,7 +8,7 @@ import Holiday from './features/components/Holiday/Holiday';
 import Login from './features/components/Login/Login';
 import Planning from './features/components/Planning/Planning';
 import ReportList from './features/components/ReportList/ReportList';
-import { IUser } from './services/IUser';
+import { IUser } from './services/IService';
 import {
 	deleteUserToApi,
 	getAllUserFromAPI,
