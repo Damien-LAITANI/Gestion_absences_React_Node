@@ -12,6 +12,13 @@ export const getAllUser = (req: Request, res: Response) => {
 	});
 };
 
+export const getAllEmployee = (req: Request, res: Response) => {
+	const { idManager } = req.params;
+	User.find({ superior: idManager }, (error: any, users: typeof User[]) => {
+		res.status(200).json(users);
+	});
+};
+
 export const getUser = (req: Request, res: Response) => {
 	User.findById(req.params.id, (error: any, user: typeof User) => {
 		res.status(200).json(user);
