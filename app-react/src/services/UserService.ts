@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { IUser } from './IUser';
+import { IUser } from './IService';
 
-const instance = axios.create({
+export const instance = axios.create({
 	baseURL: 'http://localhost:3000',
 	timeout: 5000,
 	headers: {

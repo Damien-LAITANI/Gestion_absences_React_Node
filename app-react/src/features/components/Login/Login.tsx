@@ -1,16 +1,42 @@
-const Login = () => {
+import { login } from '../../../services/connectService';
+import { useNavigate } from 'react-router-dom';
+
+interface ILogin {
+	setUser: Function;
+}
+
+const Login = ({ setUser }: ILogin) => {
+	const navigate = useNavigate();
+	const handleConnection = async (event: any) => {
+		event.preventDefault();
+		const [email, password] = event.target;
+		const emailValue = email.value;
+		const passwordValue = password.value;
+
+		const response = await login({
+			email: emailValue,
+			password: passwordValue,
+		});
+		if (response.status === 200) {
+			setUser(response.data);
+			navigate('/');
+		}
+		console.log(response);
+	};
+
 	return (
 		<>
 			<img src="" alt="logo" />
 			<h1>Respire</h1>
 			<h2>Gestion des absences</h2>
-			<form>
+			<form onSubmit={handleConnection}>
 				<div className="mb-3">
 					<label htmlFor="email" className="form-label">
 						Email
 					</label>
 					<input
-						type="email"
+						type="text"
+						name="email"
 						className="form-control"
 						id="email"
 						aria-describedby="emailHelp"
@@ -22,6 +48,7 @@ const Login = () => {
 					</label>
 					<input
 						type="password"
+						name="password"
 						className="form-control"
 						id="password"
 					/>
