@@ -28,10 +28,11 @@ export const getUser = (req: Request, res: Response) => {
 export const addUser = (req: Request, res: Response) => {
 	User.create(req.body, (error: any, user: typeof User) => {
 		console.log(req.body);
-		if (user) {
-			return res.status(201).json(user);
-		}
-		res.status(404).json({ message: 'Erreur' });
+		console.log(user);
+		console.log(error);
+
+		if (error) res.status(404).json({ message: 'Erreur' });
+		res.status(201).json(user);
 	});
 };
 
