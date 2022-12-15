@@ -1,11 +1,15 @@
 import Nav from '../Nav/Nav';
 
-const Header = () => {
+interface IHeaderProps {
+	user: any;
+}
+
+const Header = ({ user }: IHeaderProps) => {
 	return (
 		<header className="d-flex justify-content-between">
 			<Nav />
 			<div>
-				<p>Bonjour Admin</p>
+				<p>Bonjour {user.firstname}</p>
 				<button>Se déconnecter</button>
 			</div>
 		</header>
