@@ -1,4 +1,13 @@
-const AbsenceForm = () => {
+interface IAbsenceListProps {
+	setShowAbsenceForm: Function;
+	user: any;
+}
+
+const AbsenceForm = ({ setShowAbsenceForm }: IAbsenceListProps) => {
+	const toggleShowAbsenceForm = () => {
+		setShowAbsenceForm(false);
+	};
+
 	return (
 		<>
 			<h1>Demande d'absence</h1>
@@ -40,10 +49,18 @@ const AbsenceForm = () => {
 					cols={30}
 					rows={10}
 				></textarea>
-				<button type="submit" className="btn btn-success">
+				<button
+					type="submit"
+					className="btn btn-success"
+					onClick={toggleShowAbsenceForm}
+				>
 					Valider
 				</button>
-				<button type="reset" className="btn btn-danger">
+				<button
+					type="reset"
+					className="btn btn-danger"
+					onClick={toggleShowAbsenceForm}
+				>
 					Annuler
 				</button>
 			</form>
