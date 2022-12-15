@@ -10,9 +10,9 @@ import ReportList from './features/components/ReportList/ReportList';
 
 const App = () => {
 	return (
-		<div className="app container-fluid d-flex flex-column p-5">
+		<div className="app container-fluid min-vh-100 d-flex flex-column p-5">
 			<Header />
-			<main className="flex-grow">
+			<main className="flex-grow-1">
 				<Routes>
 					<Route path="/" element={<h1>Accueil</h1>} />
 					<Route path="/absences" element={<Absences />} />
