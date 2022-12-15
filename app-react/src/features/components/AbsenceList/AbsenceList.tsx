@@ -1,8 +1,9 @@
+import { IUser } from '../../../services/IService';
 import AbsenceModal from '../AbsenceModal/AbsenceModal';
 
 interface IAbsenceListProps {
 	setShowAbsenceForm: Function;
-	user: any;
+	user: IUser;
 }
 
 const AbsenceList = ({ setShowAbsenceForm, user }: IAbsenceListProps) => {
