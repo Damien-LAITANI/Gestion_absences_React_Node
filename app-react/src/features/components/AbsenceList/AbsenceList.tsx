@@ -12,6 +12,14 @@ interface IAbsenceListProps {
 	setUser: Function;
 }
 
+const defaultAbsenceToDelete: IAbsence = {
+	startDateISO: '2022-12-12T23:00:00:000Z',
+	endDateISO: '2022-12-24T23:00:00:000Z',
+	types: 'congé payé',
+	motif: 'TEST TEST TEST',
+	status: 'EN_ATTENTE_VALIDATION',
+};
+
 const AbsenceList = ({
 	setShowAbsenceForm,
 	user,
@@ -38,9 +46,8 @@ const AbsenceList = ({
 		updateUserToApi({ ...user, absences: updatedAbsences });
 	};
 
-	const defaultAbsenceToDeleteID = '';
-	const [absenceToDeleteID, setAbsenceToDeleteID] = useState(
-		defaultAbsenceToDeleteID
+	const [absenceToDelete, setAbsenceToDelete] = useState<IAbsence>(
+		defaultAbsenceToDelete
 	);
 
 	return (
@@ -60,6 +67,13 @@ const AbsenceList = ({
 				</thead>
 				<tbody>
 					{user.absences.map((absence: IAbsence) => {
+						const startDate = new Date(
+							absence.startDateISO.split('T')[0]
+						);
+						const endDate = new Date(
+							absence.endDateISO.split('T')[0]
+						);
+
 						return (
 							<tr
 								className="container align-items-center w-100"
@@ -67,16 +81,12 @@ const AbsenceList = ({
 							>
 								<td>
 									<p className="my-2">
-										{new Date(
-											absence.startDate
-										).toLocaleDateString()}
+										{startDate.toLocaleDateString()}
 									</p>
 								</td>
 								<td>
 									<p className="my-2">
-										{new Date(
-											absence.endDate
-										).toLocaleDateString()}
+										{endDate.toLocaleDateString()}
 									</p>
 								</td>
 								<td>
@@ -111,10 +121,9 @@ const AbsenceList = ({
 												data-bs-toggle="modal"
 												data-bs-target="#deleteAbsence"
 												onClick={() => {
-													// On définit l'id de l'absence à supprimer
-													setAbsenceToDeleteID(
-														absence._id!
-													);
+													console.log(absence);
+													// On définit l'absence à supprimer
+													setAbsenceToDelete(absence);
 												}}
 											>
 												<svg
@@ -151,7 +160,7 @@ const AbsenceList = ({
 			</ul>
 
 			<AbsenceModal
-				absenceToDeleteID={absenceToDeleteID}
+				absenceToDelete={absenceToDelete!}
 				deleteAbsence={onDelete}
 			/>
 		</div>

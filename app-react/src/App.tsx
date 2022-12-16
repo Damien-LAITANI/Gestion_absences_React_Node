@@ -36,15 +36,15 @@ const defaultHolidays = [
 
 const defaultAbsences: IAbsence[] = [
 	{
-		startDate: new Date('2022-12-12T23:00:00:000Z'),
-		endDate: new Date('2022-12-24T23:00:00:000Z'),
+		startDateISO: '2022-12-12T23:00:00:000Z',
+		endDateISO: '2022-12-24T23:00:00:000Z',
 		types: 'congé payé',
 		motif: 'vacances',
 		status: 'EN_ATTENTE_VALIDATION',
 	},
 	{
-		startDate: new Date('2022-12-12T23:00:00:000Z'),
-		endDate: new Date('2022-12-24T23:00:00:000Z'),
+		startDateISO: '2022-12-12T23:00:00:000Z',
+		endDateISO: '2022-12-24T23:00:00:000Z',
 		types: 'congé payé',
 		motif: 'vacances',
 		status: 'VALIDEE',
@@ -91,8 +91,8 @@ const App = () => {
 			employees: [''],
 			absences: [
 				{
-					startDate: new Date(),
-					endDate: new Date(),
+					startDateISO: new Date().toISOString(),
+					endDateISO: new Date().toISOString(),
 					types: 'congé payé',
 					motif: 'test',
 					status: 'INITIALE',
@@ -115,29 +115,29 @@ const App = () => {
 			employees: [''],
 			absences: [
 				{
-					startDate: new Date(),
-					endDate: new Date(),
+					startDateISO: new Date().toISOString(),
+					endDateISO: new Date().toISOString(),
 					types: 'congé payé',
 					motif: 'test',
 					status: 'INITIALE',
 				},
 				{
-					startDate: new Date(),
-					endDate: new Date(),
+					startDateISO: new Date().toISOString(),
+					endDateISO: new Date().toISOString(),
 					types: 'RTT',
 					motif: 'test',
 					status: 'INITIALE',
 				},
 				{
-					startDate: new Date(),
-					endDate: new Date(),
+					startDateISO: new Date().toISOString(),
+					endDateISO: new Date().toISOString(),
 					types: 'congé sans solde',
 					motif: 'test',
 					status: 'INITIALE',
 				},
 				{
-					startDate: new Date(),
-					endDate: new Date(),
+					startDateISO: new Date().toISOString(),
+					endDateISO: new Date().toISOString(),
 					types: 'congé sans solde',
 					motif: 'test',
 					status: 'INITIALE',

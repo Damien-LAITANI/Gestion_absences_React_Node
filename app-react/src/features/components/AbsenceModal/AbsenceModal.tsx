@@ -1,12 +1,17 @@
+import { IAbsence } from '../../../services/InterfacesServices/IUserService';
+
 interface IAbsenceModalProps {
-	absenceToDeleteID: string;
+	absenceToDelete: IAbsence;
 	deleteAbsence: Function;
 }
 
 const AbsenceModal = ({
-	absenceToDeleteID,
+	absenceToDelete,
 	deleteAbsence,
 }: IAbsenceModalProps) => {
+	const startDate = new Date(absenceToDelete.startDateISO.split('T')[0]);
+	const endDate = new Date(absenceToDelete.endDateISO.split('T')[0]);
+
 	return (
 		<div
 			id="deleteAbsence"
@@ -32,9 +37,9 @@ const AbsenceModal = ({
 							Confirmez-vous la suppression de la demande suivante
 							?
 						</p>
-						<p>Date de début :</p>
-						<p>Date de fin :</p>
-						<p>Type de congé :</p>
+						<p>Date de début : {startDate.toLocaleDateString()}</p>
+						<p>Date de fin : {endDate.toLocaleDateString()}</p>
+						<p>Type de congé : {absenceToDelete.types}</p>
 					</div>
 					<div className="modal-footer">
 						<button
@@ -45,7 +50,7 @@ const AbsenceModal = ({
 							Annuler
 						</button>
 						<button
-							onClick={() => deleteAbsence(absenceToDeleteID)}
+							onClick={() => deleteAbsence(absenceToDelete._id)}
 							type="button"
 							className="btn btn-success"
 						>
