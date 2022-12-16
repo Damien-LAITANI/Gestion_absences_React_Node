@@ -19,7 +19,7 @@ export const getHolidayFromApi = async (id: string) => {
 	}
 };
 
-export const postHolidayToApi = async (params: IHoliday) => {
+export const postHolidayToApi = async (params: any) => {
 	try {
 		const response = await instance.post(`/holiday`, params);
 		return response;
@@ -28,7 +28,7 @@ export const postHolidayToApi = async (params: IHoliday) => {
 	}
 };
 
-export const updateHolidayToApi = async (params: IHoliday) => {
+export const updateHolidayToApi = async (params: any) => {
 	try {
 		const response = await instance.put(`/holiday`, params);
 		return response;
