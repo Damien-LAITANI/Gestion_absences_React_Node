@@ -5,21 +5,62 @@ export interface IHolidayEditProps {
 
 const HolidayEdit = ({ holiday, toggleEdit }: IHolidayEditProps) => {
 	return (
-		<tr>
-			<td>
-				<input defaultValue={holiday.date} className="my-2" />
+		<tr className="">
+			<td className="form-floating align-middle">
+				<input
+					defaultValue={holiday.date}
+					id="date"
+					type="date"
+					className="d-inline form-control"
+				/>
+				<label htmlFor="date">Date</label>
 			</td>
-			<td>
-				<input defaultValue={holiday.type} className="my-2" />
+
+			<td className="form-floating align-middle">
+				<select
+					defaultValue={holiday.type}
+					name="type"
+					id="type"
+					className="form-select"
+					aria-label="Floating label select example"
+				>
+					<option value="congé payé">Congé payé</option>
+					<option value="RTT">RTT</option>
+					<option value="congé sans solde">Congé sans solde</option>
+				</select>
+				<label htmlFor="type">Type</label>
 			</td>
-			<td>
-				<input defaultValue={holiday.jour} className="my-2" />
+
+			<td className="form-floating align-middle">
+				<select
+					defaultValue={holiday.jour}
+					name="weekday"
+					id="weekday"
+					className="form-select"
+					aria-label="Floating label select example"
+				>
+					<option value="lundi">Lundi</option>
+					<option value="mardi">Mardi</option>
+					<option value="mercredi">Mercredi</option>
+					<option value="jeudi">Jeudi</option>
+					<option value="vendredi">Vendredi</option>
+					<option value="samedi">Samedi</option>
+					<option value="dimanche">Dimanche</option>
+				</select>
+				<label htmlFor="weekday">Jour</label>
 			</td>
-			<td>
-				<input defaultValue={holiday.commentaires} className="my-2" />
+
+			<td className="form-floating align-middle">
+				<textarea
+					defaultValue={holiday.commentaires}
+					id="comment"
+					className="d-inline form-control"
+				/>
+				<label htmlFor="comment">Commentaires</label>
 			</td>
-			<td className="d-flex justify-content-center align-items-center">
-				<ul className="m-0 p-0 d-inline text-center">
+
+			<td className="align-middle">
+				<ul className="h-100 w-100 m-0 p-0 text-center">
 					<li className="d-inline-block me-2">
 						<button
 							type="button"
