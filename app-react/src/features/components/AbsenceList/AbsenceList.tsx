@@ -67,12 +67,13 @@ const AbsenceList = ({
 				</thead>
 				<tbody>
 					{user.absences.map((absence: IAbsence) => {
-						const startDate = new Date(
-							absence.startDateISO.split('T')[0]
-						);
-						const endDate = new Date(
-							absence.endDateISO.split('T')[0]
-						);
+						// TODO : Ne pas mettre de date par défaut !
+						const startDate = absence.startDateISO
+							? new Date(absence.startDateISO.split('T')[0])
+							: new Date();
+						const endDate = absence.endDateISO
+							? new Date(absence.endDateISO.split('T')[0])
+							: new Date();
 
 						return (
 							<tr
