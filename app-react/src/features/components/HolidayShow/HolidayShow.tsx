@@ -13,10 +13,10 @@ const HolidayShow = ({ holiday, toggleEdit }: IHolidayShowProps) => {
 				<p className="my-2">{holiday.type}</p>
 			</td>
 			<td>
-				<p className="my-2">{holiday.jour}</p>
+				<p className="my-2">{holiday.day}</p>
 			</td>
 			<td>
-				<p className="my-2">{holiday.commentaires}</p>
+				<p className="my-2">{holiday.motif}</p>
 			</td>
 			<td className="d-flex justify-content-center align-items-center">
 				<ul className="m-0 p-0 d-inline text-center">

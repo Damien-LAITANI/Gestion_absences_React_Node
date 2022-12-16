@@ -4,18 +4,18 @@ import HolidayList from '../HolidayList/HolidayList';
 
 const defaultHolidays = [
 	{
-		id: crypto.randomUUID,
-		date: '30/10/2020',
+		_id: crypto.randomUUID(),
+		date: '2020-11-03',
 		type: 'RTT',
-		jour: 'Lundi',
-		commentaires: 'Rien',
+		day: 'Lundi',
+		motif: 'Rien',
 	},
 	{
-		id: crypto.randomUUID,
-		date: '03/11/2019',
+		_id: crypto.randomUUID(),
+		date: '2020-12-25',
 		type: 'RTT',
-		jour: 'Marid',
-		commentaires: 'Nada',
+		day: 'Marid',
+		motif: 'Nada',
 	},
 ];
 
@@ -26,7 +26,11 @@ const Holiday = () => {
 	return (
 		<>
 			{showHolidayForm ? (
-				<HolidayForm setShowHolidayForm={setShowHolidayForm} />
+				<HolidayForm
+					setShowHolidayForm={setShowHolidayForm}
+					setHolidays={setHolidays}
+					holidays={holidays}
+				/>
 			) : (
 				<HolidayList
 					holidays={holidays}
