@@ -1,37 +1,57 @@
 export interface IHolidayFormProps {
 	setShowHolidayForm: Function;
+	setHolidays: Function;
+	holidays: any;
 }
 
-const HolidayForm = ({ setShowHolidayForm }: IHolidayFormProps) => {
+const HolidayForm = ({
+	setShowHolidayForm,
+	setHolidays,
+	holidays,
+}: IHolidayFormProps) => {
 	const toggleShowHolidayForm = () => {
 		setShowHolidayForm(false);
 	};
+
+	const persistHolidayForm = (event: any) => {
+		event.preventDefault();
+		const [date, type, motif] = event.target;
+		const dateValue = date.value;
+		const typeValue = type.value;
+		const motifValue = motif.value;
+		const day = new Date(dateValue);
+		const options: any = { weekday: 'long' };
+		const newHoliday = {
+			date: dateValue,
+			day: new Intl.DateTimeFormat('fr-FR', options).format(day),
+			type: typeValue,
+			motif: motifValue,
+		};
+		//save dataBase and get id
+		const id = crypto.randomUUID();
+		const newHolidayWithId = { _id: id, ...newHoliday };
+		setHolidays([...holidays, newHolidayWithId]);
+		toggleShowHolidayForm();
+	};
+
 	return (
 		<div className="w-50 mx-auto">
 			<h1 className="text-center my-5">Demande d'absence</h1>
-			<form>
+			<form onSubmit={persistHolidayForm}>
 				<div className="form-floating mb-3">
 					<input
 						type="date"
 						className="form-control"
-						id="startDate"
-						name="startDate"
+						id="date"
+						name="date"
 					/>
-					<label htmlFor="startDate">Date de début</label>
-				</div>
-
-				<div className="form-floating mb-3">
-					<input
-						type="date"
-						className="form-control"
-						id="endDate"
-						name="endDate"
-					/>
-					<label htmlFor="endDate">Date de fin</label>
+					<label htmlFor="date">Date de début</label>
 				</div>
 
 				<div className="form-floating mb-3">
 					<select
+						id="type"
+						name="type"
 						className="form-select"
 						aria-label="Floating label select example"
 					>
@@ -57,11 +77,7 @@ const HolidayForm = ({ setShowHolidayForm }: IHolidayFormProps) => {
 				</div>
 
 				<ul className="p-0 text-center mt-3">
-					<button
-						type="submit"
-						className="btn btn-success me-5"
-						onClick={toggleShowHolidayForm}
-					>
+					<button type="submit" className="btn btn-success me-5">
 						Valider
 					</button>
 
