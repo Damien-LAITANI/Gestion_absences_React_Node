@@ -1,4 +1,11 @@
 import { Router } from 'express';
+import { login } from '../controllers/ConnectController';
+import {
+	addHoliday,
+	deleteHoliday,
+	getAllHoliday,
+	updateHoliday,
+} from '../controllers/HolidayController';
 import {
 	getAllUser,
 	getUser,
@@ -6,8 +13,7 @@ import {
 	updateUser,
 	deleteUser,
 	getAllEmployee,
-	login,
-} from '../controllers/controllers';
+} from '../controllers/UserController';
 
 const router = Router();
 
@@ -15,11 +21,17 @@ const router = Router();
 router.get('/user', getAllUser);
 router.get('/employees/manager/:idManager', getAllEmployee);
 router.get('/user/:id', getUser);
-router.post('/user/', addUser);
-router.put('/user/', updateUser);
+router.post('/user', addUser);
+router.put('/user', updateUser);
 router.delete('/user/:id', deleteUser);
 
-// Routes connexion
+// Routes Connexion
 router.post('/login', login);
+
+// Routes Holiday
+router.get('/holiday', getAllHoliday);
+router.post('/holiday', addHoliday);
+router.put('/holiday', updateHoliday);
+router.delete('/holiday/:id', deleteHoliday);
 
 export default router;
