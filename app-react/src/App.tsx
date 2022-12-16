@@ -8,9 +8,11 @@ import Holiday from './features/components/Holiday/Holiday';
 import Login from './features/components/Login/Login';
 import Planning from './features/components/Planning/Planning';
 import ReportList from './features/components/ReportList/ReportList';
+import { login } from './services/ConnectService/connectService';
 import { IAbsence, IUser } from './services/InterfacesServices/IUserService';
 import {
 	deleteUserToApi,
+	getAllEmployeeFromAPI,
 	getAllUserFromAPI,
 	getUserFromApi,
 	postUserToApi,
@@ -67,6 +69,7 @@ const App = () => {
 	const [user, setUser] = useState<IUser>(defaultUser);
 	const userID = '6399b395ba1d4a74d1521322';
 	const [holidays, setHolidays] = useState(defaultHolidays);
+	const [employees, setEmployees] = useState<any[] | []>([]);
 
 	const getAll = async () => {
 		const response = await getAllUserFromAPI();
@@ -153,9 +156,30 @@ const App = () => {
 		const response = await deleteUserToApi('639b04ce6f2aca72e4e70fe4');
 	};
 
+	const getEmployeeFromUser = async () => {
+		const response = await getAllEmployeeFromAPI(user._id);
+		console.log(response);
+		if (response.status === 200) {
+			setEmployees(response.data);
+		}
+	};
+
+	const autoLogin = async () => {
+		// hash du password : $2b$12$b3FFHx75wZDosEgVea3mGOJ0eI839YTjPYsUiEkA2LkRMhiLpaF2u
+		const response = await login({
+			email: 'testUpdate',
+			password: 'admin',
+		});
+		console.log(response);
+
+		if (response.status === 200) {
+			setUser(response.data);
+		}
+	};
+
 	useEffect(() => {
-		console.table(user.absences);
-	}, [user]);
+		autoLogin();
+	}, []);
 
 	return (
 		<div className="app container-fluid min-vh-100 d-flex flex-column px-5">
@@ -170,7 +194,7 @@ const App = () => {
 					<Route path="/planning" element={<Planning />} />
 					<Route
 						path="/absences-process"
-						element={<AbsenceProcess user={user} />}
+						element={<AbsenceProcess employees={employees} />}
 					/>
 					<Route path="/report-list" element={<ReportList />} />
 					<Route

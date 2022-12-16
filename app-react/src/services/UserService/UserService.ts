@@ -18,7 +18,7 @@ export const getAllUserFromAPI = async () => {
 	}
 };
 
-export const getAllEmployeeFromAPI = async (id: string) => {
+export const getAllEmployeeFromAPI = async (id: string | undefined) => {
 	try {
 		const response = await instance.get(`/employees/manager/${id}`);
 		return response;
