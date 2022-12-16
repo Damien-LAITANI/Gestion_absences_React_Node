@@ -1,4 +1,4 @@
-import { login } from '../../../services/connectService';
+import { login } from '../../../services/ConnectService/connectService';
 import { useNavigate } from 'react-router-dom';
 import './Login.scss';
 import './Login.scss';

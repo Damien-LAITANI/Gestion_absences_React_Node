@@ -5,11 +5,10 @@ import Header from './components/Header/Header';
 import AbsenceProcess from './features/components/AbsenceProcess/AbsenceProcess';
 import Absences from './features/components/Absences/Absences';
 import Holiday from './features/components/Holiday/Holiday';
-import HolidayList from './features/components/HolidayList/HolidayList';
 import Login from './features/components/Login/Login';
 import Planning from './features/components/Planning/Planning';
 import ReportList from './features/components/ReportList/ReportList';
-import { IAbsence, IUser } from './services/IService';
+import { IAbsence, IUser } from './services/InterfacesServices/IUserService';
 import {
 	deleteUserToApi,
 	getAllEmployeeFromAPI,
@@ -17,7 +16,7 @@ import {
 	getUserFromApi,
 	postUserToApi,
 	updateUserToApi,
-} from './services/UserService';
+} from './services/UserService/UserService';
 
 const defaultHolidays = [
 	{
@@ -78,7 +77,9 @@ const App = () => {
 
 	const getUser = async () => {
 		const userData = await getUserFromApi(userID);
-		// console.log(userData.data);
+		console.log('GET USER');
+		console.log(userData);
+		console.log(userData.data);
 		setUser(userData.data);
 	};
 
@@ -152,7 +153,6 @@ const App = () => {
 
 	const deleteUser = async () => {
 		const response = await deleteUserToApi('639b04ce6f2aca72e4e70fe4');
-		console.log(response);
 	};
 
 	const getEmployeeFromUser = async () => {
@@ -166,6 +166,7 @@ const App = () => {
 	useEffect(() => {
 		//console.log(user);
 		getEmployeeFromUser();
+		console.table(user.absences);
 	}, [user]);
 
 	return (

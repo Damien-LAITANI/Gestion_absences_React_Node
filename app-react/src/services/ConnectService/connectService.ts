@@ -1,5 +1,5 @@
-import { ILogin } from './IService';
-import { instance } from './UserService';
+import { ILogin } from '../InterfacesServices/IUserService';
+import { instance } from '../UserService/UserService';
 
 export const login = async (params: ILogin) => {
 	try {

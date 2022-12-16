@@ -1,4 +1,4 @@
-import { IUser } from '../../../services/IService';
+import { IUser } from '../../../services/InterfacesServices/IUserService';
 
 interface IAbsenceProcessProps {
 	employees: any;

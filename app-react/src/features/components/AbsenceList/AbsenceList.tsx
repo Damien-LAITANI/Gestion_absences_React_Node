@@ -1,18 +1,50 @@
-import { IUser } from '../../../services/IService';
+import { useEffect, useState } from 'react';
+import {
+	IAbsence,
+	IUser,
+} from '../../../services/InterfacesServices/IUserService';
+import { updateUserToApi } from '../../../services/UserService/UserService';
 import AbsenceModal from '../AbsenceModal/AbsenceModal';
 
 interface IAbsenceListProps {
 	setShowAbsenceForm: Function;
 	user: IUser;
+	setUser: Function;
 }
 
-const AbsenceList = ({ setShowAbsenceForm, user }: IAbsenceListProps) => {
+const AbsenceList = ({
+	setShowAbsenceForm,
+	user,
+	setUser,
+}: IAbsenceListProps) => {
+	useEffect(() => {
+		user.absences.map((absence) => (absence._id = crypto.randomUUID()));
+	}, [user]);
+
 	const toggleShowAbsenceForm = () => {
 		setShowAbsenceForm(true);
 	};
 
+	const onDelete = (absenceID?: string) => {
+		const updatedAbsences = user.absences.filter(
+			(absence) => absence._id !== absenceID
+		);
+
+		const updatedUser = { ...user };
+		updatedUser.absences = updatedAbsences;
+
+		setUser(updatedUser);
+
+		updateUserToApi({ ...user, absences: updatedAbsences });
+	};
+
+	const defaultAbsenceToDeleteID = '';
+	const [absenceToDeleteID, setAbsenceToDeleteID] = useState(
+		defaultAbsenceToDeleteID
+	);
+
 	return (
-		<div className="w-50 d-flex flex-column mx-auto container">
+		<div className="d-flex flex-column mx-auto container">
 			<h1 className="text-center my-3">Gestion des absences</h1>
 			<table className="table table-hover border shadow">
 				<thead>
@@ -27,13 +59,11 @@ const AbsenceList = ({ setShowAbsenceForm, user }: IAbsenceListProps) => {
 					</tr>
 				</thead>
 				<tbody>
-					{user.absences?.map((absence: any) => {
-						console.log(absence.startDate);
-
+					{user.absences.map((absence: IAbsence) => {
 						return (
 							<tr
 								className="container align-items-center w-100"
-								key={crypto.randomUUID()}
+								key={absence._id}
 							>
 								<td>
 									<p className="my-2">
@@ -80,6 +110,12 @@ const AbsenceList = ({ setShowAbsenceForm, user }: IAbsenceListProps) => {
 												className="btn btn-danger"
 												data-bs-toggle="modal"
 												data-bs-target="#deleteAbsence"
+												onClick={() => {
+													// On définit l'id de l'absence à supprimer
+													setAbsenceToDeleteID(
+														absence._id!
+													);
+												}}
 											>
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
@@ -100,6 +136,7 @@ const AbsenceList = ({ setShowAbsenceForm, user }: IAbsenceListProps) => {
 					})}
 				</tbody>
 			</table>
+
 			<button
 				className="btn btn-info ms-auto"
 				style={{ width: 'fit-content' }}
@@ -113,7 +150,10 @@ const AbsenceList = ({ setShowAbsenceForm, user }: IAbsenceListProps) => {
 				<li>RTT : 3</li>
 			</ul>
 
-			<AbsenceModal />
+			<AbsenceModal
+				absenceToDeleteID={absenceToDeleteID}
+				deleteAbsence={onDelete}
+			/>
 		</div>
 	);
 };
