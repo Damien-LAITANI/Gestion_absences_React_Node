@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { IUser } from '../../../services/IService';
+import { IUser } from '../../../services/InterfacesServices/IUserService';
 import AbsenceForm from '../AbsenceForm/AbsenceForm';
 import AbsenceList from '../AbsenceList/AbsenceList';
 

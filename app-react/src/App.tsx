@@ -8,14 +8,14 @@ import Holiday from './features/components/Holiday/Holiday';
 import Login from './features/components/Login/Login';
 import Planning from './features/components/Planning/Planning';
 import ReportList from './features/components/ReportList/ReportList';
-import { IAbsence, IUser } from './services/IService';
+import { IAbsence, IUser } from './services/InterfacesServices/IUserService';
 import {
 	deleteUserToApi,
 	getAllUserFromAPI,
 	getUserFromApi,
 	postUserToApi,
 	updateUserToApi,
-} from './services/UserService';
+} from './services/UserService/UserService';
 
 const defaultHolidays = [
 	{

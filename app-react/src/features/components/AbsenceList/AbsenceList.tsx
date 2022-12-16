@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
-import { IAbsence, IUser } from '../../../services/IService';
-import { updateUserToApi } from '../../../services/UserService';
+import {
+	IAbsence,
+	IUser,
+} from '../../../services/InterfacesServices/IUserService';
+import { updateUserToApi } from '../../../services/UserService/UserService';
 import AbsenceModal from '../AbsenceModal/AbsenceModal';
 
 interface IAbsenceListProps {
