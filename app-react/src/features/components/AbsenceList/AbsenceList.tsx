@@ -1,4 +1,4 @@
-import { IUser } from '../../../services/IService';
+import { IUser } from '../../../services/InterfacesServices/IUserService';
 import AbsenceModal from '../AbsenceModal/AbsenceModal';
 
 interface IAbsenceListProps {
