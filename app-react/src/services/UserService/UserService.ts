@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IUser } from './IService';
+import { IUser } from '../InterfacesServices/IUserService';
 
 export const instance = axios.create({
 	baseURL: 'http://localhost:3000',
