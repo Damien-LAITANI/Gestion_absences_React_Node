@@ -1,5 +1,8 @@
 import { useNavigate } from 'react-router';
-import { IUser } from '../../../services/InterfacesServices/IUserService';
+import {
+	IAbsence,
+	IUser,
+} from '../../../services/InterfacesServices/IUserService';
 import { updateUserToApi } from '../../../services/UserService/UserService';
 
 interface IAbsenceListProps {
@@ -27,7 +30,7 @@ const AbsenceForm = ({
 		const typesValue = types.value;
 		const motifValue = motif.value;
 
-		const newAbsence: any = {
+		const newAbsence: IAbsence = {
 			startDate: startDateValue,
 			endDate: endDateValue,
 			types: typesValue,
