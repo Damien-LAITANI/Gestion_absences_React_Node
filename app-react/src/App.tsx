@@ -194,7 +194,12 @@ const App = () => {
 					<Route path="/planning" element={<Planning />} />
 					<Route
 						path="/absences-process"
-						element={<AbsenceProcess employees={employees} />}
+						element={
+							<AbsenceProcess
+								employees={employees}
+								setEmployees={setEmployees}
+							/>
+						}
 					/>
 					<Route path="/report-list" element={<ReportList />} />
 					<Route
