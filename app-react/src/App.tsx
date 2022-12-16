@@ -12,6 +12,7 @@ import ReportList from './features/components/ReportList/ReportList';
 import { IAbsence, IUser } from './services/IService';
 import {
 	deleteUserToApi,
+	getAllEmployeeFromAPI,
 	getAllUserFromAPI,
 	getUserFromApi,
 	postUserToApi,
@@ -68,6 +69,7 @@ const App = () => {
 	const [user, setUser] = useState<IUser>(defaultUser);
 	const userID = '6399b395ba1d4a74d1521322';
 	const [holidays, setHolidays] = useState(defaultHolidays);
+	const [employees, setEmployees] = useState<any[] | []>([]);
 
 	const getAll = async () => {
 		const response = await getAllUserFromAPI();
@@ -153,8 +155,17 @@ const App = () => {
 		console.log(response);
 	};
 
+	const getEmployeeFromUser = async () => {
+		const response = await getAllEmployeeFromAPI(user._id);
+		console.log(response);
+		if (response.status === 200) {
+			setEmployees(response.data);
+		}
+	};
+
 	useEffect(() => {
-		console.log(user);
+		//console.log(user);
+		getEmployeeFromUser();
 	}, [user]);
 
 	return (
@@ -170,7 +181,7 @@ const App = () => {
 					<Route path="/planning" element={<Planning />} />
 					<Route
 						path="/absences-process"
-						element={<AbsenceProcess user={user} />}
+						element={<AbsenceProcess employees={employees} />}
 					/>
 					<Route path="/report-list" element={<ReportList />} />
 					<Route
