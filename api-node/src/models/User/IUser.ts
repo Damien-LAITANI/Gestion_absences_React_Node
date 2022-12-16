@@ -1,4 +1,4 @@
-import { IAbsence } from './IAbsence';
+import { IAbsence } from '../Absence/IAbsence';
 
 export type UserRole = 'admin' | 'manager' | 'employee';
 

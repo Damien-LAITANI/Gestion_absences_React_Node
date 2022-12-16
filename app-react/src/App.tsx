@@ -17,6 +17,23 @@ import {
 	updateUserToApi,
 } from './services/UserService';
 
+const defaultHolidays = [
+	{
+		_id: crypto.randomUUID(),
+		date: '2020-11-03',
+		type: 'RTT',
+		day: 'Lundi',
+		motif: 'Rien',
+	},
+	{
+		_id: crypto.randomUUID(),
+		date: '2020-12-25',
+		type: 'RTT',
+		day: 'Mardi',
+		motif: 'Nada',
+	},
+];
+
 const defaultAbsences: IAbsence[] = [
 	{
 		startDate: new Date('2022-12-12T23:00:00:000Z'),
@@ -49,6 +66,7 @@ const defaultUser: IUser = {
 const App = () => {
 	const [user, setUser] = useState<IUser>(defaultUser);
 	const userID = '6399b395ba1d4a74d1521322';
+	const [holidays, setHolidays] = useState(defaultHolidays);
 
 	const getAll = async () => {
 		const response = await getAllUserFromAPI();
@@ -155,7 +173,15 @@ const App = () => {
 						element={<AbsenceProcess user={user} />}
 					/>
 					<Route path="/report-list" element={<ReportList />} />
-					<Route path="/holiday" element={<Holiday />} />
+					<Route
+						path="/holiday"
+						element={
+							<Holiday
+								holidays={holidays}
+								setHolidays={setHolidays}
+							/>
+						}
+					/>
 					<Route
 						path="/login"
 						element={<Login setUser={setUser} />}

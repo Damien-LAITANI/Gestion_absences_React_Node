@@ -47,7 +47,12 @@ const HolidayList = ({
 				</thead>
 				<tbody>
 					{holidays.map((holiday) => (
-						<HolidayContainer key={holiday._id} holiday={holiday} />
+						<HolidayContainer
+							key={holiday._id}
+							holiday={holiday}
+							setHolidays={setHolidays}
+							holidays={holidays}
+						/>
 					))}
 				</tbody>
 			</table>

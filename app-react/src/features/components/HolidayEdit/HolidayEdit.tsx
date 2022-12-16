@@ -1,14 +1,62 @@
 export interface IHolidayEditProps {
 	holiday: any;
 	toggleEdit: Function;
+	setHolidays: Function;
+	holidays: any;
 }
 
-const HolidayEdit = ({ holiday, toggleEdit }: IHolidayEditProps) => {
+const HolidayEdit = ({
+	holiday,
+	toggleEdit,
+	setHolidays,
+	holidays,
+}: IHolidayEditProps) => {
+	const updateHoliday = () => {
+		const newDateInput: any = document.querySelector('#date');
+		const newTypeInput: React.DetailedHTMLProps<
+			React.SelectHTMLAttributes<HTMLSelectElement>,
+			HTMLSelectElement
+		> = document.querySelector('#type') as React.DetailedHTMLProps<
+			React.SelectHTMLAttributes<HTMLSelectElement>,
+			HTMLSelectElement
+		>;
+		const newMotifInput: React.DetailedHTMLProps<
+			React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+			HTMLTextAreaElement
+		> = document.querySelector('#motif') as React.DetailedHTMLProps<
+			React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+			HTMLTextAreaElement
+		>;
+		if (newDateInput.value && newTypeInput.value) {
+			const newDay = new Date(newDateInput.value);
+			const options: any = { weekday: 'long' };
+			const updatedHoliday = {
+				_id: holiday._id,
+				date: newDateInput.value,
+				type: newTypeInput.value,
+				day: new Intl.DateTimeFormat('fr-FR', options).format(newDay),
+				motif: newMotifInput.value,
+			};
+			//update bd
+			//console.log(newHoliday);
+			const updatedHolidays = holidays.map((holiday: any) => {
+				if (holiday._id !== updatedHoliday._id) {
+					return holiday;
+				} else {
+					return updatedHoliday;
+				}
+			});
+			setHolidays(updatedHolidays);
+		}
+		toggleEdit();
+	};
+
 	return (
 		<tr className="">
 			<td className="form-floating align-middle">
 				<input
 					defaultValue={holiday.date}
+					name="date"
 					id="date"
 					type="date"
 					className="d-inline form-control"
@@ -32,7 +80,7 @@ const HolidayEdit = ({ holiday, toggleEdit }: IHolidayEditProps) => {
 			</td>
 
 			<td className="form-floating align-middle">
-				<select
+				{/* <select
 					defaultValue={holiday.jour}
 					name="weekday"
 					id="weekday"
@@ -47,16 +95,17 @@ const HolidayEdit = ({ holiday, toggleEdit }: IHolidayEditProps) => {
 					<option value="samedi">Samedi</option>
 					<option value="dimanche">Dimanche</option>
 				</select>
-				<label htmlFor="weekday">Jour</label>
+				<label htmlFor="weekday">Jour</label> */}
 			</td>
 
 			<td className="form-floating align-middle">
 				<textarea
-					defaultValue={holiday.commentaires}
-					id="comment"
+					defaultValue={holiday.motif}
+					name="motif"
+					id="motif"
 					className="d-inline form-control"
 				/>
-				<label htmlFor="comment">Commentaires</label>
+				<label htmlFor="motif">Commentaires</label>
 			</td>
 
 			<td className="align-middle">
@@ -65,7 +114,7 @@ const HolidayEdit = ({ holiday, toggleEdit }: IHolidayEditProps) => {
 						<button
 							type="button"
 							className="btn btn-success"
-							onClick={() => toggleEdit()}
+							onClick={updateHoliday}
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
