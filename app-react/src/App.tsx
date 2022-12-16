@@ -5,6 +5,7 @@ import Header from './components/Header/Header';
 import AbsenceProcess from './features/components/AbsenceProcess/AbsenceProcess';
 import Absences from './features/components/Absences/Absences';
 import Holiday from './features/components/Holiday/Holiday';
+import HolidayList from './features/components/HolidayList/HolidayList';
 import Login from './features/components/Login/Login';
 import Planning from './features/components/Planning/Planning';
 import ReportList from './features/components/ReportList/ReportList';
