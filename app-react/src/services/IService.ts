@@ -1,4 +1,5 @@
 export interface IAbsence {
+	_id?: string;
 	startDate: Date;
 	endDate: Date;
 	types: 'congé payé' | 'RTT' | 'congé sans solde';

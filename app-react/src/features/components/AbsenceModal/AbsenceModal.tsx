@@ -1,6 +1,19 @@
-const AbsenceModal = () => {
+interface IAbsenceModalProps {
+	absenceToDeleteID: string;
+	deleteAbsence: Function;
+}
+
+const AbsenceModal = ({
+	absenceToDeleteID,
+	deleteAbsence,
+}: IAbsenceModalProps) => {
 	return (
-		<div id="deleteAbsence" className="modal fade" tabIndex={-1}>
+		<div
+			id="deleteAbsence"
+			className="modal fade"
+			tabIndex={-1}
+			data-bs-dismiss="modal"
+		>
 			<div className="modal-dialog">
 				<div className="modal-content">
 					<div className="modal-header">
@@ -31,7 +44,11 @@ const AbsenceModal = () => {
 						>
 							Annuler
 						</button>
-						<button type="button" className="btn btn-success">
+						<button
+							onClick={() => deleteAbsence(absenceToDeleteID)}
+							type="button"
+							className="btn btn-success"
+						>
 							Valider
 						</button>
 					</div>

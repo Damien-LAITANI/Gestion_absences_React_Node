@@ -21,6 +21,7 @@ const Absences = ({ user, setUser }: IAbsencesProps) => {
 			) : (
 				<AbsenceList
 					user={user}
+					setUser={setUser}
 					setShowAbsenceForm={setShowAbsenceForm}
 				/>
 			)}
