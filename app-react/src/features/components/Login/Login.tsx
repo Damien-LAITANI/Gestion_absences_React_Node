@@ -1,6 +1,7 @@
 import { login } from '../../../services/connectService';
 import { useNavigate } from 'react-router-dom';
 import './Login.scss';
+import './Login.scss';
 import { useState } from 'react';
 
 interface ILogin {
@@ -56,7 +57,7 @@ const Login = ({ setUser }: ILogin) => {
 					/>
 					<label htmlFor="email">Email</label>
 				</div>
-				<div className="mb-3 d-flex justify-content-between align-items-center">
+				<div className="form-floating mb-3 d-flex justify-content-between align-items-center">
 					<input
 						type="password"
 						name="password"
@@ -64,6 +65,7 @@ const Login = ({ setUser }: ILogin) => {
 						placeholder="Password"
 						id="password"
 					/>
+					<label htmlFor="password">Mot de passe</label>
 					{showPassword ? (
 						<svg
 							onClick={handleDisplayPass}

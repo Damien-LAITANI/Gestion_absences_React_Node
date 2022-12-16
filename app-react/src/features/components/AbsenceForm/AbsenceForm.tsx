@@ -1,17 +1,59 @@
+import { useNavigate } from 'react-router';
+import { IUser } from '../../../services/IService';
+import { updateUserToApi } from '../../../services/UserService';
+
 interface IAbsenceListProps {
 	setShowAbsenceForm: Function;
-	user: any;
+	setUser: Function;
+	user: IUser;
 }
 
-const AbsenceForm = ({ setShowAbsenceForm }: IAbsenceListProps) => {
+const AbsenceForm = ({
+	setShowAbsenceForm,
+	user,
+	setUser,
+}: IAbsenceListProps) => {
+	const navigate = useNavigate();
+
 	const toggleShowAbsenceForm = () => {
 		setShowAbsenceForm(false);
+	};
+
+	const createNewAbsence = async (event: any) => {
+		event.preventDefault();
+		const [startDate, endDate, types, motif] = event.target;
+		const startDateValue = startDate.value;
+		const endDateValue = endDate.value;
+		const typesValue = types.value;
+		const motifValue = motif.value;
+
+		const newAbsence: any = {
+			startDate: startDateValue,
+			endDate: endDateValue,
+			types: typesValue,
+			motif: motifValue,
+			status: 'INITIALE',
+		};
+
+		const updatedUser: IUser = {
+			...user,
+			absences: [...user.absences, newAbsence],
+		};
+
+		const response = await updateUserToApi(updatedUser);
+
+		if (response.status === 200) {
+			console.log(updatedUser);
+			setUser(response.data);
+			toggleShowAbsenceForm();
+			navigate('/absences');
+		}
 	};
 
 	return (
 		<div className="w-50 mx-auto">
 			<h1 className="text-center my-5">Demande d'absence</h1>
-			<form>
+			<form onSubmit={createNewAbsence}>
 				<div className="form-floating mb-3">
 					<input
 						type="date"
@@ -34,6 +76,8 @@ const AbsenceForm = ({ setShowAbsenceForm }: IAbsenceListProps) => {
 
 				<div className="form-floating mb-3">
 					<select
+						name="types"
+						id="select-conge"
 						className="form-select"
 						aria-label="Floating label select example"
 					>
@@ -43,7 +87,7 @@ const AbsenceForm = ({ setShowAbsenceForm }: IAbsenceListProps) => {
 							Congé sans solde
 						</option>
 					</select>
-					<label>Type de congé</label>
+					<label htmlFor="select-conge">Type de congé</label>
 				</div>
 
 				<div className="form-floating mb-3">
@@ -51,7 +95,7 @@ const AbsenceForm = ({ setShowAbsenceForm }: IAbsenceListProps) => {
 						className="form-control"
 						name="motif"
 						rows={5}
-						placeholder=""
+						placeholder="Motif"
 						id="motif"
 						style={{ height: '150px' }}
 					></textarea>
@@ -59,19 +103,11 @@ const AbsenceForm = ({ setShowAbsenceForm }: IAbsenceListProps) => {
 				</div>
 
 				<ul className="p-0 text-center mt-3">
-					<button
-						type="submit"
-						className="btn btn-success me-5"
-						onClick={toggleShowAbsenceForm}
-					>
+					<button type="submit" className="btn btn-success me-5">
 						Valider
 					</button>
 
-					<button
-						type="reset"
-						className="btn btn-danger"
-						onClick={toggleShowAbsenceForm}
-					>
+					<button type="reset" className="btn btn-danger">
 						Annuler
 					</button>
 				</ul>
