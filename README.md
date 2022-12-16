@@ -1,33 +1,41 @@
-# `Projet final Diginamic`
+# `Projet Respire`
+
+## `Informations`
+
+Projet final pour la formation [JS Fullstack](https://www.diginamic.fr/catalogue/developpement-web-et-mobile/formation-developpeur-fullstack-js/) à Diginamic.
+
+Frontend avec React (TypeScript)
+
+Backend avec NodeJS (TypeScript)
+
+## `Liens`
 
 [Trello](https://trello.com/b/n3ftyVDE/projet-final)
 
-Todolist fullstack de Valentin [gitlab](https://gitlab.com/ValentinSILVESTRE/diginamic/-/tree/master/courses/fullstack/todolist)
+[Github](https://github.com/ValentinSILVESTRE/Respire)
 
-## `Dévellopeurs`
+## `Participants`
 
--   `Damien` : d.laitani@gmail.com
+-   **_`Damien LAITANI`_**
 
--   `Otmane` : otmane.boujlam@gmail.com
+    -   Email : *d.laitani@gmail.com*
+    -   [Linkedin](https://www.linkedin.com/in/damien-laitani/)
 
--   `Valentin` : valentin.silvestre@hotmail.com
+-   **_`Otmane BOUJLAM`_**
 
-## `Entitées`
+    -   Email : *otmane.boujlam@gmail.com*
+    -   [Linkedin](https://www.linkedin.com/in/otmaneboujlam/)
 
--   User :
+-   **_`Valentin SILVESTRE`_**
+    -   Email : *valentin.silvestre@hotmail.com*
+    -   [Linkedin](https://www.linkedin.com/feed/)
 
-    -   firstname: string
-    -   lastname: string
-    -   email: string
-    -   password: string
-    -   roles: 'Admin' | 'Manager' | 'Employee'
-    -   poste ?: string
-    -   avatar: string
-    -   absences: Absence[]
+## `Documentation et liens utiles`
 
--   Absence :
-    -   startDate: Date
-    -   endDate: Date
-    -   types: 'congé payé' | 'RTT' | 'congé sans solde'
-    -   motif: string
-    -   status: 'INITIALE' | 'EN_ATTENTE_VALIDATION' | 'VALIDEE' | 'REJETEE'
+-   [Mongoose](https://mongoosejs.com/docs/guide.html)
+
+-   [Icônes Bootstrap](https://icons.getbootstrap.com/)
+
+-   [React](https://reactjs.org/docs/getting-started.html)
+
+-   [React Typescript](https://react-typescript-cheatsheet.netlify.app/docs/basic/setup)
