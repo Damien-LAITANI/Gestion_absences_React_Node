@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { IAbsence, IUser } from '../../../services/IService';
+import { updateUserToApi } from '../../../services/UserService';
 import AbsenceModal from '../AbsenceModal/AbsenceModal';
 
 interface IAbsenceListProps {
@@ -22,19 +23,16 @@ const AbsenceList = ({
 	};
 
 	const onDelete = (absenceID?: string) => {
-		console.log(`Delete absence #${absenceID}`);
-
 		const updatedAbsences = user.absences.filter(
 			(absence) => absence._id !== absenceID
 		);
 
-		// todo : Mettre à jour l'utilisateur dans la bdd
 		const updatedUser = { ...user };
 		updatedUser.absences = updatedAbsences;
-		console.table(user);
-		console.table(updatedUser);
 
 		setUser(updatedUser);
+
+		updateUserToApi({ ...user, absences: updatedAbsences });
 	};
 
 	const defaultAbsenceToDeleteID = '';
@@ -43,7 +41,7 @@ const AbsenceList = ({
 	);
 
 	return (
-		<div className="w-50 d-flex flex-column mx-auto container">
+		<div className="d-flex flex-column mx-auto container">
 			<h1 className="text-center my-3">Gestion des absences</h1>
 			<table className="table table-hover border shadow">
 				<thead>
@@ -58,7 +56,7 @@ const AbsenceList = ({
 					</tr>
 				</thead>
 				<tbody>
-					{user.absences?.map((absence: IAbsence) => {
+					{user.absences.map((absence: IAbsence) => {
 						return (
 							<tr
 								className="container align-items-center w-100"
@@ -110,7 +108,6 @@ const AbsenceList = ({
 												data-bs-toggle="modal"
 												data-bs-target="#deleteAbsence"
 												onClick={() => {
-													console.log(absence);
 													// On définit l'id de l'absence à supprimer
 													setAbsenceToDeleteID(
 														absence._id!
