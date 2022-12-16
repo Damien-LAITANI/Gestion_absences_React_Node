@@ -29,9 +29,9 @@ router.delete('/user/:id', deleteUser);
 router.post('/login', login);
 
 // Routes Holiday
-
 router.get('/holiday', getAllHoliday);
 router.post('/holiday', addHoliday);
 router.put('/holiday', updateHoliday);
 router.delete('/holiday/:id', deleteHoliday);
+
 export default router;

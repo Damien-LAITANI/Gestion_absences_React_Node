@@ -7,19 +7,19 @@ import { dbURI } from './ConnectController';
 connect(dbURI);
 
 export const getAllHoliday = (req: Request, res: Response) => {
-	Holiday.find({}, (error: any, users: typeof Holiday[]) => {
-		res.status(200).json(users);
+	Holiday.find({}, (error: any, holidays: typeof Holiday[]) => {
+		res.status(200).json(holidays);
 	});
 };
 
 export const addHoliday = (req: Request, res: Response) => {
-	Holiday.create(req.body, (error: any, user: IHoliday) => {
+	Holiday.create(req.body, (error: any, Holiday: IHoliday) => {
 		console.log(req.body);
-		console.log(user);
+		console.log(Holiday);
 		console.log(error);
 
 		if (error) res.status(404).json({ message: 'Erreur' });
-		res.status(201).json(user);
+		res.status(201).json(Holiday);
 	});
 };
 
