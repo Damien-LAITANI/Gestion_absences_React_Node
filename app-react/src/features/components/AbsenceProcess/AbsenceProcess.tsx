@@ -10,13 +10,35 @@ interface IAbsenceProcessProps {
 }
 
 const AbsenceProcess = ({ employees, setEmployees }: IAbsenceProcessProps) => {
-	const onValidate = (id: string, employee: IUser) => {
+	const onValidated = (id: string, employee: IUser) => {
 		const updatedEmployee = { ...employee };
 		const updatedAbsences = updatedEmployee.absences;
 		updatedAbsences.map((absence) => {
 			if (absence._id !== id) return absence;
 			else {
 				absence.status = 'VALIDEE';
+				return absence;
+			}
+		});
+		updatedEmployee.absences = updatedAbsences;
+		const updatedEmployees = [...employees];
+		updatedEmployees.map((e) => {
+			if (e._id !== employee._id) return e;
+			else {
+				return updatedEmployee;
+			}
+		});
+		updateUserToApi(updatedEmployee);
+		setEmployees(updatedEmployees);
+	};
+
+	const onRejected = (id: string, employee: IUser) => {
+		const updatedEmployee = { ...employee };
+		const updatedAbsences = updatedEmployee.absences;
+		updatedAbsences.map((absence) => {
+			if (absence._id !== id) return absence;
+			else {
+				absence.status = 'REJETEE';
 				return absence;
 			}
 		});
@@ -92,7 +114,7 @@ const AbsenceProcess = ({ employees, setEmployees }: IAbsenceProcessProps) => {
 													type="button"
 													className="btn btn-success"
 													onClick={() =>
-														onValidate(
+														onValidated(
 															absence._id,
 															employee
 														)
@@ -114,6 +136,12 @@ const AbsenceProcess = ({ employees, setEmployees }: IAbsenceProcessProps) => {
 												<button
 													type="button"
 													className="btn btn-danger"
+													onClick={() =>
+														onRejected(
+															absence._id,
+															employee
+														)
+													}
 												>
 													<svg
 														xmlns="http://www.w3.org/2000/svg"

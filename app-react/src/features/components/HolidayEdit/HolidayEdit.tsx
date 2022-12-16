@@ -1,3 +1,5 @@
+import { updateHolidayToApi } from '../../../services/HolidayService/HolidayService';
+
 export interface IHolidayEditProps {
 	holiday: any;
 	toggleEdit: Function;
@@ -34,11 +36,13 @@ const HolidayEdit = ({
 				_id: holiday._id,
 				date: newDateInput.value,
 				type: newTypeInput.value,
-				day: new Intl.DateTimeFormat('fr-FR', options).format(newDay),
+				jour: new Intl.DateTimeFormat('fr-FR', options).format(newDay),
 				motif: newMotifInput.value,
+				status: 'INITIALE',
 			};
 			//update bd
-			//console.log(newHoliday);
+			updateHolidayToApi(updatedHoliday);
+			console.log(updatedHoliday);
 			const updatedHolidays = holidays.map((holiday: any) => {
 				if (holiday._id !== updatedHoliday._id) {
 					return holiday;
@@ -72,9 +76,8 @@ const HolidayEdit = ({
 					className="form-select"
 					aria-label="Floating label select example"
 				>
-					<option value="congé payé">Congé payé</option>
-					<option value="RTT">RTT</option>
-					<option value="congé sans solde">Congé sans solde</option>
+					<option value="Férié">Férié</option>
+					<option value="RTT employeur">RTT employeur</option>
 				</select>
 				<label htmlFor="type">Type</label>
 			</td>

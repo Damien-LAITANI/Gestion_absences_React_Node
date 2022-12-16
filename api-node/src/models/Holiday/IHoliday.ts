@@ -1,6 +1,7 @@
 export interface IHoliday {
 	date: Date;
-	type: 'congé payé' | 'RTT' | 'congé sans solde';
+	type: 'RTT employeur' | 'Férié';
 	jour: string;
 	motif: string;
+	status: 'INITIALE' | 'VALIDEE';
 }

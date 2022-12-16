@@ -9,6 +9,7 @@ import Login from './features/components/Login/Login';
 import Planning from './features/components/Planning/Planning';
 import ReportList from './features/components/ReportList/ReportList';
 import { login } from './services/ConnectService/connectService';
+import { getAllHolidayFromAPI } from './services/HolidayService/HolidayService';
 import { IAbsence, IUser } from './services/InterfacesServices/IUserService';
 import {
 	deleteUserToApi,
@@ -23,16 +24,18 @@ const defaultHolidays = [
 	{
 		_id: crypto.randomUUID(),
 		date: '2020-11-03',
-		type: 'RTT',
-		day: 'Lundi',
+		type: 'RTT employeur',
+		jour: 'Lundi',
 		motif: 'Rien',
+		status: 'INITIALE',
 	},
 	{
 		_id: crypto.randomUUID(),
 		date: '2020-12-25',
-		type: 'RTT',
-		day: 'Mardi',
+		type: 'Férié',
+		jour: 'Mardi',
 		motif: 'Nada',
+		status: 'VALIDEE',
 	},
 ];
 
@@ -164,22 +167,34 @@ const App = () => {
 		}
 	};
 
-	const autoLogin = async () => {
-		// hash du password : $2b$12$b3FFHx75wZDosEgVea3mGOJ0eI839YTjPYsUiEkA2LkRMhiLpaF2u
-		const response = await login({
-			email: 'testUpdate',
-			password: 'admin',
-		});
+	const getHolidays = async () => {
+		const response = await getAllHolidayFromAPI();
 		console.log(response);
-
 		if (response.status === 200) {
-			setUser(response.data);
+			setHolidays(response.data);
 		}
 	};
 
+	// const autoLogin = async () => {
+	// 	// hash du password : $2b$12$b3FFHx75wZDosEgVea3mGOJ0eI839YTjPYsUiEkA2LkRMhiLpaF2u
+	// 	const response = await login({
+	// 		email: 'manager',
+	// 		password: 'admin',
+	// 	});
+	// 	console.log(response);
+
+	// 	if (response.status === 200) {
+	// 		setUser(response.data);
+	// 	}
+	// };
+
+	// useEffect(() => {
+	// 	autoLogin();
+	// }, []);
 	useEffect(() => {
-		autoLogin();
-	}, []);
+		getEmployeeFromUser();
+		getHolidays();
+	}, [user]);
 
 	return (
 		<div className="app container-fluid min-vh-100 d-flex flex-column px-5">
