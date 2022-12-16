@@ -27,7 +27,7 @@ const AbsenceList = ({ setShowAbsenceForm, user }: IAbsenceListProps) => {
 					</tr>
 				</thead>
 				<tbody>
-					{user.absences.map((absence: any) => {
+					{user.absences?.map((absence: any) => {
 						console.log(absence.startDate);
 
 						return (

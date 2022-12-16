@@ -1,4 +1,4 @@
-interface IAbsence {
+export interface IAbsence {
 	startDate: Date;
 	endDate: Date;
 	types: 'congé payé' | 'RTT' | 'congé sans solde';

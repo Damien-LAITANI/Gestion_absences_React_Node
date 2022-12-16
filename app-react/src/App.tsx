@@ -8,7 +8,7 @@ import Holiday from './features/components/Holiday/Holiday';
 import Login from './features/components/Login/Login';
 import Planning from './features/components/Planning/Planning';
 import ReportList from './features/components/ReportList/ReportList';
-import { IUser } from './services/IService';
+import { IAbsence, IUser } from './services/IService';
 import {
 	deleteUserToApi,
 	getAllUserFromAPI,
@@ -17,47 +17,37 @@ import {
 	updateUserToApi,
 } from './services/UserService';
 
-const defaultAbsences = [
+const defaultAbsences: IAbsence[] = [
 	{
-		startDate: '2022-12-12T23:00:00:000Z',
-		endDate: '2022-12-24T23:00:00:000Z',
-		type: 'congés payés',
+		startDate: new Date('2022-12-12T23:00:00:000Z'),
+		endDate: new Date('2022-12-24T23:00:00:000Z'),
+		types: 'congé payé',
 		motif: 'vacances',
 		status: 'EN_ATTENTE_VALIDATION',
 	},
 	{
-		startDate: '2022-12-24T23:00:00:000Z',
-		endDate: '2022-12-31T23:00:00:000Z',
-		type: 'congés payés',
+		startDate: new Date('2022-12-12T23:00:00:000Z'),
+		endDate: new Date('2022-12-24T23:00:00:000Z'),
+		types: 'congé payé',
 		motif: 'vacances',
 		status: 'VALIDEE',
 	},
 ];
 
-const defaultUser: {
-	firstname: string;
-	lastname: string;
-	email: string;
-	password: string;
-	roles: string[];
-	absences: any[];
-	employees: string[]; // IDs
-	superior: string; // ID
-	id: string;
-} = {
+const defaultUser: IUser = {
 	firstname: 'Valentin',
 	lastname: 'SILVESTRE',
 	email: 'val@gmail.fr',
 	password: '123456789',
-	roles: ['ADMIN', 'MANAGER'],
+	roles: ['admin', 'manager'],
 	absences: defaultAbsences,
 	employees: [], // IDs
 	superior: 'ae123456', // ID
-	id: 'azeertsddv',
+	_id: 'azeertsddv',
 };
 
 const App = () => {
-	const [user, setUser] = useState({});
+	const [user, setUser] = useState<IUser>(defaultUser);
 	const userID = '6399b395ba1d4a74d1521322';
 
 	const getAll = async () => {
@@ -149,14 +139,14 @@ const App = () => {
 	}, [user]);
 
 	return (
-		<div className="app container-fluid min-vh-100 d-flex flex-column p-5">
+		<div className="app container-fluid min-vh-100 d-flex flex-column px-5">
 			<Header user={user} />
 			<main className="flex-grow-1">
 				<Routes>
 					<Route path="/" element={<h1>Accueil</h1>} />
 					<Route
 						path="/absences"
-						element={<Absences user={user} />}
+						element={<Absences user={user} setUser={setUser} />}
 					/>
 					<Route path="/planning" element={<Planning />} />
 					<Route

@@ -1,18 +1,21 @@
 import { useState } from 'react';
+import { IUser } from '../../../services/IService';
 import AbsenceForm from '../AbsenceForm/AbsenceForm';
 import AbsenceList from '../AbsenceList/AbsenceList';
 
 interface IAbsencesProps {
-	user: any;
+	user: IUser;
+	setUser: Function;
 }
 
-const Absences = ({ user }: IAbsencesProps) => {
+const Absences = ({ user, setUser }: IAbsencesProps) => {
 	const [showAbsenceForm, setShowAbsenceForm] = useState<Boolean>(false);
 	return (
 		<>
 			{showAbsenceForm ? (
 				<AbsenceForm
 					user={user}
+					setUser={setUser}
 					setShowAbsenceForm={setShowAbsenceForm}
 				/>
 			) : (
