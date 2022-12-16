@@ -8,6 +8,7 @@ import Holiday from './features/components/Holiday/Holiday';
 import Login from './features/components/Login/Login';
 import Planning from './features/components/Planning/Planning';
 import ReportList from './features/components/ReportList/ReportList';
+import { login } from './services/ConnectService/connectService';
 import { IAbsence, IUser } from './services/InterfacesServices/IUserService';
 import {
 	deleteUserToApi,
@@ -37,15 +38,15 @@ const defaultHolidays = [
 
 const defaultAbsences: IAbsence[] = [
 	{
-		startDate: new Date('2022-12-12T23:00:00:000Z'),
-		endDate: new Date('2022-12-24T23:00:00:000Z'),
+		startDateISO: '2022-12-12T23:00:00:000Z',
+		endDateISO: '2022-12-24T23:00:00:000Z',
 		types: 'congé payé',
 		motif: 'vacances',
 		status: 'EN_ATTENTE_VALIDATION',
 	},
 	{
-		startDate: new Date('2022-12-12T23:00:00:000Z'),
-		endDate: new Date('2022-12-24T23:00:00:000Z'),
+		startDateISO: '2022-12-12T23:00:00:000Z',
+		endDateISO: '2022-12-24T23:00:00:000Z',
 		types: 'congé payé',
 		motif: 'vacances',
 		status: 'VALIDEE',
@@ -93,8 +94,8 @@ const App = () => {
 			employees: [''],
 			absences: [
 				{
-					startDate: new Date(),
-					endDate: new Date(),
+					startDateISO: new Date().toISOString(),
+					endDateISO: new Date().toISOString(),
 					types: 'congé payé',
 					motif: 'test',
 					status: 'INITIALE',
@@ -117,29 +118,29 @@ const App = () => {
 			employees: [''],
 			absences: [
 				{
-					startDate: new Date(),
-					endDate: new Date(),
+					startDateISO: new Date().toISOString(),
+					endDateISO: new Date().toISOString(),
 					types: 'congé payé',
 					motif: 'test',
 					status: 'INITIALE',
 				},
 				{
-					startDate: new Date(),
-					endDate: new Date(),
+					startDateISO: new Date().toISOString(),
+					endDateISO: new Date().toISOString(),
 					types: 'RTT',
 					motif: 'test',
 					status: 'INITIALE',
 				},
 				{
-					startDate: new Date(),
-					endDate: new Date(),
+					startDateISO: new Date().toISOString(),
+					endDateISO: new Date().toISOString(),
 					types: 'congé sans solde',
 					motif: 'test',
 					status: 'INITIALE',
 				},
 				{
-					startDate: new Date(),
-					endDate: new Date(),
+					startDateISO: new Date().toISOString(),
+					endDateISO: new Date().toISOString(),
 					types: 'congé sans solde',
 					motif: 'test',
 					status: 'INITIALE',
@@ -163,11 +164,22 @@ const App = () => {
 		}
 	};
 
+	const autoLogin = async () => {
+		// hash du password : $2b$12$b3FFHx75wZDosEgVea3mGOJ0eI839YTjPYsUiEkA2LkRMhiLpaF2u
+		const response = await login({
+			email: 'testUpdate',
+			password: 'admin',
+		});
+		console.log(response);
+
+		if (response.status === 200) {
+			setUser(response.data);
+		}
+	};
+
 	useEffect(() => {
-		//console.log(user);
-		getEmployeeFromUser();
-		console.table(user.absences);
-	}, [user]);
+		autoLogin();
+	}, []);
 
 	return (
 		<div className="app container-fluid min-vh-100 d-flex flex-column px-5">
