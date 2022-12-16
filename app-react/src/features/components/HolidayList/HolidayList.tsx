@@ -1,7 +1,5 @@
-import { useState } from 'react';
-import HolidayEdit from '../HolidayEdit/HolidayEdit';
+import HolidayContainer from '../HolidayContainer/HolidayContainer';
 import HolidayModal from '../HolidayModal/HolidayModal';
-import HolidayShow from '../HolidayShow/HolidayShow';
 
 interface IHolidayList {
 	setShowHolidayForm: Function;
@@ -16,10 +14,6 @@ const HolidayList = ({
 }: IHolidayList) => {
 	const toggleShowHolidayForm = () => {
 		setShowHolidayForm(true);
-	};
-	const [isEditable, setIsEditable] = useState<Boolean>(false);
-	const toggleEdit = () => {
-		setIsEditable(!isEditable);
 	};
 
 	return (
@@ -53,19 +47,7 @@ const HolidayList = ({
 				</thead>
 				<tbody>
 					{holidays.map((holiday) => (
-						<>
-							{isEditable ? (
-								<HolidayShow
-									holiday={holiday}
-									toggleEdit={toggleEdit}
-								/>
-							) : (
-								<HolidayEdit
-									holiday={holiday}
-									toggleEdit={toggleEdit}
-								/>
-							)}
-						</>
+						<HolidayContainer key={holiday.id} holiday={holiday} />
 					))}
 				</tbody>
 			</table>
@@ -76,7 +58,6 @@ const HolidayList = ({
 			>
 				Ajouter un jour férié ou une RTT employeur
 			</button>
-
 			<HolidayModal />
 		</div>
 	);

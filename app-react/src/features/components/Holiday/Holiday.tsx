@@ -2,16 +2,26 @@ import { useState } from 'react';
 import HolidayForm from '../HolidayForm/HolidayForm';
 import HolidayList from '../HolidayList/HolidayList';
 
-const defaultHoliday = {
-	date: '30/10/2020',
-	type: 'RTT',
-	jour: 'Lundi',
-	commentaires: 'Rien',
-};
+const defaultHolidays = [
+	{
+		id: crypto.randomUUID,
+		date: '30/10/2020',
+		type: 'RTT',
+		jour: 'Lundi',
+		commentaires: 'Rien',
+	},
+	{
+		id: crypto.randomUUID,
+		date: '03/11/2019',
+		type: 'RTT',
+		jour: 'Marid',
+		commentaires: 'Nada',
+	},
+];
 
 const Holiday = () => {
 	const [showHolidayForm, setShowHolidayForm] = useState<Boolean>(false);
-	const [holidays, setHolidays] = useState([defaultHoliday, defaultHoliday]);
+	const [holidays, setHolidays] = useState(defaultHolidays);
 
 	return (
 		<>
