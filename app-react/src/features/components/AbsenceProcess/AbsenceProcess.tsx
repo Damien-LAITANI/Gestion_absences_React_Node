@@ -1,13 +1,61 @@
-import { IUser } from '../../../services/InterfacesServices/IUserService';
+import {
+	IAbsence,
+	IUser,
+} from '../../../services/InterfacesServices/IUserService';
+import { updateUserToApi } from '../../../services/UserService/UserService';
 
 interface IAbsenceProcessProps {
-	employees: any;
+	employees: IUser[];
+	setEmployees: Function;
 }
 
-const AbsenceProcess = ({ employees }: IAbsenceProcessProps) => {
-	console.log(employees);
+const AbsenceProcess = ({ employees, setEmployees }: IAbsenceProcessProps) => {
+	const onValidated = (id: string, employee: IUser) => {
+		const updatedEmployee = { ...employee };
+		const updatedAbsences = updatedEmployee.absences;
+		updatedAbsences.map((absence) => {
+			if (absence._id !== id) return absence;
+			else {
+				absence.status = 'VALIDEE';
+				return absence;
+			}
+		});
+		updatedEmployee.absences = updatedAbsences;
+		const updatedEmployees = [...employees];
+		updatedEmployees.map((e) => {
+			if (e._id !== employee._id) return e;
+			else {
+				return updatedEmployee;
+			}
+		});
+		updateUserToApi(updatedEmployee);
+		setEmployees(updatedEmployees);
+	};
+
+	const onRejected = (id: string, employee: IUser) => {
+		const updatedEmployee = { ...employee };
+		const updatedAbsences = updatedEmployee.absences;
+		updatedAbsences.map((absence) => {
+			if (absence._id !== id) return absence;
+			else {
+				absence.status = 'REJETEE';
+				return absence;
+			}
+		});
+		updatedEmployee.absences = updatedAbsences;
+		const updatedEmployees = [...employees];
+		updatedEmployees.map((e) => {
+			if (e._id !== employee._id) return e;
+			else {
+				return updatedEmployee;
+			}
+		});
+		updateUserToApi(updatedEmployee);
+		setEmployees(updatedEmployees);
+	};
+
 	const getFilteredAbsences = (employee: IUser) => {
-		let filteredAbsences: any[] = employee.absences.filter(
+		let filteredAbsences: any[] = employee.absences?.filter(
 			(absence: any) => absence.status === 'EN_ATTENTE_VALIDATION'
 		);
 		return filteredAbsences;
@@ -29,8 +77,8 @@ const AbsenceProcess = ({ employees }: IAbsenceProcessProps) => {
 					</tr>
 				</thead>
 				<tbody>
-					{employees.map((employee: any) => {
-						return getFilteredAbsences(employee).map((absence) => {
+					{employees?.map((employee: any) => {
+						return getFilteredAbsences(employee)?.map((absence) => {
 							return (
 								<tr
 									className="container align-items-center w-100"
@@ -65,7 +113,12 @@ const AbsenceProcess = ({ employees }: IAbsenceProcessProps) => {
 												<button
 													type="button"
 													className="btn btn-success"
-													//onClick={updateHoliday}
+													onClick={() =>
+														onValidated(
+															absence._id,
+															employee
+														)
+													}
 												>
 													<svg
 														xmlns="http://www.w3.org/2000/svg"
@@ -83,8 +136,12 @@ const AbsenceProcess = ({ employees }: IAbsenceProcessProps) => {
 												<button
 													type="button"
 													className="btn btn-danger"
-													data-bs-toggle="modal"
-													data-bs-target="#deleteAbsence"
+													onClick={() =>
+														onRejected(
+															absence._id,
+															employee
+														)
+													}
 												>
 													<svg
 														xmlns="http://www.w3.org/2000/svg"

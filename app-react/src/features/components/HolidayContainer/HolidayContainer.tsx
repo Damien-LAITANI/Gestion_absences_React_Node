@@ -2,7 +2,12 @@ import { useState } from 'react';
 import HolidayEdit from '../HolidayEdit/HolidayEdit';
 import HolidayShow from '../HolidayShow/HolidayShow';
 
-const HolidayContainer = ({ holiday, setHolidays, holidays }: any) => {
+const HolidayContainer = ({
+	holiday,
+	setHolidays,
+	holidays,
+	setHolidayToDelete,
+}: any) => {
 	const [isEditable, setIsEditable] = useState<Boolean>(false);
 	const toggleEdit = () => {
 		setIsEditable(!isEditable);
@@ -10,7 +15,11 @@ const HolidayContainer = ({ holiday, setHolidays, holidays }: any) => {
 	return (
 		<>
 			{!isEditable ? (
-				<HolidayShow holiday={holiday} toggleEdit={toggleEdit} />
+				<HolidayShow
+					holiday={holiday}
+					toggleEdit={toggleEdit}
+					setHolidayToDelete={setHolidayToDelete}
+				/>
 			) : (
 				<HolidayEdit
 					holiday={holiday}

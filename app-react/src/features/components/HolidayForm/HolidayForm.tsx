@@ -1,3 +1,5 @@
+import { postHolidayToApi } from '../../../services/HolidayService/HolidayService';
+
 export interface IHolidayFormProps {
 	setShowHolidayForm: Function;
 	setHolidays: Function;
@@ -13,7 +15,7 @@ const HolidayForm = ({
 		setShowHolidayForm(false);
 	};
 
-	const persistHolidayForm = (event: any) => {
+	const persistHolidayForm = async (event: any) => {
 		event.preventDefault();
 		const [date, type, motif] = event.target;
 		const dateValue = date.value;
@@ -23,12 +25,16 @@ const HolidayForm = ({
 		const options: any = { weekday: 'long' };
 		const newHoliday = {
 			date: dateValue,
-			day: new Intl.DateTimeFormat('fr-FR', options).format(day),
+			jour: new Intl.DateTimeFormat('fr-FR', options).format(day),
 			type: typeValue,
 			motif: motifValue,
+			status: 'INITIALE',
 		};
 		//save dataBase and get id
-		const id = crypto.randomUUID();
+		const response = await postHolidayToApi(newHoliday);
+
+		console.log(response.data);
+		const id = response.data._id;
 		const newHolidayWithId = { _id: id, ...newHoliday };
 		setHolidays([...holidays, newHolidayWithId]);
 		toggleShowHolidayForm();
@@ -45,7 +51,7 @@ const HolidayForm = ({
 						id="date"
 						name="date"
 					/>
-					<label htmlFor="date">Date de début</label>
+					<label htmlFor="date">Date</label>
 				</div>
 
 				<div className="form-floating mb-3">
@@ -55,13 +61,10 @@ const HolidayForm = ({
 						className="form-select"
 						aria-label="Floating label select example"
 					>
-						<option value="congé payé">Congé payé</option>
-						<option value="RTT">RTT</option>
-						<option value="congé sans solde">
-							Congé sans solde
-						</option>
+						<option value="Férié">Férié</option>
+						<option value="RTT employeur">RTT employeur</option>
 					</select>
-					<label>Type de congé</label>
+					<label>Type</label>
 				</div>
 
 				<div className="form-floating mb-3">

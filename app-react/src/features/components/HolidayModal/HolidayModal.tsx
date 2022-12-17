@@ -1,6 +1,6 @@
-const HolidayModal = () => {
+const HolidayModal = ({ holidayToDelete, deleteHoliday }: any) => {
 	return (
-		<div id="deleteAbsence" className="modal fade" tabIndex={-1}>
+		<div id="deleteHoliday" className="modal fade" tabIndex={-1}>
 			<div className="modal-dialog">
 				<div className="modal-content">
 					<div className="modal-header">
@@ -19,9 +19,9 @@ const HolidayModal = () => {
 							Confirmez-vous la suppression de la demande suivante
 							?
 						</p>
-						<p>Date :</p>
-						<p>Type :</p>
-						<p>Jour :</p>
+						<p>Date : {holidayToDelete?.date}</p>
+						<p>Type : {holidayToDelete?.type}</p>
+						<p>Jour : {holidayToDelete?.jour}</p>
 					</div>
 					<div className="modal-footer">
 						<button
@@ -31,7 +31,12 @@ const HolidayModal = () => {
 						>
 							Annuler
 						</button>
-						<button type="button" className="btn btn-success">
+						<button
+							onClick={() => deleteHoliday(holidayToDelete._id)}
+							type="button"
+							className="btn btn-success"
+							data-bs-dismiss="modal"
+						>
 							Valider
 						</button>
 					</div>

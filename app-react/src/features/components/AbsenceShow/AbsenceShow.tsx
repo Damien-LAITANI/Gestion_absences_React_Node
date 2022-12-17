@@ -12,16 +12,27 @@ const AbsenceShow = ({
 	toggleEdit,
 	setAbsenceToDeleteID,
 }: IAbsenceShow) => {
+	// TODO : Ne pas mettre de date par défaut !
+	const startDate = absence.startDateISO
+		? new Date(absence.startDateISO.split('T')[0])
+		: new Date();
+	const endDate = absence.endDateISO
+		? new Date(absence.endDateISO.split('T')[0])
+		: new Date();
 	return (
 		<tr className="container align-items-center w-100" key={absence._id}>
 			<td>
 				<p className="my-2">
-					{new Date(absence.startDate).toLocaleDateString()}
+					{new Date(
+						startDate.toLocaleDateString()
+					).toLocaleDateString()}
 				</p>
 			</td>
 			<td>
 				<p className="my-2">
-					{new Date(absence.endDate).toLocaleDateString()}
+					{new Date(
+						endDate.toLocaleDateString()
+					).toLocaleDateString()}
 				</p>
 			</td>
 			<td>

@@ -13,13 +13,21 @@ interface IAbsenceListProps {
 	setUser: Function;
 }
 
+const defaultAbsenceToDelete: IAbsence = {
+	startDateISO: '2022-12-12T23:00:00:000Z',
+	endDateISO: '2022-12-24T23:00:00:000Z',
+	types: 'congé payé',
+	motif: 'TEST TEST TEST',
+	status: 'EN_ATTENTE_VALIDATION',
+};
+
 const AbsenceList = ({
 	setShowAbsenceForm,
 	user,
 	setUser,
 }: IAbsenceListProps) => {
 	useEffect(() => {
-		user.absences.map((absence) => (absence._id = crypto.randomUUID()));
+		user.absences?.map((absence) => (absence._id = crypto.randomUUID()));
 	}, [user]);
 
 	const toggleShowAbsenceForm = () => {
@@ -39,9 +47,8 @@ const AbsenceList = ({
 		updateUserToApi({ ...user, absences: updatedAbsences });
 	};
 
-	const defaultAbsenceToDeleteID = '';
-	const [absenceToDeleteID, setAbsenceToDeleteID] = useState(
-		defaultAbsenceToDeleteID
+	const [absenceToDelete, setAbsenceToDelete] = useState<IAbsence>(
+		defaultAbsenceToDelete
 	);
 
 	return (
@@ -63,7 +70,7 @@ const AbsenceList = ({
 					{user.absences.map((absence: IAbsence) => (
 						<AbsenceContainer
 							absence={absence}
-							setAbsenceToDeleteID={setAbsenceToDeleteID}
+							setAbsenceToDelete={setAbsenceToDelete(absence)}
 						/>
 					))}
 				</tbody>
@@ -83,7 +90,7 @@ const AbsenceList = ({
 			</ul>
 
 			<AbsenceModal
-				absenceToDeleteID={absenceToDeleteID}
+				absenceToDelete={absenceToDelete!}
 				deleteAbsence={onDelete}
 			/>
 		</div>

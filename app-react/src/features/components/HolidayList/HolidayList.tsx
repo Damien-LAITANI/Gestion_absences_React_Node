@@ -1,5 +1,16 @@
+import { useState } from 'react';
+import { deleteHolidayToApi } from '../../../services/HolidayService/HolidayService';
 import HolidayContainer from '../HolidayContainer/HolidayContainer';
 import HolidayModal from '../HolidayModal/HolidayModal';
+
+const defaultHolidayToDelete = {
+	_id: crypto.randomUUID(),
+	date: '2022-12-12T23:00:00:000Z',
+	type: 'Férié',
+	jour: 'Lundi',
+	motif: 'Rien',
+	status: 'INITIALE',
+};
 
 interface IHolidayList {
 	setShowHolidayForm: Function;
@@ -14,6 +25,18 @@ const HolidayList = ({
 }: IHolidayList) => {
 	const toggleShowHolidayForm = () => {
 		setShowHolidayForm(true);
+	};
+
+	const [holidayToDelete, setHolidayToDelete] = useState<any>(
+		defaultHolidayToDelete
+	);
+
+	const deleteHoliday = (holidayId: any) => {
+		const updatedHolidays = holidays.filter(
+			(holiday) => holiday._id !== holidayId
+		);
+		setHolidays(updatedHolidays);
+		deleteHolidayToApi(holidayId);
 	};
 
 	return (
@@ -52,6 +75,7 @@ const HolidayList = ({
 							holiday={holiday}
 							setHolidays={setHolidays}
 							holidays={holidays}
+							setHolidayToDelete={setHolidayToDelete}
 						/>
 					))}
 				</tbody>
@@ -63,7 +87,10 @@ const HolidayList = ({
 			>
 				Ajouter un jour férié ou une RTT employeur
 			</button>
-			<HolidayModal />
+			<HolidayModal
+				holidayToDelete={holidayToDelete}
+				deleteHoliday={deleteHoliday}
+			/>
 		</div>
 	);
 };
