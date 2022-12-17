@@ -1,9 +1,14 @@
 export interface IHolidayShowProps {
 	holiday: any;
 	toggleEdit: Function;
+	setHolidayToDelete: Function;
 }
 
-const HolidayShow = ({ holiday, toggleEdit }: IHolidayShowProps) => {
+const HolidayShow = ({
+	holiday,
+	toggleEdit,
+	setHolidayToDelete,
+}: IHolidayShowProps) => {
 	return (
 		<tr>
 			<td>
@@ -43,7 +48,10 @@ const HolidayShow = ({ holiday, toggleEdit }: IHolidayShowProps) => {
 							type="button"
 							className="btn btn-danger"
 							data-bs-toggle="modal"
-							data-bs-target="#deleteAbsence"
+							data-bs-target="#deleteHoliday"
+							onClick={() => {
+								setHolidayToDelete(holiday);
+							}}
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
