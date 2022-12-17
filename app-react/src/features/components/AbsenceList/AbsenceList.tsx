@@ -26,7 +26,7 @@ const AbsenceList = ({
 	setUser,
 }: IAbsenceListProps) => {
 	useEffect(() => {
-		user.absences.map((absence) => (absence._id = crypto.randomUUID()));
+		user.absences?.map((absence) => (absence._id = crypto.randomUUID()));
 	}, [user]);
 
 	const toggleShowAbsenceForm = () => {
@@ -66,7 +66,7 @@ const AbsenceList = ({
 					</tr>
 				</thead>
 				<tbody>
-					{user.absences.map((absence: IAbsence) => {
+					{user.absences?.map((absence: IAbsence) => {
 						// TODO : Ne pas mettre de date par défaut !
 						const startDate = absence.startDateISO
 							? new Date(absence.startDateISO.split('T')[0])

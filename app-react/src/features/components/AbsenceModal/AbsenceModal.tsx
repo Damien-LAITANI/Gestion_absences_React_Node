@@ -9,8 +9,12 @@ const AbsenceModal = ({
 	absenceToDelete,
 	deleteAbsence,
 }: IAbsenceModalProps) => {
-	const startDate = new Date(absenceToDelete.startDateISO.split('T')[0]);
-	const endDate = new Date(absenceToDelete.endDateISO.split('T')[0]);
+	const startDate = absenceToDelete.startDateISO
+		? new Date(absenceToDelete.startDateISO.split('T')[0])
+		: new Date();
+	const endDate = absenceToDelete.endDateISO
+		? new Date(absenceToDelete.endDateISO.split('T')[0])
+		: new Date();
 
 	return (
 		<div
