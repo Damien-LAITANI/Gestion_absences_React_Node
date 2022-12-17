@@ -34,7 +34,7 @@ const HolidayForm = ({
 		const response = await postHolidayToApi(newHoliday);
 
 		console.log(response.data);
-		const id = crypto.randomUUID();
+		const id = response.data._id;
 		const newHolidayWithId = { _id: id, ...newHoliday };
 		setHolidays([...holidays, newHolidayWithId]);
 		toggleShowHolidayForm();
