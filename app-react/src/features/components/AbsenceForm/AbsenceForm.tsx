@@ -4,22 +4,139 @@ import {
 	IUser,
 } from '../../../services/InterfacesServices/IUserService';
 import { updateUserToApi } from '../../../services/UserService/UserService';
+import { IHoliday } from '../../../services/InterfacesServices/IHolidayService';
+import { datesAreOnSameDay } from '../../../functions/date';
 
 interface IAbsenceListProps {
 	setShowAbsenceForm: Function;
 	setUser: Function;
 	user: IUser;
+	holidays: IHoliday[];
 }
 
 const AbsenceForm = ({
 	setShowAbsenceForm,
 	user,
 	setUser,
+	holidays,
 }: IAbsenceListProps) => {
 	const navigate = useNavigate();
 
 	const toggleShowAbsenceForm = () => {
 		setShowAbsenceForm(false);
+	};
+
+	const formIsValid = (event: any) => {
+		console.clear();
+		console.table(user.absences);
+		const [startDate, endDate, types, motif] = event.target;
+		const startDateValue = startDate.value;
+		const endDateValue = endDate.value;
+		const typesValue = types.value;
+		const motifValue = motif.value;
+
+		const newAbsenceStartDate = new Date(startDateValue);
+		const newAbsenceEndDate = new Date(endDateValue);
+
+		const newAbsence: IAbsence = {
+			startDateISO: newAbsenceStartDate.toISOString(),
+			endDateISO: newAbsenceEndDate.toISOString(),
+			type: typesValue,
+			motif: motifValue,
+			status: 'INITIALE',
+		};
+
+		// * Motif obligatoire si type sans solde
+		if (
+			newAbsence.type === 'congé sans solde' &&
+			newAbsence.motif.length < 6
+		) {
+			console.error(
+				'Le motif est obligatoire quand le type est congé sans solde (au moins 6 caractères)'
+			);
+			return false;
+		}
+
+		// * La date de fin est après la date de début
+		if (
+			new Date(startDateValue).valueOf() >
+			new Date(endDateValue).valueOf()
+		) {
+			console.error('La date de fin est après la date de début');
+			return false;
+		}
+
+		// * Une demande de congés ne doit pas chevaucher une autre demande de congés existante.
+
+		// Pour chaque absence existante de user
+		for (const absence of user.absences) {
+			const absenceStartDate = new Date(
+				absence.startDateISO.split('T')[0]
+			);
+			const absenceEndDate = new Date(absence.endDateISO.split('T')[0]);
+
+			// Cas 1 - La date de début de newAbsence est avant la date de début de absence
+			if (newAbsenceStartDate.valueOf() <= absenceStartDate.valueOf()) {
+				// => Si la date de fin de newAbsence est après la date de début de absence alors il y a chevauchement
+				if (absenceStartDate.valueOf() <= newAbsenceEndDate.valueOf()) {
+					console.error('Erreur : chevauchement des dates');
+					return false;
+				}
+			}
+
+			// Cas 2 - La date de début de newAbsence est après la date de début de absence
+			if (absenceStartDate.valueOf() <= newAbsenceStartDate.valueOf()) {
+				// => Si la date de début de newAbsence est avant la date de fin de absence alors il y a chevauchement
+				if (newAbsenceStartDate.valueOf() <= absenceEndDate.valueOf()) {
+					console.error('Erreur : chevauchement des dates');
+					return false;
+				}
+			}
+		}
+
+		// * La date de début ne peut pas être
+		// * un jour férié
+		for (const holiday of holidays) {
+			if (datesAreOnSameDay(newAbsenceStartDate, holiday.date)) {
+				console.error('Erreur : La date de début est un jour férié');
+				return false;
+			}
+		}
+
+		// TODO - une RTT employeur
+
+		// * Week-end
+		if (
+			newAbsenceStartDate.getDay() === 0 ||
+			newAbsenceStartDate.getDay() === 6
+		) {
+			console.error('Erreur : la date de début est le weekend');
+			return false;
+		}
+
+		// * La date de fin ne peut pas être un jour férié, une RTT employeur ou un week-end
+		// * Week-end
+		if (
+			newAbsenceEndDate.getDay() === 0 ||
+			newAbsenceEndDate.getDay() === 6
+		) {
+			console.error('Erreur : la date de début est le weekend');
+			return false;
+		}
+
+		// TODO - Une demande d'absence ne modifie pas le solde des compteurs de congés. Cette opération est effectuée par le traitement de nuit.
+
+		console.log('C OK');
+		return false;
+	};
+
+	const onFormProcess = (event: any) => {
+		event.preventDefault();
+		if (formIsValid(event)) {
+			createNewAbsence(event);
+		} else {
+			console.error('Absence non créée car invalide !');
+		}
 	};
 
 	const createNewAbsence = async (event: any) => {
@@ -56,7 +173,7 @@ const AbsenceForm = ({
 	return (
 		<div className="w-50 mx-auto">
 			<h1 className="text-center my-5">Demande d'absence</h1>
-			<form onSubmit={createNewAbsence}>
+			<form onSubmit={(event) => onFormProcess(event)}>
 				<div className="form-floating mb-3">
 					<input
 						type="date"

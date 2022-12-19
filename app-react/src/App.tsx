@@ -10,6 +10,7 @@ import Planning from './features/components/Planning/Planning';
 import ReportList from './features/components/ReportList/ReportList';
 import { login } from './services/ConnectService/connectService';
 import { getAllHolidayFromAPI } from './services/HolidayService/HolidayService';
+import { IHoliday } from './services/InterfacesServices/IHolidayService';
 import { IAbsence, IUser } from './services/InterfacesServices/IUserService';
 import {
 	deleteUserToApi,
@@ -20,18 +21,16 @@ import {
 	updateUserToApi,
 } from './services/UserService/UserService';
 
-const defaultHolidays = [
+const defaultHolidays: IHoliday[] = [
 	{
-		_id: crypto.randomUUID(),
-		date: '2020-11-03',
+		date: new Date('2020-11-03'),
 		type: 'RTT employeur',
 		jour: 'Lundi',
 		motif: 'Rien',
 		status: 'INITIALE',
 	},
 	{
-		_id: crypto.randomUUID(),
-		date: '2020-12-25',
+		date: new Date('2020-12-25'),
 		type: 'Férié',
 		jour: 'Mardi',
 		motif: 'Nada',
@@ -169,8 +168,11 @@ const App = () => {
 
 	const getHolidays = async () => {
 		const response = await getAllHolidayFromAPI();
-		console.log(response);
+		console.log('COUCOU');
 		if (response.status === 200) {
+			const holidaysData = response.data;
+			// const newHolidays =
+			console.log(response.data);
 			setHolidays(response.data);
 		}
 	};
@@ -206,7 +208,13 @@ const App = () => {
 					<Route path="/" element={<h1>Accueil</h1>} />
 					<Route
 						path="/absences"
-						element={<Absences user={user} setUser={setUser} />}
+						element={
+							<Absences
+								user={user}
+								setUser={setUser}
+								holidays={holidays}
+							/>
+						}
 					/>
 					<Route path="/planning" element={<Planning />} />
 					<Route
