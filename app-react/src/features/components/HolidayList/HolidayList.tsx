@@ -32,6 +32,16 @@ const HolidayList = ({
 	const [holidayToDelete, setHolidayToDelete] = useState<any>(
 		defaultHolidayToDelete
 	);
+	const getHolidaysToDisplay = (year: number) => {
+		return holidays.filter((holiday) => {
+			return new Date(holiday.date.split('T')[0]).getFullYear() === +year;
+		});
+	};
+	const yearNow = new Date().getFullYear();
+	const years = [yearNow - 2, yearNow - 1, yearNow, yearNow + 1];
+	const [holidaysToDisplay, setHolidaysToDisplay] = useState(
+		getHolidaysToDisplay(yearNow)
+	);
 
 	const deleteHoliday = (holidayId: any) => {
 		const updatedHolidays = holidays.filter(
@@ -39,6 +49,12 @@ const HolidayList = ({
 		);
 		setHolidays(updatedHolidays);
 		deleteHolidayToApi(holidayId);
+	};
+
+	const onChangeYear = (event: any) => {
+		console.log(event.target.value);
+		const newYear = +event.target.value;
+		setHolidaysToDisplay(getHolidaysToDisplay(newYear));
 	};
 
 	return (
@@ -49,11 +65,14 @@ const HolidayList = ({
 				<select
 					className="form-select"
 					aria-label="Floating label select example"
-					defaultValue={'2021'}
+					defaultValue={yearNow}
+					onChange={onChangeYear}
 				>
-					<option value="2020">2020</option>
-					<option value="2021">2021</option>
-					<option value="2022">2022</option>
+					{years.map((year) => (
+						<option key={year} value={year}>
+							{year}
+						</option>
+					))}
 				</select>
 				<label>Année</label>
 			</div>
@@ -73,7 +92,7 @@ const HolidayList = ({
 					</tr>
 				</thead>
 				<tbody>
-					{holidays.map((holiday) => (
+					{holidaysToDisplay.map((holiday) => (
 						<HolidayContainer
 							key={holiday._id}
 							holiday={holiday}
