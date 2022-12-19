@@ -9,10 +9,12 @@ const HolidayShow = ({
 	toggleEdit,
 	setHolidayToDelete,
 }: IHolidayShowProps) => {
+	const date = new Date(holiday.date.split('T')[0]);
+
 	return (
 		<tr>
 			<td>
-				<p className="my-2">{holiday.date}</p>
+				<p className="my-2">{date.toLocaleDateString()}</p>
 			</td>
 			<td>
 				<p className="my-2">{holiday.type}</p>
