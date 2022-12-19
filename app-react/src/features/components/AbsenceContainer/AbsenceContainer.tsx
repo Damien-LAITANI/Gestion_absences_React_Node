@@ -25,7 +25,6 @@ const AbsenceContainer = ({
 	};
 	return (
 		<>
-			{' '}
 			{isEditable ? (
 				<AbsenceEdit
 					user={user}
