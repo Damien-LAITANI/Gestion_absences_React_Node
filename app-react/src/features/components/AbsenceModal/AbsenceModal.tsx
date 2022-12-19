@@ -43,7 +43,7 @@ const AbsenceModal = ({
 						</p>
 						<p>Date de début : {startDate.toLocaleDateString()}</p>
 						<p>Date de fin : {endDate.toLocaleDateString()}</p>
-						<p>Type de congé : {absenceToDelete.types}</p>
+						<p>Type de congé : {absenceToDelete.type}</p>
 					</div>
 					<div className="modal-footer">
 						<button

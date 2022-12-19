@@ -1,19 +1,30 @@
-import { MouseEventHandler } from 'react';
-import { IAbsence } from '../../../services/InterfacesServices/IUserService';
+import {
+	IAbsence,
+	IUser,
+} from '../../../services/InterfacesServices/IUserService';
+import { updateUserToApi } from '../../../services/UserService/UserService';
 
 interface IAbsenceEdit {
+	user: IUser;
+	setUser: Function;
 	absence: IAbsence;
-	toggleEdit: MouseEventHandler;
-	setAbsenceToDeleteID: Function;
+	toggleEdit: Function;
+	setAbsenceToDelete: void | React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const AbsenceEdit = ({
+	user,
+	setUser,
 	absence,
 	toggleEdit,
-	setAbsenceToDeleteID,
+	setAbsenceToDelete,
 }: IAbsenceEdit) => {
-	const setDate = (dateToUpdate: Date) => {
+	const setDate = (dateToUpdate: string) => {
+		console.log(dateToUpdate);
+
 		const date = new Date(dateToUpdate);
+		console.log(date);
+
 		return (
 			date.toLocaleDateString('fr-FR', { year: 'numeric' }) +
 			'-' +
@@ -23,9 +34,9 @@ const AbsenceEdit = ({
 		).toString();
 	};
 
-	const updateAbsence = () => {
-		const startDateInput: any = document.querySelectorAll('#startDate');
-		const endDateInput: any = document.querySelectorAll('#endDate');
+	const updateAbsence = async () => {
+		const startDateInput: any = document.querySelector('#startDate');
+		const endDateInput: any = document.querySelector('#endDate');
 		const updateTypeInput: React.DetailedHTMLProps<
 			React.SelectHTMLAttributes<HTMLSelectElement>,
 			HTMLSelectElement
@@ -40,41 +51,58 @@ const AbsenceEdit = ({
 			React.TextareaHTMLAttributes<HTMLTextAreaElement>,
 			HTMLTextAreaElement
 		>;
+		console.log(startDateInput);
+
 		if (
 			startDateInput.value &&
 			endDateInput.value &&
-			updateTypeInput.value
+			updateTypeInput.value &&
+			updateMotifInput.value
 		) {
-			const startDate = new Date(startDateInput.value);
-			const options: any = { weekday: 'long' };
+			const startDate = new Date(startDateInput.value).toISOString();
+			const endDate = new Date(endDateInput.value).toISOString();
 
-			const updatedHoliday = {
+			const updatedAbsence = {
 				_id: absence._id,
-				startDate: startDateInput.value,
-				endDate: endDateInput.value,
+				startDateISO: startDate,
+				endDateISO: endDate,
 				type: updateTypeInput.value,
 				status: absence.status,
 				motif: updateMotifInput.value,
 			};
-			//update bd
-			//console.log(newHoliday);
-			const updatedHolidays = absences.map((absence: any) => {
-				if (holiday._id !== updatedHoliday._id) {
-					return holiday;
+
+			const updatedAbsences = user.absences.map((absence: any) => {
+				if (absence._id !== updatedAbsence._id) {
+					return absence;
 				} else {
-					return updatedHoliday;
+					return updatedAbsence;
 				}
 			});
-			setHolidays(updatedHolidays);
+			console.log(updatedAbsences);
+
+			const newUser = {
+				...user,
+				absences: updatedAbsences,
+			};
+			const response = await updateUserToApi(newUser);
+
+			if (response.status === 200) {
+				setUser(newUser);
+				toggleEdit();
+			}
+
+			//update bd
+			//console.log(newHoliday);
+
+			// setHolidays(updatedAbsences);
 		}
-		toggleEdit();
 	};
 
 	return (
 		<tr className="">
 			<td className="form-floating align-middle">
 				<input
-					defaultValue={setDate(absence.startDate)}
+					defaultValue={setDate(absence.startDateISO)}
 					name="startDate"
 					id="startDate"
 					type="date"
@@ -85,7 +113,7 @@ const AbsenceEdit = ({
 
 			<td className="form-floating align-middle">
 				<input
-					defaultValue={setDate(absence.endDate)}
+					defaultValue={setDate(absence.endDateISO)}
 					name="endDate"
 					id="endDate"
 					type="date"
@@ -96,7 +124,7 @@ const AbsenceEdit = ({
 
 			<td className="form-floating align-middle">
 				<select
-					defaultValue={absence.types}
+					defaultValue={absence.type}
 					name="type"
 					id="type"
 					className="form-select"
@@ -108,6 +136,16 @@ const AbsenceEdit = ({
 				</select>
 				<label htmlFor="type">Type</label>
 			</td>
+			<td className="form-floating align-middle">
+				<input
+					defaultValue={absence.motif}
+					name="motif"
+					id="motif"
+					type="text"
+					className="d-inline form-control"
+				/>
+				<label htmlFor="motif">Motif</label>
+			</td>
 
 			<td className="form-floating align-middle">
 				<p className="my-2">{absence.status}</p>
@@ -117,7 +155,7 @@ const AbsenceEdit = ({
 				<ul className="h-100 w-100 m-0 p-0 text-center">
 					<li className="d-inline-block me-2">
 						<button
-							onClick={toggleEdit}
+							onClick={updateAbsence}
 							type="button"
 							className="btn btn-success"
 						>

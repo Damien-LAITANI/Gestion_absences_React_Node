@@ -43,14 +43,14 @@ const defaultAbsences: IAbsence[] = [
 	{
 		startDateISO: '2022-12-12T23:00:00:000Z',
 		endDateISO: '2022-12-24T23:00:00:000Z',
-		types: 'congé payé',
+		type: 'congé payé',
 		motif: 'vacances',
 		status: 'EN_ATTENTE_VALIDATION',
 	},
 	{
 		startDateISO: '2022-12-12T23:00:00:000Z',
 		endDateISO: '2022-12-24T23:00:00:000Z',
-		types: 'congé payé',
+		type: 'congé payé',
 		motif: 'vacances',
 		status: 'VALIDEE',
 	},
@@ -99,7 +99,7 @@ const App = () => {
 				{
 					startDateISO: new Date().toISOString(),
 					endDateISO: new Date().toISOString(),
-					types: 'congé payé',
+					type: 'congé payé',
 					motif: 'test',
 					status: 'INITIALE',
 				},
@@ -123,28 +123,28 @@ const App = () => {
 				{
 					startDateISO: new Date().toISOString(),
 					endDateISO: new Date().toISOString(),
-					types: 'congé payé',
+					type: 'congé payé',
 					motif: 'test',
 					status: 'INITIALE',
 				},
 				{
 					startDateISO: new Date().toISOString(),
 					endDateISO: new Date().toISOString(),
-					types: 'RTT',
+					type: 'RTT',
 					motif: 'test',
 					status: 'INITIALE',
 				},
 				{
 					startDateISO: new Date().toISOString(),
 					endDateISO: new Date().toISOString(),
-					types: 'congé sans solde',
+					type: 'congé sans solde',
 					motif: 'test',
 					status: 'INITIALE',
 				},
 				{
 					startDateISO: new Date().toISOString(),
 					endDateISO: new Date().toISOString(),
-					types: 'congé sans solde',
+					type: 'congé sans solde',
 					motif: 'test',
 					status: 'INITIALE',
 				},
@@ -175,22 +175,22 @@ const App = () => {
 		}
 	};
 
-	// const autoLogin = async () => {
-	// 	// hash du password : $2b$12$b3FFHx75wZDosEgVea3mGOJ0eI839YTjPYsUiEkA2LkRMhiLpaF2u
-	// 	const response = await login({
-	// 		email: 'manager',
-	// 		password: 'admin',
-	// 	});
-	// 	console.log(response);
+	const autoLogin = async () => {
+		// hash du password : $2b$12$b3FFHx75wZDosEgVea3mGOJ0eI839YTjPYsUiEkA2LkRMhiLpaF2u
+		const response = await login({
+			email: 'testUpdate',
+			password: 'admin',
+		});
+		console.log(response);
 
-	// 	if (response.status === 200) {
-	// 		setUser(response.data);
-	// 	}
-	// };
+		if (response.status === 200) {
+			setUser(response.data);
+		}
+	};
 
-	// useEffect(() => {
-	// 	autoLogin();
-	// }, []);
+	useEffect(() => {
+		autoLogin();
+	}, []);
 	useEffect(() => {
 		getEmployeeFromUser();
 		getHolidays();

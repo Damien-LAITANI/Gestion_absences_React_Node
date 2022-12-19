@@ -4,13 +4,13 @@ import { IAbsence } from '../../../services/InterfacesServices/IUserService';
 interface IAbsenceShow {
 	absence: IAbsence;
 	toggleEdit: MouseEventHandler;
-	setAbsenceToDeleteID: Function;
+	setAbsenceToDelete: any;
 }
 
 const AbsenceShow = ({
 	absence,
 	toggleEdit,
-	setAbsenceToDeleteID,
+	setAbsenceToDelete,
 }: IAbsenceShow) => {
 	// TODO : Ne pas mettre de date par défaut !
 	const startDate = absence.startDateISO
@@ -22,21 +22,16 @@ const AbsenceShow = ({
 	return (
 		<tr className="container align-items-center w-100" key={absence._id}>
 			<td>
-				<p className="my-2">
-					{new Date(
-						startDate.toLocaleDateString()
-					).toLocaleDateString()}
-				</p>
+				<p className="my-2">{startDate.toLocaleDateString()}</p>
 			</td>
 			<td>
-				<p className="my-2">
-					{new Date(
-						endDate.toLocaleDateString()
-					).toLocaleDateString()}
-				</p>
+				<p className="my-2">{endDate.toLocaleDateString()}</p>
 			</td>
 			<td>
-				<p className="my-2">{absence.types}</p>
+				<p className="my-2">{absence.type}</p>
+			</td>
+			<td>
+				<p className="my-2">{absence.motif}</p>
 			</td>
 			<td>
 				<p className="my-2">{absence.status}</p>
@@ -67,10 +62,7 @@ const AbsenceShow = ({
 							className="btn btn-danger"
 							data-bs-toggle="modal"
 							data-bs-target="#deleteAbsence"
-							onClick={() => {
-								// On définit l'id de l'absence à supprimer
-								setAbsenceToDeleteID(absence._id!);
-							}}
+							onClick={setAbsenceToDelete}
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"

@@ -4,7 +4,7 @@ export interface IAbsence {
 	startDateISO: string;
 	/** - Date au format ISO, donc chaîne de caractères */
 	endDateISO: string;
-	types: 'congé payé' | 'RTT' | 'congé sans solde';
+	type: 'congé payé' | 'RTT' | 'congé sans solde';
 	motif: string;
 	status: 'INITIALE' | 'EN_ATTENTE_VALIDATION' | 'VALIDEE' | 'REJETEE';
 }

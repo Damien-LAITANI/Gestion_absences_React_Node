@@ -1,16 +1,23 @@
 import { useState } from 'react';
-import { IAbsence } from '../../services/InterfacesServices/IUserService';
-import AbsenceEdit from './AbsenceEdit/AbsenceEdit';
-import AbsenceShow from './AbsenceShow/AbsenceShow';
+import {
+	IAbsence,
+	IUser,
+} from '../../../services/InterfacesServices/IUserService';
+import AbsenceEdit from '../AbsenceEdit/AbsenceEdit';
+import AbsenceShow from '../AbsenceShow/AbsenceShow';
 
 interface IAbsenceContainer {
+	user: IUser;
+	setUser: Function;
 	absence: IAbsence;
-	setAbsenceToDeleteID: Function;
+	setAbsenceToDelete: void | React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const AbsenceContainer = ({
+	user,
 	absence,
-	setAbsenceToDeleteID,
+	setUser,
+	setAbsenceToDelete,
 }: IAbsenceContainer) => {
 	const [isEditable, setIsEditable] = useState<Boolean>(false);
 	const toggleEdit = () => {
@@ -21,15 +28,17 @@ const AbsenceContainer = ({
 			{' '}
 			{isEditable ? (
 				<AbsenceEdit
+					user={user}
+					setUser={setUser}
 					absence={absence}
 					toggleEdit={toggleEdit}
-					setAbsenceToDeleteID={setAbsenceToDeleteID}
+					setAbsenceToDelete={setAbsenceToDelete}
 				/>
 			) : (
 				<AbsenceShow
 					absence={absence}
 					toggleEdit={toggleEdit}
-					setAbsenceToDeleteID={setAbsenceToDeleteID}
+					setAbsenceToDelete={setAbsenceToDelete}
 				/>
 			)}
 		</>

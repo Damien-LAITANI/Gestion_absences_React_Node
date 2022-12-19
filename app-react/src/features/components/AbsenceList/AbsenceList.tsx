@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
 	IAbsence,
 	IUser,
 } from '../../../services/InterfacesServices/IUserService';
 import { updateUserToApi } from '../../../services/UserService/UserService';
-import AbsenceContainer from '../AbsenceContainer';
+import AbsenceContainer from '../AbsenceContainer/AbsenceContainer';
 import AbsenceModal from '../AbsenceModal/AbsenceModal';
 
 interface IAbsenceListProps {
@@ -16,7 +16,7 @@ interface IAbsenceListProps {
 const defaultAbsenceToDelete: IAbsence = {
 	startDateISO: '2022-12-12T23:00:00:000Z',
 	endDateISO: '2022-12-24T23:00:00:000Z',
-	types: 'congé payé',
+	type: 'congé payé',
 	motif: 'TEST TEST TEST',
 	status: 'EN_ATTENTE_VALIDATION',
 };
@@ -26,9 +26,9 @@ const AbsenceList = ({
 	user,
 	setUser,
 }: IAbsenceListProps) => {
-	useEffect(() => {
-		user.absences?.map((absence) => (absence._id = crypto.randomUUID()));
-	}, [user]);
+	// useEffect(() => {
+	// 	user.absences?.map((absence) => (absence._id = crypto.randomUUID()));
+	// }, [user]);
 
 	const toggleShowAbsenceForm = () => {
 		setShowAbsenceForm(true);
@@ -60,6 +60,7 @@ const AbsenceList = ({
 						<th scope="col">Date de début</th>
 						<th scope="col">Date de fin</th>
 						<th scope="col">Type</th>
+						<th scope="col">Motif</th>
 						<th scope="col">Statut</th>
 						<th scope="col" className="text-center">
 							Actions
@@ -69,8 +70,12 @@ const AbsenceList = ({
 				<tbody>
 					{user.absences.map((absence: IAbsence) => (
 						<AbsenceContainer
+							user={user}
+							setUser={setUser}
 							absence={absence}
-							setAbsenceToDelete={setAbsenceToDelete(absence)}
+							setAbsenceToDelete={() => {
+								setAbsenceToDelete(absence);
+							}}
 						/>
 					))}
 				</tbody>

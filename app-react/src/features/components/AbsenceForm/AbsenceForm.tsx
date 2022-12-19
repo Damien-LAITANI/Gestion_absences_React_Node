@@ -33,7 +33,7 @@ const AbsenceForm = ({
 		const newAbsence: IAbsence = {
 			startDateISO: startDateValue,
 			endDateISO: endDateValue,
-			types: typesValue,
+			type: typesValue,
 			motif: motifValue,
 			status: 'INITIALE',
 		};
