@@ -15,6 +15,68 @@ const HolidayForm = ({
 		setShowHolidayForm(false);
 	};
 
+	const isFormValid = (event: any) => {
+		event.preventDefault();
+		const [date, type, motif] = event.target;
+		const dateValue = date.value;
+		const typeValue = type.value;
+		const motifValue = motif.value;
+		//Tous les champs sont obligatoires
+		if (!typeValue || !motifValue || !dateValue) {
+			console.log('Tous les champs sont obligatoires');
+			return false;
+		}
+		const day = new Date(dateValue);
+		const options: any = { weekday: 'long' };
+		const jour = new Intl.DateTimeFormat('fr-FR', options).format(day);
+		//Un jour férié, ou RTT employeur, ne peut pas être saisi dans le passé
+		if (day.valueOf() < Date.now()) {
+			console.log(
+				'Un jour férié, ou RTT employeur, ne peut pas être saisi dans le passé'
+			);
+			return false;
+		}
+		//Il est interdit de saisir un jour férié ou RTT employeur à la même date qu'un autre jour férié
+		for (let holiday of holidays) {
+			if (new Date(holiday.date).valueOf() === day.valueOf()) {
+				console.log(
+					"Il est interdit de saisir un jour férié ou RTT employeur à la même date qu'un autre jour férié"
+				);
+				return false;
+			}
+		}
+		//Il est interdit de saisir une RTT employeur un samedi ou un dimanche
+		if (
+			(jour === 'samedi' && typeValue === 'RTT employeur') ||
+			(jour === 'dimanche' && typeValue === 'RTT employeur')
+		) {
+			console.log(
+				'Il est interdit de saisir une RTT employeur un samedi ou un dimanche'
+			);
+			return false;
+		}
+		//Les RTT employeurs ne peuvent pas dépasser 5 par année
+		let count = 0;
+		for (let holiday of holidays) {
+			if (
+				holiday.type === 'RTT employeur' &&
+				day.getFullYear() ===
+					new Date(holiday.date.split('T')[0]).getFullYear()
+			) {
+				count++;
+			}
+		}
+		if (typeValue === 'RTT employeur' && count > 4) {
+			console.log(
+				'Les RTT employeurs ne peuvent pas dépasser 5 par année'
+			);
+			return false;
+		}
+		console.log(new Date(holidays[0].date.split('T')[0]).getFullYear());
+		//Traiter le formulaire
+		persistHolidayForm(event);
+	};
+
 	const persistHolidayForm = async (event: any) => {
 		event.preventDefault();
 		const [date, type, motif] = event.target;
@@ -42,8 +104,10 @@ const HolidayForm = ({
 
 	return (
 		<div className="w-50 mx-auto">
-			<h1 className="text-center my-5">Demande d'absence</h1>
-			<form onSubmit={persistHolidayForm}>
+			<h1 className="text-center my-5">
+				Ajout d'un jour férié ou d'une RTT employeur
+			</h1>
+			<form onSubmit={isFormValid}>
 				<div className="form-floating mb-3">
 					<input
 						type="date"

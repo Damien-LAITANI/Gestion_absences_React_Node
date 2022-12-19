@@ -87,14 +87,14 @@ const AbsenceProcess = ({ employees, setEmployees }: IAbsenceProcessProps) => {
 									<td>
 										<p className="my-2">
 											{new Date(
-												absence.startDate
+												absence.startDateISO
 											).toLocaleDateString()}
 										</p>
 									</td>
 									<td>
 										<p className="my-2">
 											{new Date(
-												absence.endDate
+												absence.endDateISO
 											).toLocaleDateString()}
 										</p>
 									</td>

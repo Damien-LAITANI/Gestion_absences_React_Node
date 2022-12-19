@@ -198,7 +198,8 @@ const App = () => {
 		getHolidays();
 	}, [user]);
 
-	const isManager = user.roles.includes('manager');
+	const isManager =
+		user.roles.includes('manager') || user.roles.includes('admin');
 
 	return (
 		<div className="app container-fluid min-vh-100 d-flex flex-column px-5">
