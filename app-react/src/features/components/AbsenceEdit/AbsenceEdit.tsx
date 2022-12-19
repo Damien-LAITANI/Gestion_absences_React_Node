@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router';
 import {
 	IAbsence,
@@ -22,18 +23,7 @@ const AbsenceEdit = ({
 }: IAbsenceEdit) => {
 	const navigate = useNavigate();
 	const setDate = (dateToUpdate: string) => {
-		console.log(dateToUpdate);
-
-		const date = new Date(dateToUpdate);
-		console.log(date);
-
-		return (
-			date.toLocaleDateString('fr-FR', { year: 'numeric' }) +
-			'-' +
-			date.toLocaleDateString('fr-FR', { month: 'numeric' }) +
-			'-' +
-			date.toLocaleDateString('fr-FR', { day: 'numeric' })
-		).toString();
+		return dateToUpdate.split('T')[0];
 	};
 
 	const updateAbsence = async () => {
@@ -86,21 +76,23 @@ const AbsenceEdit = ({
 				...user,
 				absences: updatedAbsences,
 			};
-			const response = await updateUserToApi(newUser);
+			const token = Cookies.get('Token');
+			const response = await updateUserToApi(newUser, token);
 
 			if (response.status === 200) {
 				setUser(newUser);
 				toggleEdit();
-				navigate('/');
+				navigate('/absences');
 			}
 		}
 	};
+	console.log(setDate(absence.startDateISO));
 
 	return (
 		<tr className="">
 			<td className="form-floating align-middle">
 				<input
-					defaultValue={setDate(absence.startDateISO)}
+					defaultValue={setDate(absence.startDateISO.split('T')[0])}
 					name="startDate"
 					id="startDate"
 					type="date"
@@ -111,7 +103,7 @@ const AbsenceEdit = ({
 
 			<td className="form-floating align-middle">
 				<input
-					defaultValue={setDate(absence.endDateISO)}
+					defaultValue={setDate(absence.endDateISO.split('T')[0])}
 					name="endDate"
 					id="endDate"
 					type="date"

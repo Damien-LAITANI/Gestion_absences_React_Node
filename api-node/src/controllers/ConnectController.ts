@@ -35,13 +35,6 @@ export const login = (req: Request, res: Response) => {
 			'832afcf0-7a23-11ed-9825-4b3929766098',
 			{ expiresIn: '1d' }
 		);
-		// const optionsCookie = {
-		// 	secure: true,
-		// 	// httpOnly: true,
-		// };
-
-		// res.cookie('token', token, optionsCookie);
-		user.password = '';
 
 		res.status(200).json({
 			token: jwt.sign(

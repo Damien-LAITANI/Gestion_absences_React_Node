@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router';
 import Footer from './components/Footer/Footer';
@@ -8,7 +9,6 @@ import Holiday from './features/components/Holiday/Holiday';
 import Login from './features/components/Login/Login';
 import Planning from './features/components/Planning/Planning';
 import ReportList from './features/components/ReportList/ReportList';
-import { login } from './services/ConnectService/connectService';
 import { getAllHolidayFromAPI } from './services/HolidayService/HolidayService';
 import { IAbsence, IUser } from './services/InterfacesServices/IUserService';
 
@@ -71,139 +71,139 @@ const defaultUser: IUser = {
 
 const App = () => {
 	const [user, setUser] = useState<IUser>(defaultUser);
-	const userID = '6399b395ba1d4a74d1521322';
 	const [holidays, setHolidays] = useState(defaultHolidays);
 	const [employees, setEmployees] = useState<any[] | []>([]);
+	const [isManager, setIsManager] = useState(false);
+	// console.log(user);
+	// console.log(Cookies.get('Token'));
 
-	console.log(user);
+	// const getAll = async () => {
+	// 	const response = await getAllUserFromAPI();
+	// 	// console.log(response);
+	// };
 
-	const getAll = async () => {
-		const response = await getAllUserFromAPI();
-		// console.log(response);
-	};
+	// const addUser = async () => {
+	// 	const newUser: IUser = {
+	// 		firstname: 'employé 5',
+	// 		lastname: 'testUpdate',
+	// 		email: 'testUpdate',
+	// 		password: 'testUpdate',
+	// 		roles: ['employee'],
+	// 		employees: [''],
+	// 		absences: [
+	// 			{
+	// 				startDateISO: new Date().toISOString(),
+	// 				endDateISO: new Date().toISOString(),
+	// 				type: 'congé payé',
+	// 				motif: 'test',
+	// 				status: 'INITIALE',
+	// 			},
+	// 		],
+	// 		superior: '6399b638770d91e6e0b21c2d',
+	// 	};
+	// 	const response = await postUserToApi(newUser);
+	// 	console.log(response);
+	// };
 
-	const getUser = async () => {
-		const userData = await getUserFromApi(userID);
-		console.log('GET USER');
-		console.log(userData);
-		console.log(userData.data);
-		setUser(userData.data);
-	};
+	// const updateUser = async () => {
+	// 	const newUser: IUser = {
+	// 		_id: '639b04e76f2aca72e4e70fe7',
+	// 		firstname: 'employé 5',
+	// 		lastname: 'testUpdate',
+	// 		email: 'testUpdate',
+	// 		password: 'testUpdate',
+	// 		roles: ['employee'],
+	// 		employees: [''],
+	// 		absences: [
+	// 			{
+	// 				startDateISO: new Date().toISOString(),
+	// 				endDateISO: new Date().toISOString(),
+	// 				type: 'congé payé',
+	// 				motif: 'test',
+	// 				status: 'INITIALE',
+	// 			},
+	// 			{
+	// 				startDateISO: new Date().toISOString(),
+	// 				endDateISO: new Date().toISOString(),
+	// 				type: 'RTT',
+	// 				motif: 'test',
+	// 				status: 'INITIALE',
+	// 			},
+	// 			{
+	// 				startDateISO: new Date().toISOString(),
+	// 				endDateISO: new Date().toISOString(),
+	// 				type: 'congé sans solde',
+	// 				motif: 'test',
+	// 				status: 'INITIALE',
+	// 			},
+	// 			{
+	// 				startDateISO: new Date().toISOString(),
+	// 				endDateISO: new Date().toISOString(),
+	// 				type: 'congé sans solde',
+	// 				motif: 'test',
+	// 				status: 'INITIALE',
+	// 			},
+	// 		],
+	// 		superior: '6399b638770d91e6e0b21c2d',
+	// 	};
+	// 	const response = await updateUserToApi(newUser);
+	// 	console.log(response);
+	// };
 
-	const addUser = async () => {
-		const newUser: IUser = {
-			firstname: 'employé 5',
-			lastname: 'testUpdate',
-			email: 'testUpdate',
-			password: 'testUpdate',
-			roles: ['employee'],
-			employees: [''],
-			absences: [
-				{
-					startDateISO: new Date().toISOString(),
-					endDateISO: new Date().toISOString(),
-					type: 'congé payé',
-					motif: 'test',
-					status: 'INITIALE',
-				},
-			],
-			superior: '6399b638770d91e6e0b21c2d',
-		};
-		const response = await postUserToApi(newUser);
-		console.log(response);
-	};
-
-	const updateUser = async () => {
-		const newUser: IUser = {
-			_id: '639b04e76f2aca72e4e70fe7',
-			firstname: 'employé 5',
-			lastname: 'testUpdate',
-			email: 'testUpdate',
-			password: 'testUpdate',
-			roles: ['employee'],
-			employees: [''],
-			absences: [
-				{
-					startDateISO: new Date().toISOString(),
-					endDateISO: new Date().toISOString(),
-					type: 'congé payé',
-					motif: 'test',
-					status: 'INITIALE',
-				},
-				{
-					startDateISO: new Date().toISOString(),
-					endDateISO: new Date().toISOString(),
-					type: 'RTT',
-					motif: 'test',
-					status: 'INITIALE',
-				},
-				{
-					startDateISO: new Date().toISOString(),
-					endDateISO: new Date().toISOString(),
-					type: 'congé sans solde',
-					motif: 'test',
-					status: 'INITIALE',
-				},
-				{
-					startDateISO: new Date().toISOString(),
-					endDateISO: new Date().toISOString(),
-					type: 'congé sans solde',
-					motif: 'test',
-					status: 'INITIALE',
-				},
-			],
-			superior: '6399b638770d91e6e0b21c2d',
-		};
-		const response = await updateUserToApi(newUser);
-		console.log(response);
-	};
-
-	const deleteUser = async () => {
-		const response = await deleteUserToApi('639b04ce6f2aca72e4e70fe4');
-	};
+	// const deleteUser = async () => {
+	// 	const response = await deleteUserToApi('639b04ce6f2aca72e4e70fe4');
+	// };
 
 	const getEmployeeFromUser = async () => {
-		const response = await getAllEmployeeFromAPI(user._id);
+		const token = Cookies.get('Token');
+		const response = await getAllEmployeeFromAPI(user._id, token);
 		console.log(response);
+
 		if (response.status === 200) {
 			setEmployees(response.data);
 		}
 	};
 
 	const getHolidays = async () => {
-		const response = await getAllHolidayFromAPI();
-		console.log(response);
+		const token = Cookies.get('Token');
+		const response = await getAllHolidayFromAPI(token);
+
 		if (response.status === 200) {
 			setHolidays(response.data);
 		}
 	};
 
-	const autoLogin = async () => {
-		// hash du password : $2b$12$b3FFHx75wZDosEgVea3mGOJ0eI839YTjPYsUiEkA2LkRMhiLpaF2u
-		const response = await login({
-			email: 'testUpdate',
-			password: 'admin',
-		});
-		console.log(response);
+	const getUser = async () => {
+		const token = Cookies.get('Token');
+		console.log(token);
 
-		if (response.status === 200) {
-			setUser(response.data);
+		if (token) {
+			const response = await getUserFromApi(token);
+			console.log(response);
+
+			if (response.status === 200) {
+				setUser(response.data);
+				setIsManager(user.roles.includes('manager'));
+				console.log(isManager);
+			}
 		}
 	};
 
-	// useEffect(() => {
-	// 	autoLogin();
-	// }, []);
+	// reconnexion si token dans le cookie
+	useEffect(() => {
+		getUser();
+	}, []);
+
 	useEffect(() => {
 		getEmployeeFromUser();
 		getHolidays();
 	}, [user]);
 
-	const isManager = user.roles.includes('manager');
+	// const isManager = user.roles.includes('manager');
 
 	return (
 		<div className="app container-fluid min-vh-100 d-flex flex-column px-5">
-			<Header user={user} />
+			<Header user={user} isManager={isManager} />
 			<main className="flex-grow-1">
 				<Routes>
 					<Route path="/" element={<h1>Accueil</h1>} />

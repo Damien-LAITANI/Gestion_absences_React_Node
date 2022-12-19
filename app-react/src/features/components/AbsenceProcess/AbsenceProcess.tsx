@@ -1,7 +1,5 @@
-import {
-	IAbsence,
-	IUser,
-} from '../../../services/InterfacesServices/IUserService';
+import Cookies from 'js-cookie';
+import { IUser } from '../../../services/InterfacesServices/IUserService';
 import { updateUserToApi } from '../../../services/UserService/UserService';
 
 interface IAbsenceProcessProps {
@@ -28,7 +26,9 @@ const AbsenceProcess = ({ employees, setEmployees }: IAbsenceProcessProps) => {
 				return updatedEmployee;
 			}
 		});
-		updateUserToApi(updatedEmployee);
+
+		const token = Cookies.get('Token');
+		updateUserToApi(updatedEmployee, token);
 		setEmployees(updatedEmployees);
 	};
 
@@ -50,7 +50,9 @@ const AbsenceProcess = ({ employees, setEmployees }: IAbsenceProcessProps) => {
 				return updatedEmployee;
 			}
 		});
-		updateUserToApi(updatedEmployee);
+
+		const token = Cookies.get('Token');
+		updateUserToApi(updatedEmployee, token);
 		setEmployees(updatedEmployees);
 	};
 

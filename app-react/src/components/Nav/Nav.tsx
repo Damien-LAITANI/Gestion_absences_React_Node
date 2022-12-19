@@ -1,7 +1,12 @@
 import { NavLink } from 'react-router-dom';
 
-const Nav = ({ user }: any) => {
-	const isManager = user.roles.includes('manager');
+interface INavProps {
+	user: any;
+	isManager: boolean;
+}
+
+const Nav = ({ user, isManager }: INavProps) => {
+	// const isManager = user.roles.includes('manager');
 
 	return (
 		<nav className="navbar navbar-expand-lg navbar-light bg-light d-flex align-items-center">

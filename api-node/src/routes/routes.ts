@@ -18,9 +18,9 @@ import {
 const router = Router();
 
 // Routes User
-router.get('/user', getAllUser);
+router.get('/users', getAllUser);
 router.get('/employees/manager/:idManager', getAllEmployee);
-router.get('/user/:id', getUser);
+router.get('/user/:id?', getUser);
 router.post('/user', addUser);
 router.put('/user', updateUser);
 router.delete('/user/:id', deleteUser);

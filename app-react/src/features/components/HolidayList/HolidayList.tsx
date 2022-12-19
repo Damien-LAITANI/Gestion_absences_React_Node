@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import { useState } from 'react';
 import { deleteHolidayToApi } from '../../../services/HolidayService/HolidayService';
 import HolidayContainer from '../HolidayContainer/HolidayContainer';
@@ -38,7 +39,8 @@ const HolidayList = ({
 			(holiday) => holiday._id !== holidayId
 		);
 		setHolidays(updatedHolidays);
-		deleteHolidayToApi(holidayId);
+		const token = Cookies.get('Token');
+		deleteHolidayToApi(holidayId, token);
 	};
 
 	return (

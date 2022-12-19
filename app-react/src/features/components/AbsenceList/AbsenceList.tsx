@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import { useState } from 'react';
 import {
 	IAbsence,
@@ -44,7 +45,8 @@ const AbsenceList = ({
 
 		setUser(updatedUser);
 
-		updateUserToApi({ ...user, absences: updatedAbsences });
+		const token = Cookies.get('Token');
+		updateUserToApi({ ...user, absences: updatedAbsences }, token);
 	};
 
 	const [absenceToDelete, setAbsenceToDelete] = useState<IAbsence>(
