@@ -57,14 +57,14 @@ const defaultAbsences: IAbsence[] = [
 ];
 
 const defaultUser: IUser = {
-	firstname: 'Valentin',
+	firstname: 'Default User',
 	lastname: 'SILVESTRE',
 	email: 'val@gmail.fr',
-	password: '123456789',
-	roles: ['admin', 'manager'],
+	password: 'admin',
+	roles: ['admin', 'manager', 'employee'],
 	absences: defaultAbsences,
 	employees: [], // IDs
-	superior: 'ae123456', // ID
+	superior: '', // ID
 	_id: 'azeertsddv',
 };
 
