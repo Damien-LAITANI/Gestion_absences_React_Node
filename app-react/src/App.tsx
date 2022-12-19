@@ -188,9 +188,9 @@ const App = () => {
 		}
 	};
 
-	useEffect(() => {
-		autoLogin();
-	}, []);
+	// useEffect(() => {
+	// 	autoLogin();
+	// }, []);
 	useEffect(() => {
 		getEmployeeFromUser();
 		getHolidays();

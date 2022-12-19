@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router';
 import {
 	IAbsence,
 	IUser,
@@ -19,6 +20,7 @@ const AbsenceEdit = ({
 	toggleEdit,
 	setAbsenceToDelete,
 }: IAbsenceEdit) => {
+	const navigate = useNavigate();
 	const setDate = (dateToUpdate: string) => {
 		console.log(dateToUpdate);
 
@@ -89,12 +91,8 @@ const AbsenceEdit = ({
 			if (response.status === 200) {
 				setUser(newUser);
 				toggleEdit();
+				navigate('/');
 			}
-
-			//update bd
-			//console.log(newHoliday);
-
-			// setHolidays(updatedAbsences);
 		}
 	};
 
