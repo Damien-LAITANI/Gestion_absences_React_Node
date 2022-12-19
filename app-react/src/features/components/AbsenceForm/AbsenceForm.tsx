@@ -31,8 +31,8 @@ const AbsenceForm = ({
 		const motifValue = motif.value;
 
 		const newAbsence: IAbsence = {
-			startDateISO: startDateValue,
-			endDateISO: endDateValue,
+			startDateISO: new Date(startDateValue).toISOString(),
+			endDateISO: new Date(endDateValue).toISOString(),
 			type: typesValue,
 			motif: motifValue,
 			status: 'INITIALE',
@@ -49,7 +49,7 @@ const AbsenceForm = ({
 			console.log(updatedUser);
 			setUser(response.data);
 			toggleShowAbsenceForm();
-			navigate('/absences');
+			navigate('/');
 		}
 	};
 

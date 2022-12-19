@@ -188,13 +188,15 @@ const App = () => {
 		}
 	};
 
-	useEffect(() => {
-		autoLogin();
-	}, []);
+	// useEffect(() => {
+	// 	autoLogin();
+	// }, []);
 	useEffect(() => {
 		getEmployeeFromUser();
 		getHolidays();
 	}, [user]);
+
+	const isManager = user.roles.includes('manager');
 
 	return (
 		<div className="app container-fluid min-vh-100 d-flex flex-column px-5">
@@ -216,13 +218,16 @@ const App = () => {
 							/>
 						}
 					/>
-					<Route path="/report-list" element={<ReportList />} />
+					{isManager && (
+						<Route path="/report-list" element={<ReportList />} />
+					)}
 					<Route
 						path="/holiday"
 						element={
 							<Holiday
 								holidays={holidays}
 								setHolidays={setHolidays}
+								user={user}
 							/>
 						}
 					/>
