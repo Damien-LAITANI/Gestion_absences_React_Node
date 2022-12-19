@@ -1,4 +1,6 @@
-# `Respire`
+# `Projet Respire`
+
+## `Informations`
 
 Projet final pour la formation [JS Fullstack](https://www.diginamic.fr/catalogue/developpement-web-et-mobile/formation-developpeur-fullstack-js/) à Diginamic.
 
@@ -10,15 +12,25 @@ Backend avec NodeJS (TypeScript)
 
 [Trello](https://trello.com/b/n3ftyVDE/projet-final)
 
+[Github](https://github.com/ValentinSILVESTRE/Respire)
+
 ## `Participants`
 
--   `Damien` : d.laitani@gmail.com
+-   **_`Damien LAITANI`_**
 
--   `Otmane` : otmane.boujlam@gmail.com
+    -   Email : *d.laitani@gmail.com*
+    -   [Linkedin](https://www.linkedin.com/in/damien-laitani/)
 
--   `Valentin` : valentin.silvestre@hotmail.com
+-   **_`Otmane BOUJLAM`_**
 
-## `Documentation`
+    -   Email : *otmane.boujlam@gmail.com*
+    -   [Linkedin](https://www.linkedin.com/in/otmaneboujlam/)
+
+-   **_`Valentin SILVESTRE`_**
+    -   Email : *valentin.silvestre@hotmail.com*
+    -   [Linkedin](https://www.linkedin.com/feed/)
+
+## `Documentation et liens utiles`
 
 -   [Mongoose](https://mongoosejs.com/docs/guide.html)
 
@@ -27,25 +39,3 @@ Backend avec NodeJS (TypeScript)
 -   [React](https://reactjs.org/docs/getting-started.html)
 
 -   [React Typescript](https://react-typescript-cheatsheet.netlify.app/docs/basic/setup)
-
-## `Entitées`
-
--   User :
-
-    -   firstname: string
-    -   lastname: string
-    -   email: string
-    -   password: string
-    -   userRoles: 'Admin'| 'Manager'| 'Employee'
-    -   position ?: string
-    -   profilPicture: string
-    -   superiorId: string // ID
-    -   employeesId: string[] // ID[]
-    -   absences: Absence[]
-
--   Absence :
-    -   startDate: Date
-    -   endDate: Date
-    -   types: 'congé payé'| 'RTT' |'congé sans solde'
-    -   motif: string
-    -   status: 'INITIALE'| 'EN_ATTENTE_VALIDATION'| 'VALIDEE'| 'REJETEE'
