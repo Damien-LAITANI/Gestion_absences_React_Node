@@ -2,8 +2,9 @@ import { useState } from 'react';
 import HolidayForm from '../HolidayForm/HolidayForm';
 import HolidayList from '../HolidayList/HolidayList';
 
-const Holiday = ({ holidays, setHolidays }: any) => {
+const Holiday = ({ holidays, setHolidays, user }: any) => {
 	const [showHolidayForm, setShowHolidayForm] = useState<Boolean>(false);
+	const isAdmin = user.roles.includes('admin');
 
 	return (
 		<>
@@ -18,6 +19,7 @@ const Holiday = ({ holidays, setHolidays }: any) => {
 					holidays={holidays}
 					setHolidays={setHolidays}
 					setShowHolidayForm={setShowHolidayForm}
+					isAdmin={isAdmin}
 				/>
 			)}
 		</>
