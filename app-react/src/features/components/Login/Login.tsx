@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Login.scss';
 import './Login.scss';
 import { useState } from 'react';
+import { useCookies } from 'react-cookie';
 
 interface ILogin {
 	setUser: Function;
@@ -11,6 +12,7 @@ interface ILogin {
 const Login = ({ setUser }: ILogin) => {
 	const [showPassword, setShowPassword] = useState(false);
 	const navigate = useNavigate();
+	const [cookies, setCookie, removeCookie] = useCookies(['Token']);
 
 	const handleConnection = async (event: any) => {
 		event.preventDefault();
@@ -23,7 +25,13 @@ const Login = ({ setUser }: ILogin) => {
 			password: passwordValue,
 		});
 		if (response.status === 200) {
-			setUser(response.data);
+			setUser(response.data.user);
+			const optionsCookie = {
+				secure: true,
+				httpOnly: true,
+			};
+
+			setCookie('Token', response.data.token, optionsCookie);
 			navigate('/');
 		}
 		console.log(response);

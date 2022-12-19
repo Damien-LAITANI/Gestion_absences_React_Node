@@ -11,6 +11,7 @@ import ReportList from './features/components/ReportList/ReportList';
 import { login } from './services/ConnectService/connectService';
 import { getAllHolidayFromAPI } from './services/HolidayService/HolidayService';
 import { IAbsence, IUser } from './services/InterfacesServices/IUserService';
+
 import {
 	deleteUserToApi,
 	getAllEmployeeFromAPI,
@@ -73,6 +74,8 @@ const App = () => {
 	const userID = '6399b395ba1d4a74d1521322';
 	const [holidays, setHolidays] = useState(defaultHolidays);
 	const [employees, setEmployees] = useState<any[] | []>([]);
+
+	console.log(user);
 
 	const getAll = async () => {
 		const response = await getAllUserFromAPI();
