@@ -7,7 +7,7 @@ interface IHeaderProps {
 const Header = ({ user }: IHeaderProps) => {
 	return (
 		<header className="d-flex justify-content-between">
-			<Nav />
+			<Nav user={user} />
 			<div>
 				<p>Bonjour {user.firstname}</p>
 				<button>Se déconnecter</button>

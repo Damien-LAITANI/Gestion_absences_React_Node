@@ -1,6 +1,8 @@
 import { NavLink } from 'react-router-dom';
 
-const Nav = () => {
+const Nav = ({ user }: any) => {
+	const isManager = user.roles.includes('manager');
+
 	return (
 		<nav className="navbar navbar-expand-lg navbar-light bg-light d-flex align-items-center">
 			<button
@@ -45,11 +47,13 @@ const Nav = () => {
 							Validation demandes
 						</NavLink>
 					</li>
-					<li className="nav-item d-flex align-items-center">
-						<NavLink to="/report-list" className="nav-link">
-							Vues synthétiques
-						</NavLink>
-					</li>
+					{isManager && (
+						<li className="nav-item d-flex align-items-center">
+							<NavLink to="/report-list" className="nav-link">
+								Vues synthétiques
+							</NavLink>
+						</li>
+					)}
 					<li className="nav-item d-flex align-items-center">
 						<NavLink to="/holiday" className="nav-link">
 							Jours fériés

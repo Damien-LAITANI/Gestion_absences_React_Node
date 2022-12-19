@@ -16,12 +16,14 @@ interface IHolidayList {
 	setShowHolidayForm: Function;
 	holidays: any[];
 	setHolidays: Function;
+	isAdmin: Boolean;
 }
 
 const HolidayList = ({
 	setShowHolidayForm,
 	holidays,
 	setHolidays,
+	isAdmin,
 }: IHolidayList) => {
 	const toggleShowHolidayForm = () => {
 		setShowHolidayForm(true);
@@ -63,9 +65,11 @@ const HolidayList = ({
 						<th scope="col">Type</th>
 						<th scope="col">Jour</th>
 						<th scope="col">Commentaires</th>
-						<th scope="col" className="text-center">
-							Actions
-						</th>
+						{isAdmin && (
+							<th scope="col" className="text-center">
+								Actions
+							</th>
+						)}
 					</tr>
 				</thead>
 				<tbody>
@@ -76,17 +80,20 @@ const HolidayList = ({
 							setHolidays={setHolidays}
 							holidays={holidays}
 							setHolidayToDelete={setHolidayToDelete}
+							isAdmin={isAdmin}
 						/>
 					))}
 				</tbody>
 			</table>
-			<button
-				className="btn btn-info ms-auto"
-				style={{ width: 'fit-content' }}
-				onClick={toggleShowHolidayForm}
-			>
-				Ajouter un jour férié ou une RTT employeur
-			</button>
+			{isAdmin && (
+				<button
+					className="btn btn-info ms-auto"
+					style={{ width: 'fit-content' }}
+					onClick={toggleShowHolidayForm}
+				>
+					Ajouter un jour férié ou une RTT employeur
+				</button>
+			)}
 			<HolidayModal
 				holidayToDelete={holidayToDelete}
 				deleteHoliday={deleteHoliday}
