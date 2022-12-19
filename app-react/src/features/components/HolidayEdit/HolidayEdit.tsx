@@ -55,11 +55,26 @@ const HolidayEdit = ({
 		toggleEdit();
 	};
 
+	const setDate = (dateToUpdate: string) => {
+		console.log(dateToUpdate);
+
+		const date = new Date(dateToUpdate);
+		console.log(date);
+
+		return (
+			date.toLocaleDateString('fr-FR', { year: 'numeric' }) +
+			'-' +
+			date.toLocaleDateString('fr-FR', { month: 'numeric' }) +
+			'-' +
+			date.toLocaleDateString('fr-FR', { day: 'numeric' })
+		).toString();
+	};
+
 	return (
 		<tr className="">
 			<td className="form-floating align-middle">
 				<input
-					defaultValue={holiday.date}
+					defaultValue={setDate(holiday.date)}
 					name="date"
 					id="date"
 					type="date"

@@ -68,8 +68,9 @@ const AbsenceList = ({
 					</tr>
 				</thead>
 				<tbody>
-					{user.absences.map((absence: IAbsence) => (
+					{user.absences?.map((absence: IAbsence) => (
 						<AbsenceContainer
+							key={absence._id}
 							user={user}
 							setUser={setUser}
 							absence={absence}

@@ -7,6 +7,7 @@ const HolidayContainer = ({
 	setHolidays,
 	holidays,
 	setHolidayToDelete,
+	isAdmin,
 }: any) => {
 	const [isEditable, setIsEditable] = useState<Boolean>(false);
 	const toggleEdit = () => {
@@ -19,6 +20,7 @@ const HolidayContainer = ({
 					holiday={holiday}
 					toggleEdit={toggleEdit}
 					setHolidayToDelete={setHolidayToDelete}
+					isAdmin={isAdmin}
 				/>
 			) : (
 				<HolidayEdit

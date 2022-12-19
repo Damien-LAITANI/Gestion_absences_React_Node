@@ -61,7 +61,7 @@ const defaultUser: IUser = {
 	lastname: 'SILVESTRE',
 	email: 'val@gmail.fr',
 	password: '123456789',
-	roles: ['admin', 'manager'],
+	roles: ['admin', 'manager', 'employee'],
 	absences: defaultAbsences,
 	employees: [], // IDs
 	superior: 'ae123456', // ID
@@ -196,6 +196,8 @@ const App = () => {
 		getHolidays();
 	}, [user]);
 
+	const isManager = user.roles.includes('manager');
+
 	return (
 		<div className="app container-fluid min-vh-100 d-flex flex-column px-5">
 			<Header user={user} />
@@ -216,13 +218,16 @@ const App = () => {
 							/>
 						}
 					/>
-					<Route path="/report-list" element={<ReportList />} />
+					{isManager && (
+						<Route path="/report-list" element={<ReportList />} />
+					)}
 					<Route
 						path="/holiday"
 						element={
 							<Holiday
 								holidays={holidays}
 								setHolidays={setHolidays}
+								user={user}
 							/>
 						}
 					/>
