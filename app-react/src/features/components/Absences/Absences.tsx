@@ -12,6 +12,11 @@ interface IAbsencesProps {
 
 const Absences = ({ user, setUser, holidays }: IAbsencesProps) => {
 	const [showAbsenceForm, setShowAbsenceForm] = useState<Boolean>(false);
+
+	const toggleShowAbsenceForm = () => {
+		setShowAbsenceForm(!showAbsenceForm);
+	};
+
 	return (
 		<>
 			{showAbsenceForm ? (
@@ -20,12 +25,14 @@ const Absences = ({ user, setUser, holidays }: IAbsencesProps) => {
 					setUser={setUser}
 					setShowAbsenceForm={setShowAbsenceForm}
 					holidays={holidays}
+					toggleShowAbsenceForm={toggleShowAbsenceForm}
 				/>
 			) : (
 				<AbsenceList
 					user={user}
 					setUser={setUser}
 					setShowAbsenceForm={setShowAbsenceForm}
+					toggleShowAbsenceForm={toggleShowAbsenceForm}
 				/>
 			)}
 		</>

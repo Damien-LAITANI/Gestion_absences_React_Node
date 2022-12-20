@@ -12,6 +12,7 @@ interface IAbsenceListProps {
 	setUser: Function;
 	user: IUser;
 	holidays: IHoliday[];
+	toggleShowAbsenceForm: Function;
 }
 
 const AbsenceForm = ({
@@ -19,6 +20,7 @@ const AbsenceForm = ({
 	user,
 	setUser,
 	holidays,
+	toggleShowAbsenceForm,
 }: IAbsenceListProps) => {
 	/** - Liste des holidays qui sont des jours fériés uniquement */
 	const publicHolidays = holidays.filter(
@@ -30,10 +32,6 @@ const AbsenceForm = ({
 	);
 
 	const navigate = useNavigate();
-
-	const toggleShowAbsenceForm = () => {
-		setShowAbsenceForm(false);
-	};
 
 	const formIsValid = (event: any) => {
 		const [startDate, endDate, types, motif] = event.target;
@@ -256,7 +254,11 @@ const AbsenceForm = ({
 						Valider
 					</button>
 
-					<button type="reset" className="btn btn-danger">
+					<button
+						type="reset"
+						className="btn btn-danger"
+						onClick={() => toggleShowAbsenceForm()}
+					>
 						Annuler
 					</button>
 				</ul>

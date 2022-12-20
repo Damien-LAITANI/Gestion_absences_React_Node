@@ -11,6 +11,7 @@ interface IAbsenceListProps {
 	setShowAbsenceForm: Function;
 	user: IUser;
 	setUser: Function;
+	toggleShowAbsenceForm: Function;
 }
 
 const defaultAbsenceToDelete: IAbsence = {
@@ -25,25 +26,15 @@ const AbsenceList = ({
 	setShowAbsenceForm,
 	user,
 	setUser,
+	toggleShowAbsenceForm,
 }: IAbsenceListProps) => {
-	// useEffect(() => {
-	// 	user.absences?.map((absence) => (absence._id = crypto.randomUUID()));
-	// }, [user]);
-
-	const toggleShowAbsenceForm = () => {
-		setShowAbsenceForm(true);
-	};
-
 	const onDelete = (absenceID?: string) => {
 		const updatedAbsences = user.absences.filter(
 			(absence) => absence._id !== absenceID
 		);
-
 		const updatedUser = { ...user };
 		updatedUser.absences = updatedAbsences;
-
 		setUser(updatedUser);
-
 		updateUserToApi({ ...user, absences: updatedAbsences });
 	};
 
@@ -85,7 +76,7 @@ const AbsenceList = ({
 			<button
 				className="btn btn-info ms-auto"
 				style={{ width: 'fit-content' }}
-				onClick={toggleShowAbsenceForm}
+				onClick={() => toggleShowAbsenceForm()}
 			>
 				Demander une absence
 			</button>
