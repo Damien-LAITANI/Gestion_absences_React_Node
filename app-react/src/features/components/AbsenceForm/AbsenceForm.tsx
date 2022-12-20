@@ -1,12 +1,15 @@
 import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router';
 import {
 	IAbsence,
 	IUser,
 } from '../../../services/InterfacesServices/IUserService';
 import { updateUserToApi } from '../../../services/UserService/UserService';
 import { IHoliday } from '../../../services/InterfacesServices/IHolidayService';
-import { datesAreOnSameDay } from '../../../functions/date';
+import { getJsDate, datesAreOnSameDay } from '../../../functions/date';
+import {
+	getAbsencesByYear,
+	getRemainingAbsenceCount,
+} from '../../../functions/user';
 
 interface IAbsenceListProps {
 	setShowAbsenceForm: Function;
@@ -32,25 +35,9 @@ const AbsenceForm = ({
 		(holiday) => holiday.type === 'RTT employeur'
 	);
 
-	const navigate = useNavigate();
-
-	const formIsValid = (event: any) => {
-		const [startDate, endDate, types, motif] = event.target;
-		const startDateValue = startDate.value;
-		const endDateValue = endDate.value;
-		const typesValue = types.value;
-		const motifValue = motif.value;
-
-		const newAbsenceStartDate = new Date(startDateValue);
-		const newAbsenceEndDate = new Date(endDateValue);
-
-		const newAbsence: IAbsence = {
-			startDateISO: newAbsenceStartDate.toISOString(),
-			endDateISO: newAbsenceEndDate.toISOString(),
-			type: typesValue,
-			motif: motifValue,
-			status: 'INITIALE',
-		};
+	const formIsValid = (newAbsence: IAbsence) => {
+		const newAbsenceStartDate = getJsDate(newAbsence.startDateISO);
+		const newAbsenceEndDate = getJsDate(newAbsence.endDateISO);
 
 		// * Motif obligatoire si type sans solde
 		if (
@@ -65,8 +52,8 @@ const AbsenceForm = ({
 
 		// * La date de fin est après la date de début
 		if (
-			new Date(startDateValue).valueOf() >
-			new Date(endDateValue).valueOf()
+			getJsDate(newAbsence.startDateISO).valueOf() >
+			getJsDate(newAbsence.endDateISO).valueOf()
 		) {
 			console.error('La date de fin est après la date de début');
 			return false;
@@ -154,15 +141,44 @@ const AbsenceForm = ({
 			return false;
 		}
 
-		// TODO - Une demande d'absence ne modifie pas le solde des compteurs de congés. Cette opération est effectuée par le traitement de nuit.
+		// * Une demande d'absence ne modifie pas le solde des compteurs de congés. Cette opération est effectuée par le traitement de nuit.
 
-		return false;
+		return true;
 	};
 
 	const onFormProcess = (event: any) => {
 		event.preventDefault();
-		if (formIsValid(event)) {
-			createNewAbsence(event);
+
+		const [startDate, endDate, types, motif] = event.target;
+		const startDateValue = startDate.value;
+		const endDateValue = endDate.value;
+		const typesValue = types.value;
+		const motifValue = motif.value;
+
+		const newAbsenceStartDate = new Date(startDateValue);
+		const newAbsenceEndDate = new Date(endDateValue);
+
+		const newAbsence: IAbsence = {
+			startDateISO: newAbsenceStartDate.toISOString(),
+			endDateISO: newAbsenceEndDate.toISOString(),
+			type: typesValue,
+			motif: motifValue,
+			status: 'INITIALE',
+		};
+
+		if (formIsValid(newAbsence)) {
+			// * On vérifie que le solde d'absence n'est pas épuisé
+			const remainingAbsenceCount = getRemainingAbsenceCount(
+				user,
+				newAbsence.type
+			);
+			if (remainingAbsenceCount) {
+				console.info("Ajout de l'absence");
+				createNewAbsence(event);
+			} else
+				console.error(
+					`Absence non créée car le solde d'absence de type ${newAbsence.type} est épuisé !`
+				);
 		} else {
 			console.error('Absence non créée car invalide !');
 		}

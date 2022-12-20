@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router';
 import {
 	IAbsence,
 	IUser,
@@ -21,9 +20,27 @@ const AbsenceEdit = ({
 	toggleEdit,
 	setAbsenceToDelete,
 }: IAbsenceEdit) => {
-	const navigate = useNavigate();
 	const setDate = (dateToUpdate: string) => {
 		return dateToUpdate.split('T')[0];
+	};
+	const MOTIF_MIN_LENGTH = 4;
+
+	const formIsValid = (updatedAbsence: any) => {
+		console.clear();
+		console.table(updatedAbsence);
+
+		// * Le motif n'est obligatoire que si le type de demande est "congés sans solde"
+		if (
+			updatedAbsence.type === 'congé sans solde' &&
+			updatedAbsence.motif.length < MOTIF_MIN_LENGTH
+		) {
+			console.error(
+				`Le motif des absences de type "congé sans solde" est obligatoire (${MOTIF_MIN_LENGTH} caractères minimum)`
+			);
+			return false;
+		}
+
+		return true;
 	};
 
 	const updateAbsence = async () => {
@@ -63,30 +80,44 @@ const AbsenceEdit = ({
 				motif: updateMotifInput.value,
 			};
 
-			const updatedAbsences = user.absences.map((absence: any) => {
-				if (absence._id !== updatedAbsence._id) {
-					return absence;
-				} else {
-					return updatedAbsence;
+			// * Si le formulaire est valide
+			if (formIsValid(updatedAbsence)) {
+				// * Une fois modifiée la demande revient au statut INITIALE
+				updatedAbsence.status = 'INITIALE';
+
+				const updatedAbsences = user.absences.map((absence: any) => {
+					if (absence._id !== updatedAbsence._id) {
+						return absence;
+					} else {
+						return updatedAbsence;
+					}
+				});
+
+				const newUser = {
+					...user,
+					absences: updatedAbsences,
+				};
+				const token = Cookies.get('Token');
+				const response = await updateUserToApi(newUser, token);
+
+				if (response.status === 200) {
+					setUser(newUser);
+					toggleEdit();
+					// navigate('/absences');
 				}
-			});
-			console.log(updatedAbsences);
-
-			const newUser = {
-				...user,
-				absences: updatedAbsences,
-			};
-			const token = Cookies.get('Token');
-			const response = await updateUserToApi(newUser, token);
-
-			if (response.status === 200) {
-				setUser(newUser);
-				toggleEdit();
-				navigate('/absences');
+			}
+			// * Si le formulaire n'est pas valide
+			else {
+				console.error(
+					"Impossible de modifier l'absence, elle n'est pas valide"
+				);
 			}
 		}
 	};
-	console.log(setDate(absence.startDateISO));
+
+	const onUpdate = (event: any) => {
+		updateAbsence();
+	};
 
 	return (
 		<tr className="">
@@ -145,7 +176,7 @@ const AbsenceEdit = ({
 				<ul className="h-100 w-100 m-0 p-0 text-center">
 					<li className="d-inline-block me-2">
 						<button
-							onClick={updateAbsence}
+							onClick={onUpdate}
 							type="button"
 							className="btn btn-success"
 						>

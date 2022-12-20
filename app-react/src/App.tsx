@@ -76,12 +76,12 @@ const App = () => {
 	const [isManager, setIsManager] = useState(false);
 
 	const navigate = useNavigate();
-	// console.log(user);
+	// 	// console.log(user);
 	// console.log(Cookies.get('Token'));
 
 	// const getAll = async () => {
 	// 	const response = await getAllUserFromAPI();
-	// 	// console.log(response);
+	// console.log(response);
 	// };
 
 	// const addUser = async () => {
@@ -104,7 +104,7 @@ const App = () => {
 	// 		superior: '6399b638770d91e6e0b21c2d',
 	// 	};
 	// 	const response = await postUserToApi(newUser);
-	// 	console.log(response);
+	// console.log(response);
 	// };
 
 	// const updateUser = async () => {
@@ -149,7 +149,7 @@ const App = () => {
 	// 		superior: '6399b638770d91e6e0b21c2d',
 	// 	};
 	// 	const response = await updateUserToApi(newUser);
-	// 	console.log(response);
+	// console.log(response);
 	// };
 
 	// const deleteUser = async () => {
@@ -159,7 +159,7 @@ const App = () => {
 	const getEmployeeFromUser = async () => {
 		const token = Cookies.get('Token');
 		const response = await getAllEmployeeFromAPI(user._id, token);
-		console.log(response);
+		// console.log(response);
 
 		if (response.status === 200) {
 			setEmployees(response.data);
@@ -188,11 +188,11 @@ const App = () => {
 	// Fonction qui récupère le user du token
 	const getUser = async () => {
 		const token = Cookies.get('Token');
-		console.log(token);
+		// console.log(token);
 
 		if (token) {
 			const response = await getUserFromApi(token);
-			console.log(response);
+			// console.log(response);
 
 			if (response.status === 200) {
 				setUser(response.data);
@@ -200,7 +200,7 @@ const App = () => {
 					user.roles.includes('manager') ||
 						user.roles.includes('admin')
 				);
-				console.log(isManager);
+				// console.log(isManager);
 			}
 		}
 	};
