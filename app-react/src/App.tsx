@@ -240,7 +240,15 @@ const App = () => {
 							/>
 						}
 					/>
-					<Route path="/planning" element={<Planning />} />
+					<Route
+						path="/planning"
+						element={
+							<Planning
+								absences={user.absences}
+								holidays={holidays}
+							/>
+						}
+					/>
 					<Route
 						path="/absences-process"
 						element={
