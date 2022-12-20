@@ -35,9 +35,20 @@ const HolidayList = ({
 		defaultHolidayToDelete
 	);
 	const getHolidaysToDisplay = (year: number) => {
-		return holidays.filter((holiday) => {
-			return getJsDate(holiday.date).getFullYear() === +year;
-		});
+		return holidays
+			.filter((holiday) => {
+				return getJsDate(holiday.date).getFullYear() === +year;
+			})
+			.filter((holiday) => {
+				//si lutitisateur est un admin on fait rien
+				if (isAdmin) {
+					return holiday;
+				}
+				//sinon on garde holiday.status === validee
+				else if (holiday.status === 'VALIDEE') {
+					return holiday;
+				}
+			});
 	};
 	const yearNow = new Date().getFullYear();
 	const years = [yearNow - 2, yearNow - 1, yearNow, yearNow + 1];
