@@ -20,6 +20,15 @@ const AbsenceForm = ({
 	setUser,
 	holidays,
 }: IAbsenceListProps) => {
+	/** - Liste des holidays qui sont des jours fériés uniquement */
+	const publicHolidays = holidays.filter(
+		(holiday) => holiday.type === 'Férié'
+	);
+	/** - Liste des holidays qui sont des rtt employeurs uniquement */
+	const employerHolidays = holidays.filter(
+		(holiday) => holiday.type === 'RTT employeur'
+	);
+
 	const navigate = useNavigate();
 
 	const toggleShowAbsenceForm = () => {
@@ -27,8 +36,6 @@ const AbsenceForm = ({
 	};
 
 	const formIsValid = (event: any) => {
-		console.clear();
-		console.table(user.absences);
 		const [startDate, endDate, types, motif] = event.target;
 		const startDateValue = startDate.value;
 		const endDateValue = endDate.value;
@@ -96,14 +103,22 @@ const AbsenceForm = ({
 
 		// * La date de début ne peut pas être
 		// * un jour férié
-		for (const holiday of holidays) {
-			if (datesAreOnSameDay(newAbsenceStartDate, holiday.date)) {
+		for (const publicHoliday of publicHolidays) {
+			if (datesAreOnSameDay(newAbsenceStartDate, publicHoliday.date)) {
 				console.error('Erreur : La date de début est un jour férié');
 				return false;
 			}
 		}
 
-		// TODO - une RTT employeur
+		// * une RTT employeur
+		for (const employerHoliday of employerHolidays) {
+			if (datesAreOnSameDay(newAbsenceStartDate, employerHoliday.date)) {
+				console.error(
+					'Erreur : La date de début est une rtt employeur'
+				);
+				return false;
+			}
+		}
 
 		// * Week-end
 		if (
@@ -115,18 +130,33 @@ const AbsenceForm = ({
 		}
 
 		// * La date de fin ne peut pas être un jour férié, une RTT employeur ou un week-end
+		// * un jour férié
+		for (const publicHoliday of publicHolidays) {
+			if (datesAreOnSameDay(newAbsenceEndDate, publicHoliday.date)) {
+				console.error('Erreur : La date de fin est un jour férié');
+				return false;
+			}
+		}
+
+		// * une RTT employeur
+		for (const employerHoliday of employerHolidays) {
+			if (datesAreOnSameDay(newAbsenceEndDate, employerHoliday.date)) {
+				console.error('Erreur : La date de fin est une rtt employeur');
+				return false;
+			}
+		}
+
 		// * Week-end
 		if (
 			newAbsenceEndDate.getDay() === 0 ||
 			newAbsenceEndDate.getDay() === 6
 		) {
-			console.error('Erreur : la date de début est le weekend');
+			console.error('Erreur : la date de fin est le weekend');
 			return false;
 		}
 
 		// TODO - Une demande d'absence ne modifie pas le solde des compteurs de congés. Cette opération est effectuée par le traitement de nuit.
 
-		console.log('C OK');
 		return false;
 	};
 
@@ -163,7 +193,6 @@ const AbsenceForm = ({
 		const response = await updateUserToApi(updatedUser);
 
 		if (response.status === 200) {
-			console.log(updatedUser);
 			setUser(response.data);
 			toggleShowAbsenceForm();
 			navigate('/');
