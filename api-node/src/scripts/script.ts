@@ -1,5 +1,6 @@
 import { connect } from 'mongoose';
 import { dbURI } from '../controllers/ConnectController';
+import { IAbsence } from '../models/Absence/IAbsence';
 import Holiday from '../models/Holiday/Holiday';
 import User from '../models/User/User';
 
@@ -18,9 +19,23 @@ const scriptHolidays = async () => {
 };
 
 const scriptAbsences = async () => {
-	const absencesToUpdateStatus = await User.updateMany(
-		{ status: 'INITIALE' },
-		{ status: 'EN_ATTENTE_VALIDATION' }
-	);
+	let absencesToUpdateStatus = <IAbsence[]>[];
+	const users = await User.find({});
+	for (let user of users) {
+		for (let absence of user.absences) {
+			if (absence.status == 'INITIALE') {
+				absence.status = 'EN_ATTENTE_VALIDATION';
+
+				absencesToUpdateStatus.push(absence);
+			}
+		}
+		User.replaceOne(
+			{ _id: user._id },
+			user,
+			(error: any, user: typeof User) => {
+				console.log(user);
+			}
+		);
+	}
 	console.log(absencesToUpdateStatus);
 };
