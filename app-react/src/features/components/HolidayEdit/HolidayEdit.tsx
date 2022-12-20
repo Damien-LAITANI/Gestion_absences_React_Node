@@ -13,7 +13,14 @@ const HolidayEdit = ({
 	setHolidays,
 	holidays,
 }: IHolidayEditProps) => {
-	const updateHoliday = () => {
+	const isFormValid = () => {
+		//Il n'est pas possible de modifier une RTT employeur VALIDEE
+		if (holiday.status === 'VALIDEE') {
+			console.log(
+				"Il n'est pas possible de modifier une RTT employeur VALIDEE"
+			);
+			return false;
+		}
 		const newDateInput: any = document.querySelector('#date');
 		const newTypeInput: React.DetailedHTMLProps<
 			React.SelectHTMLAttributes<HTMLSelectElement>,
@@ -29,29 +36,122 @@ const HolidayEdit = ({
 			React.TextareaHTMLAttributes<HTMLTextAreaElement>,
 			HTMLTextAreaElement
 		>;
-		if (newDateInput.value && newTypeInput.value) {
-			const newDay = new Date(newDateInput.value);
-			const options: any = { weekday: 'long' };
-			const updatedHoliday = {
-				_id: holiday._id,
-				date: newDateInput.value,
-				type: newTypeInput.value,
-				jour: new Intl.DateTimeFormat('fr-FR', options).format(newDay),
-				motif: newMotifInput.value,
-				status: 'INITIALE',
-			};
-			//update bd
-			updateHolidayToApi(updatedHoliday);
-			console.log(updatedHoliday);
-			const updatedHolidays = holidays.map((holiday: any) => {
-				if (holiday._id !== updatedHoliday._id) {
-					return holiday;
-				} else {
-					return updatedHoliday;
-				}
-			});
-			setHolidays(updatedHolidays);
+
+		const newDay = new Date(newDateInput.value);
+		const options: any = { weekday: 'long' };
+		const updatedHoliday = {
+			_id: holiday._id,
+			date: newDateInput.value,
+			type: newTypeInput.value,
+			jour: new Intl.DateTimeFormat('fr-FR', options).format(newDay),
+			motif: newMotifInput.value,
+			status: 'INITIALE',
+		};
+		//Tous les champs sont obligatoires
+		if (
+			!updatedHoliday.type ||
+			!updatedHoliday.motif ||
+			!updatedHoliday.date
+		) {
+			console.log('Tous les champs sont obligatoires');
+			return false;
 		}
+
+		//Un jour férié, ou RTT employeur, ne peut pas être saisi dans le passé
+		if (new Date(updatedHoliday.date) < new Date()) {
+			console.log(
+				'Un jour férié, ou RTT employeur, ne peut pas être saisi dans le passé'
+			);
+			return false;
+		}
+		//Il est interdit de saisir un jour férié ou RTT employeur à la même date qu'un autre jour férié
+		for (let holiday of holidays) {
+			if (holiday._id !== updatedHoliday._id) {
+				if (
+					new Date(holiday.date).valueOf() ===
+					new Date(updatedHoliday.date).valueOf()
+				) {
+					console.log(
+						"Il est interdit de saisir un jour férié ou RTT employeur à la même date qu'un autre jour férié"
+					);
+					return false;
+				}
+			}
+		}
+		//Il est interdit de saisir une RTT employeur un samedi ou un dimanche
+		if (
+			(updatedHoliday.jour === 'samedi' &&
+				updatedHoliday.type === 'RTT employeur') ||
+			(updatedHoliday.jour === 'dimanche' &&
+				updatedHoliday.type === 'RTT employeur')
+		) {
+			console.log(
+				'Il est interdit de saisir une RTT employeur un samedi ou un dimanche'
+			);
+			return false;
+		}
+		//Les RTT employeurs ne peuvent pas dépasser 5 par année
+		let count = 0;
+		for (let holiday of holidays) {
+			if (holiday._id !== updatedHoliday._id) {
+				if (
+					holiday.type === 'RTT employeur' &&
+					new Date(updatedHoliday.date).getFullYear() ===
+						new Date(holiday.date.split('T')[0]).getFullYear()
+				) {
+					count++;
+				}
+			}
+		}
+		if (updatedHoliday.type === 'RTT employeur' && count > 4) {
+			console.log(
+				'Les RTT employeurs ne peuvent pas dépasser 5 par année'
+			);
+			return false;
+		}
+		// console.log(new Date(holidays[0].date.split('T')[0]).getFullYear());
+		//Traiter le formulaire
+		updateHoliday(updatedHoliday);
+	};
+	const updateHoliday = (updatedHoliday: any) => {
+		// const newDateInput: any = document.querySelector('#date');
+		// const newTypeInput: React.DetailedHTMLProps<
+		// 	React.SelectHTMLAttributes<HTMLSelectElement>,
+		// 	HTMLSelectElement
+		// > = document.querySelector('#type') as React.DetailedHTMLProps<
+		// 	React.SelectHTMLAttributes<HTMLSelectElement>,
+		// 	HTMLSelectElement
+		// >;
+		// const newMotifInput: React.DetailedHTMLProps<
+		// 	React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+		// 	HTMLTextAreaElement
+		// > = document.querySelector('#motif') as React.DetailedHTMLProps<
+		// 	React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+		// 	HTMLTextAreaElement
+		// >;
+
+		// const newDay = new Date(newDateInput.value);
+		// const options: any = { weekday: 'long' };
+		// const updatedHoliday = {
+		// 	_id: holiday._id,
+		// 	date: newDateInput.value,
+		// 	type: newTypeInput.value,
+		// 	jour: new Intl.DateTimeFormat('fr-FR', options).format(newDay),
+		// 	motif: newMotifInput.value,
+		// 	status: 'INITIALE',
+		// };
+		//update bd
+		updateHolidayToApi(updatedHoliday);
+		console.log(updatedHoliday);
+		const updatedHolidays = holidays.map((holiday: any) => {
+			if (holiday._id !== updatedHoliday._id) {
+				return holiday;
+			} else {
+				return updatedHoliday;
+			}
+		});
+		setHolidays(updatedHolidays);
+
 		toggleEdit();
 	};
 
@@ -132,7 +232,7 @@ const HolidayEdit = ({
 						<button
 							type="button"
 							className="btn btn-success"
-							onClick={updateHoliday}
+							onClick={isFormValid}
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
