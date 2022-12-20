@@ -1,8 +1,15 @@
 import { useState } from 'react';
+import { IHoliday } from '../../../services/InterfacesServices/IHolidayService';
+import { IUser } from '../../../services/InterfacesServices/IUserService';
 import HolidayForm from '../HolidayForm/HolidayForm';
 import HolidayList from '../HolidayList/HolidayList';
 
-const Holiday = ({ holidays, setHolidays, user }: any) => {
+interface IHolidaysProps {
+	holidays: IHoliday[] | null;
+	setHolidays: Function;
+	user: IUser;
+}
+const Holiday = ({ holidays, setHolidays, user }: IHolidaysProps) => {
 	const [showHolidayForm, setShowHolidayForm] = useState<Boolean>(false);
 	const isAdmin = user.roles.includes('admin');
 
