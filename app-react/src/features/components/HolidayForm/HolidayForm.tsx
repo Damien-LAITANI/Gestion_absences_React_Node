@@ -102,14 +102,12 @@ const HolidayForm = ({
 		const token = Cookies.get('Token');
 		const response = await postHolidayToApi(newHoliday, token);
 
-		if (response.status === 200) {
-			const id = response.data._id;
-			const newHolidayWithId = { _id: id, ...newHoliday };
+		const id = response.data._id;
+		const newHolidayWithId = { _id: id, ...newHoliday };
 
-			if (holidays) {
-				setHolidays([...holidays, newHolidayWithId]);
-				toggleShowHolidayForm();
-			}
+		if (holidays) {
+			setHolidays([...holidays, newHolidayWithId]);
+			toggleShowHolidayForm();
 		}
 	};
 
