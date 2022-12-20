@@ -71,10 +71,12 @@ const defaultUser: IUser = {
 
 const App = () => {
 	const [user, setUser] = useState<IUser>(defaultUser);
-	const [userToken, setUserToken] = useState<string>('');
+	const [userToken, setUserToken] = useState<string | null>(null);
 	const [holidays, setHolidays] = useState(defaultHolidays);
 	const [employees, setEmployees] = useState<any[] | []>([]);
 	const [isManager, setIsManager] = useState(false);
+
+	console.log(userToken);
 
 	const navigate = useNavigate();
 	// console.log(user);
@@ -227,45 +229,66 @@ const App = () => {
 
 	return (
 		<div className="app container-fluid min-vh-100 d-flex flex-column px-5">
-			<Header user={user} isManager={isManager} logout={logout} />
-			<main className="flex-grow-1">
+			{userToken ? (
+				<>
+					<Header user={user} isManager={isManager} logout={logout} />
+					<main className="flex-grow-1">
+						<Routes>
+							<Route path="/" element={<h1>Accueil</h1>} />
+							<Route
+								path="/absences"
+								element={
+									<Absences
+										user={user}
+										setUser={setUser}
+										holidays={holidays}
+									/>
+								}
+							/>
+							<Route path="/planning" element={<Planning />} />
+							<Route
+								path="/absences-process"
+								element={
+									<AbsenceProcess
+										employees={employees}
+										setEmployees={setEmployees}
+									/>
+								}
+							/>
+							{isManager && (
+								<Route
+									path="/report-list"
+									element={<ReportList />}
+								/>
+							)}
+							<Route
+								path="/holiday"
+								element={
+									<Holiday
+										holidays={holidays}
+										setHolidays={setHolidays}
+										user={user}
+									/>
+								}
+							/>
+							<Route
+								path="/login"
+								element={
+									<Login
+										setUser={setUser}
+										setUserToken={setUserToken}
+									/>
+								}
+							/>
+							<Route path="*" element={<Navigate to="/" />} />
+						</Routes>
+					</main>
+					<Footer />
+				</>
+			) : (
 				<Routes>
-					<Route path="/" element={<h1>Accueil</h1>} />
 					<Route
-						path="/absences"
-						element={
-							<Absences
-								user={user}
-								setUser={setUser}
-								holidays={holidays}
-							/>
-						}
-					/>
-					<Route path="/planning" element={<Planning />} />
-					<Route
-						path="/absences-process"
-						element={
-							<AbsenceProcess
-								employees={employees}
-								setEmployees={setEmployees}
-							/>
-						}
-					/>
-					{isManager && (
-						<Route path="/report-list" element={<ReportList />} />
-					)}
-					<Route
-						path="/holiday"
-						element={
-							<Holiday
-								holidays={holidays}
-								setHolidays={setHolidays}
-								user={user}
-							/>
-						}
-					/>
-					<Route
-						path="/login"
+						path="/*"
 						element={
 							<Login
 								setUser={setUser}
@@ -273,10 +296,8 @@ const App = () => {
 							/>
 						}
 					/>
-					<Route path="*" element={<Navigate to="/" />} />
 				</Routes>
-			</main>
-			<Footer />
+			)}
 		</div>
 	);
 };
