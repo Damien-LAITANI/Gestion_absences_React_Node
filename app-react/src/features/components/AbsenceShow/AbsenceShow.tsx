@@ -36,8 +36,8 @@ const AbsenceShow = ({
 			<td>
 				<p className="my-2">{absence.status}</p>
 			</td>
-			<td className="d-flex justify-content-center align-items-center">
-				<ul>
+			<td className="">
+				<ul className="m-0 text-center">
 					{(absence.status === 'INITIALE' ||
 						absence.status === 'REJETEE') && (
 						<>
