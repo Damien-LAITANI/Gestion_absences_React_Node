@@ -16,3 +16,15 @@ export const datesAreOnSameDay = (
 		d1.getDate() === d2.getDate()
 	);
 };
+
+/**
+ * vérifie le format de la date donnée en params et retourne un format Date
+ * @param date
+ */
+export const getJsDate: (date: any) => Date = (date: any) => {
+	if (typeof date === 'object') {
+		return date;
+	} else {
+		return new Date(date.split('T')[0]);
+	}
+};

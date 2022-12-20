@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import { useState } from 'react';
+import { getJsDate } from '../../../functions/date';
 import { deleteHolidayToApi } from '../../../services/HolidayService/HolidayService';
 import HolidayContainer from '../HolidayContainer/HolidayContainer';
 import HolidayModal from '../HolidayModal/HolidayModal';
@@ -35,7 +36,7 @@ const HolidayList = ({
 	);
 	const getHolidaysToDisplay = (year: number) => {
 		return holidays.filter((holiday) => {
-			return new Date(holiday.date.split('T')[0]).getFullYear() === +year;
+			return getJsDate(holiday.date).getFullYear() === +year;
 		});
 	};
 	const yearNow = new Date().getFullYear();
