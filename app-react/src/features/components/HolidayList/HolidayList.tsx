@@ -2,6 +2,7 @@ import Cookies from 'js-cookie';
 import { useState } from 'react';
 import { getJsDate } from '../../../functions/date';
 import { deleteHolidayToApi } from '../../../services/HolidayService/HolidayService';
+import { IHoliday } from '../../../services/InterfacesServices/IHolidayService';
 import HolidayContainer from '../HolidayContainer/HolidayContainer';
 import HolidayModal from '../HolidayModal/HolidayModal';
 
@@ -16,7 +17,7 @@ const defaultHolidayToDelete = {
 
 interface IHolidayList {
 	setShowHolidayForm: Function;
-	holidays: any[];
+	holidays: IHoliday[] | null;
 	setHolidays: Function;
 	isAdmin: Boolean;
 }
@@ -35,20 +36,22 @@ const HolidayList = ({
 		defaultHolidayToDelete
 	);
 	const getHolidaysToDisplay = (year: number) => {
-		return holidays
-			.filter((holiday) => {
-				return getJsDate(holiday.date).getFullYear() === +year;
-			})
-			.filter((holiday) => {
-				//si lutitisateur est un admin on fait rien
-				if (isAdmin) {
-					return holiday;
-				}
-				//sinon on garde holiday.status === validee
-				else if (holiday.status === 'VALIDEE') {
-					return holiday;
-				}
-			});
+		if (holidays) {
+			return holidays
+				.filter((holiday) => {
+					return getJsDate(holiday.date).getFullYear() === +year;
+				})
+				.filter((holiday) => {
+					//si lutitisateur est un admin on fait rien
+					if (isAdmin) {
+						return holiday;
+					}
+					//sinon on garde holiday.status === validee
+					else if (holiday.status === 'VALIDEE') {
+						return holiday;
+					}
+				});
+		}
 	};
 	const yearNow = new Date().getFullYear();
 	const years = [yearNow - 2, yearNow - 1, yearNow, yearNow + 1];
@@ -57,12 +60,14 @@ const HolidayList = ({
 	);
 
 	const deleteHoliday = (holidayId: any) => {
-		const updatedHolidays = holidays.filter(
-			(holiday) => holiday._id !== holidayId
-		);
-		setHolidays(updatedHolidays);
-		const token = Cookies.get('Token');
-		deleteHolidayToApi(holidayId, token);
+		if (holidays) {
+			const updatedHolidays = holidays.filter(
+				(holiday) => holiday._id !== holidayId
+			);
+			setHolidays(updatedHolidays);
+			const token = Cookies.get('Token');
+			deleteHolidayToApi(holidayId, token);
+		}
 	};
 
 	const onChangeYear = (event: any) => {
@@ -106,16 +111,17 @@ const HolidayList = ({
 					</tr>
 				</thead>
 				<tbody>
-					{holidaysToDisplay.map((holiday) => (
-						<HolidayContainer
-							key={holiday._id}
-							holiday={holiday}
-							setHolidays={setHolidays}
-							holidays={holidays}
-							setHolidayToDelete={setHolidayToDelete}
-							isAdmin={isAdmin}
-						/>
-					))}
+					{holidays &&
+						holidaysToDisplay?.map((holiday) => (
+							<HolidayContainer
+								key={holiday._id}
+								holiday={holiday}
+								setHolidays={setHolidays}
+								holidays={holidays}
+								setHolidayToDelete={setHolidayToDelete}
+								isAdmin={isAdmin}
+							/>
+						))}
 				</tbody>
 			</table>
 			{isAdmin && (

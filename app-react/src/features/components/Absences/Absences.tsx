@@ -7,7 +7,7 @@ import AbsenceList from '../AbsenceList/AbsenceList';
 interface IAbsencesProps {
 	user: IUser;
 	setUser: Function;
-	holidays: IHoliday[];
+	holidays: IHoliday[] | null;
 }
 
 const Absences = ({ user, setUser, holidays }: IAbsencesProps) => {

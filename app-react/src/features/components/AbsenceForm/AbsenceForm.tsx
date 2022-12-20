@@ -12,7 +12,7 @@ interface IAbsenceListProps {
 	setShowAbsenceForm: Function;
 	setUser: Function;
 	user: IUser;
-	holidays: IHoliday[];
+	holidays: IHoliday[] | null;
 	toggleShowAbsenceForm: Function;
 }
 
@@ -23,14 +23,17 @@ const AbsenceForm = ({
 	holidays,
 	toggleShowAbsenceForm,
 }: IAbsenceListProps) => {
-	/** - Liste des holidays qui sont des jours fériés uniquement */
-	const publicHolidays = holidays.filter(
-		(holiday) => holiday.type === 'Férié'
-	);
-	/** - Liste des holidays qui sont des rtt employeurs uniquement */
-	const employerHolidays = holidays.filter(
-		(holiday) => holiday.type === 'RTT employeur'
-	);
+	let publicHolidays: IHoliday[] = [];
+	let employerHolidays: IHoliday[] = [];
+	if (holidays) {
+		/** - Liste des holidays qui sont des jours fériés uniquement */
+		publicHolidays = holidays.filter((holiday) => holiday.type === 'Férié');
+
+		/** - Liste des holidays qui sont des rtt employeurs uniquement */
+		employerHolidays = holidays.filter(
+			(holiday) => holiday.type === 'RTT employeur'
+		);
+	}
 
 	const navigate = useNavigate();
 
