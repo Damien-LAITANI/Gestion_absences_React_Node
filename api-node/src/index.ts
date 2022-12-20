@@ -1,5 +1,6 @@
 import express, { urlencoded } from 'express';
 import router from './routes/routes';
+import { script } from './scripts/script';
 
 const app = express();
 const port = 3000;
@@ -26,4 +27,5 @@ app.listen(port, () => {
 \t\t\t\t*                                          *
 \t\t\t\t********************************************
 `);
+	script();
 });
