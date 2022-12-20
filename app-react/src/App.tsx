@@ -277,6 +277,7 @@ const App = () => {
 									<Login
 										setUser={setUser}
 										setUserToken={setUserToken}
+										setIsManager={setIsManager}
 									/>
 								}
 							/>
@@ -292,6 +293,7 @@ const App = () => {
 						element={
 							<Login
 								setUser={setUser}
+								setIsManager={setIsManager}
 								setUserToken={setUserToken}
 							/>
 						}
