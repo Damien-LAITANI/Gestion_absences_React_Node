@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
-import { Navigate, Route, Routes } from 'react-router';
+import { Navigate, Route, Routes, useNavigate } from 'react-router';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import AbsenceProcess from './features/components/AbsenceProcess/AbsenceProcess';
@@ -74,6 +74,8 @@ const App = () => {
 	const [holidays, setHolidays] = useState(defaultHolidays);
 	const [employees, setEmployees] = useState<any[] | []>([]);
 	const [isManager, setIsManager] = useState(false);
+
+	const navigate = useNavigate();
 	// console.log(user);
 	// console.log(Cookies.get('Token'));
 
@@ -183,6 +185,7 @@ const App = () => {
 		});
 	};
 
+	// Fonction qui récupère le user du token
 	const getUser = async () => {
 		const token = Cookies.get('Token');
 		console.log(token);
@@ -202,6 +205,13 @@ const App = () => {
 		}
 	};
 
+	// Fonction de déconnexion
+	const logout = () => {
+		Cookies.remove('Token');
+		navigate('/login');
+		window.location.reload();
+	};
+
 	// reconnexion si token dans le cookie
 	useEffect(() => {
 		getUser();
@@ -216,7 +226,7 @@ const App = () => {
 
 	return (
 		<div className="app container-fluid min-vh-100 d-flex flex-column px-5">
-			<Header user={user} isManager={isManager} />
+			<Header user={user} isManager={isManager} logout={logout} />
 			<main className="flex-grow-1">
 				<Routes>
 					<Route path="/" element={<h1>Accueil</h1>} />
