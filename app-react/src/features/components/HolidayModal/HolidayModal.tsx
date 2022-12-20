@@ -1,3 +1,5 @@
+import { getJsDate } from '../../../functions/date';
+
 const HolidayModal = ({ holidayToDelete, deleteHoliday }: any) => {
 	return (
 		<div id="deleteHoliday" className="modal fade" tabIndex={-1}>
@@ -19,7 +21,12 @@ const HolidayModal = ({ holidayToDelete, deleteHoliday }: any) => {
 							Confirmez-vous la suppression de la demande suivante
 							?
 						</p>
-						<p>Date : {holidayToDelete?.date}</p>
+						<p>
+							Date :{' '}
+							{getJsDate(
+								holidayToDelete?.date
+							).toLocaleDateString()}
+						</p>
 						<p>Type : {holidayToDelete?.type}</p>
 						<p>Jour : {holidayToDelete?.jour}</p>
 					</div>

@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router';
 import { updateHolidayToApi } from '../../../services/HolidayService/HolidayService';
 
 export interface IHolidayEditProps {
@@ -155,6 +156,9 @@ const HolidayEdit = ({
 		setHolidays(updatedHolidays);
 
 		toggleEdit();
+		// eslint-disable-next-line react-hooks/rules-of-hooks
+		const navigate = useNavigate();
+		navigate('/holiday');
 	};
 
 	const setDate = (dateToUpdate: string) => {
@@ -163,13 +167,7 @@ const HolidayEdit = ({
 		const date = new Date(dateToUpdate);
 		console.log(date);
 
-		return (
-			date.toLocaleDateString('fr-FR', { year: 'numeric' }) +
-			'-' +
-			date.toLocaleDateString('fr-FR', { month: 'numeric' }) +
-			'-' +
-			date.toLocaleDateString('fr-FR', { day: 'numeric' })
-		).toString();
+		return dateToUpdate.split('T')[0];
 	};
 
 	return (

@@ -61,10 +61,11 @@ const HolidayList = ({
 
 	const deleteHoliday = (holidayId: any) => {
 		if (holidays) {
-			const updatedHolidays = holidays.filter(
+			const updatedHolidays = holidaysToDisplay?.filter(
 				(holiday) => holiday._id !== holidayId
 			);
 			setHolidays(updatedHolidays);
+			setHolidaysToDisplay(updatedHolidays);
 			const token = Cookies.get('Token');
 			deleteHolidayToApi(holidayId, token);
 		}
