@@ -13,13 +13,12 @@ connect(dbURI);
 export const login = (req: Request, res: Response) => {
 	const { email, password } = req.body;
 	User.findOne({ email: email }, async (error: any, user: IUser) => {
+		console.log(user);
+
 		if (!user)
-			res.status(404).json({
+			return res.status(404).json({
 				message: "L'email ou le mot de passe ne correspond pas",
 			});
-
-		// const ViewPass = await bcrypt.hash(password, 12);
-		// console.log(ViewPass);
 
 		const isValidPass: boolean = await bcrypt.compare(
 			password,
@@ -38,11 +37,7 @@ export const login = (req: Request, res: Response) => {
 		);
 
 		res.status(200).json({
-			token: jwt.sign(
-				{ id: user._id },
-				'832afcf0-7a23-11ed-9825-4b3929766098',
-				{ expiresIn: '1d' }
-			),
+			token: token,
 			user,
 		});
 	});
