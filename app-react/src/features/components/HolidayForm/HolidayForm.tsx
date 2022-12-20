@@ -1,10 +1,12 @@
 import Cookies from 'js-cookie';
+import { getJsDate } from '../../../functions/date';
 import { postHolidayToApi } from '../../../services/HolidayService/HolidayService';
+import { IHoliday } from '../../../services/InterfacesServices/IHolidayService';
 
 export interface IHolidayFormProps {
 	setShowHolidayForm: Function;
 	setHolidays: Function;
-	holidays: any;
+	holidays: IHoliday[] | null;
 }
 
 const HolidayForm = ({
@@ -38,44 +40,47 @@ const HolidayForm = ({
 			return false;
 		}
 		//Il est interdit de saisir un jour férié ou RTT employeur à la même date qu'un autre jour férié
-		for (let holiday of holidays) {
-			if (new Date(holiday.date).valueOf() === day.valueOf()) {
+		if (holidays) {
+			for (let holiday of holidays) {
+				if (new Date(holiday.date).valueOf() === day.valueOf()) {
+					console.log(
+						"Il est interdit de saisir un jour férié ou RTT employeur à la même date qu'un autre jour férié"
+					);
+					return false;
+				}
+			}
+
+			//Il est interdit de saisir une RTT employeur un samedi ou un dimanche
+			if (
+				(jour === 'samedi' && typeValue === 'RTT employeur') ||
+				(jour === 'dimanche' && typeValue === 'RTT employeur')
+			) {
 				console.log(
-					"Il est interdit de saisir un jour férié ou RTT employeur à la même date qu'un autre jour férié"
+					'Il est interdit de saisir une RTT employeur un samedi ou un dimanche'
 				);
 				return false;
 			}
-		}
-		//Il est interdit de saisir une RTT employeur un samedi ou un dimanche
-		if (
-			(jour === 'samedi' && typeValue === 'RTT employeur') ||
-			(jour === 'dimanche' && typeValue === 'RTT employeur')
-		) {
-			console.log(
-				'Il est interdit de saisir une RTT employeur un samedi ou un dimanche'
-			);
-			return false;
-		}
-		//Les RTT employeurs ne peuvent pas dépasser 5 par année
-		let count = 0;
-		for (let holiday of holidays) {
-			if (
-				holiday.type === 'RTT employeur' &&
-				day.getFullYear() ===
-					new Date(holiday.date.split('T')[0]).getFullYear()
-			) {
-				count++;
+
+			//Les RTT employeurs ne peuvent pas dépasser 5 par année
+			let count = 0;
+			for (let holiday of holidays) {
+				if (
+					holiday.type === 'RTT employeur' &&
+					day.getFullYear() ===
+						new Date(getJsDate(holiday.date)).getFullYear()
+				) {
+					count++;
+				}
 			}
+			if (typeValue === 'RTT employeur' && count > 4) {
+				console.log(
+					'Les RTT employeurs ne peuvent pas dépasser 5 par année'
+				);
+				return false;
+			}
+			//Traiter le formulaire
+			persistHolidayForm(event);
 		}
-		if (typeValue === 'RTT employeur' && count > 4) {
-			console.log(
-				'Les RTT employeurs ne peuvent pas dépasser 5 par année'
-			);
-			return false;
-		}
-		console.log(new Date(holidays[0].date.split('T')[0]).getFullYear());
-		//Traiter le formulaire
-		persistHolidayForm(event);
 	};
 
 	const persistHolidayForm = async (event: any) => {
@@ -97,11 +102,15 @@ const HolidayForm = ({
 		const token = Cookies.get('Token');
 		const response = await postHolidayToApi(newHoliday, token);
 
-		console.log(response.data);
-		const id = response.data._id;
-		const newHolidayWithId = { _id: id, ...newHoliday };
-		setHolidays([...holidays, newHolidayWithId]);
-		toggleShowHolidayForm();
+		if (response.status === 200) {
+			const id = response.data._id;
+			const newHolidayWithId = { _id: id, ...newHoliday };
+
+			if (holidays) {
+				setHolidays([...holidays, newHolidayWithId]);
+				toggleShowHolidayForm();
+			}
+		}
 	};
 
 	return (
