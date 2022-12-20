@@ -121,6 +121,7 @@ const HolidayList = ({
 								holidays={holidays}
 								setHolidayToDelete={setHolidayToDelete}
 								isAdmin={isAdmin}
+								setHolidaysToDisplay={setHolidaysToDisplay}
 							/>
 						))}
 				</tbody>

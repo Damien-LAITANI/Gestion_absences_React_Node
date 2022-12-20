@@ -7,6 +7,7 @@ export interface IHolidayEditProps {
 	toggleEdit: Function;
 	setHolidays: Function;
 	holidays: any;
+	setHolidaysToDisplay: Function;
 }
 
 const HolidayEdit = ({
@@ -14,7 +15,9 @@ const HolidayEdit = ({
 	toggleEdit,
 	setHolidays,
 	holidays,
+	setHolidaysToDisplay,
 }: IHolidayEditProps) => {
+	const navigate = useNavigate();
 	const isFormValid = () => {
 		//Il n'est pas possible de modifier une RTT employeur VALIDEE
 		if (holiday.status === 'VALIDEE') {
@@ -154,10 +157,10 @@ const HolidayEdit = ({
 			}
 		});
 		setHolidays(updatedHolidays);
+		setHolidaysToDisplay(updatedHolidays);
 
 		toggleEdit();
 		// eslint-disable-next-line react-hooks/rules-of-hooks
-		const navigate = useNavigate();
 		navigate('/holiday');
 	};
 
