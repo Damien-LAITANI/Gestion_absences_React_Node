@@ -4,6 +4,7 @@ import { IUser } from '../models/User/IUser';
 import User from '../models/User/User';
 import { dbURI } from './ConnectController';
 import jwt from 'jsonwebtoken';
+import { authorization } from '../auth/auth';
 
 connect(dbURI);
 
@@ -19,18 +20,13 @@ export const getAllEmployee = (req: Request, res: Response) => {
 	// Récupération du token
 	const token: string | undefined = req.headers.authorization?.split(' ')[1];
 
-	if (token === undefined)
+	// Controle de la présence et la validité du token
+	const verifiedToken = authorization(token);
+	if (verifiedToken === undefined)
 		return res.status(401).json({ message: 'Veuillez vous connecter' });
 
-	try {
-		// On controle que la clé secrete corresponde
-		const decodedToken = jwt.verify(
-			token,
-			'832afcf0-7a23-11ed-9825-4b3929766098'
-		);
-	} catch (error) {
+	if (!verifiedToken)
 		return res.status(403).json({ message: 'Action non autorisée' });
-	}
 
 	// Si le token est bon on renvoie les employés
 	const { idManager } = req.params;
@@ -39,6 +35,12 @@ export const getAllEmployee = (req: Request, res: Response) => {
 	});
 };
 
+/**
+ * Fonction qui retourne l'user en fonction d'un id donné en params de la requete ou dans le token
+ * @param req
+ * @param res
+ * @returns renvoie l'user
+ */
 export const getUser = (req: Request, res: Response) => {
 	console.log(req.headers.authorization);
 
@@ -48,43 +50,71 @@ export const getUser = (req: Request, res: Response) => {
 			res.status(200).json(user);
 		});
 	} else if (req.headers.authorization) {
+		// Récupération du token
 		const token: string | undefined =
 			req.headers.authorization?.split(' ')[1];
 
-		try {
-			// On controle que la clé secrete corresponde
-			const VerifiedToken = jwt.verify(
-				token,
-				'832afcf0-7a23-11ed-9825-4b3929766098'
-			);
-			if (VerifiedToken) {
-				const decoded = jwt.decode(token, { json: true })!;
-				console.log(decoded);
-				User.findById(decoded.id, (error: any, user: IUser) => {
-					res.status(200).json(user);
-				});
-			}
-		} catch (error) {
+		// Controle de la présence et la validité du token
+		const verifiedToken = authorization(token);
+		if (verifiedToken === undefined)
+			return res.status(401).json({ message: 'Veuillez vous connecter' });
+
+		if (!verifiedToken)
 			return res.status(403).json({ message: 'Action non autorisée' });
+
+		// On décode le token pour pouvoir utiliser l'id qui se trouve à l'intérieur
+		const decoded = jwt.decode(token, { json: true });
+
+		if (decoded) {
+			User.findById(decoded.id, (error: any, user: IUser) => {
+				res.status(200).json(user);
+			});
+		} else {
+			res.status(404).json({ message: 'erreur de connexion !!!' });
 		}
 	} else {
-		res.status(404).json({ message: 'erreur !!!' });
+		res.status(404).json({ message: 'erreur de connexion !!!' });
 	}
 };
 
 export const addUser = (req: Request, res: Response) => {
+	// Récupération du token
+	const token: string | undefined = req.headers.authorization?.split(' ')[1];
+
+	// Controle de la présence et la validité du token
+	const verifiedToken = authorization(token);
+	if (verifiedToken === undefined)
+		return res.status(401).json({ message: 'Veuillez vous connecter' });
+
+	if (!verifiedToken)
+		return res.status(403).json({ message: 'Action non autorisée' });
+
 	User.create(req.body, (error: any, user: IUser) => {
 		console.log(req.body);
 		console.log(user);
 		console.log(error);
 
 		if (error) res.status(404).json({ message: 'Erreur' });
+
+		// si pas d'erreur on retourne l'user créé
 		res.status(201).json(user);
 	});
 };
 
 export const updateUser = (req: Request, res: Response) => {
 	const updatedUser = req.body;
+
+	// Récupération du token
+	const token: string | undefined = req.headers.authorization?.split(' ')[1];
+
+	// Controle de la présence et la validité du token
+	const verifiedToken = authorization(token);
+	if (verifiedToken === undefined)
+		return res.status(401).json({ message: 'Veuillez vous connecter' });
+
+	if (!verifiedToken)
+		return res.status(403).json({ message: 'Action non autorisée' });
+
 	User.replaceOne(
 		{ _id: req.body._id },
 		updatedUser,
@@ -96,6 +126,18 @@ export const updateUser = (req: Request, res: Response) => {
 
 export const deleteUser = (req: Request, res: Response) => {
 	const { id } = req.params;
+
+	// Récupération du token
+	const token: string | undefined = req.headers.authorization?.split(' ')[1];
+
+	// Controle de la présence et la validité du token
+	const verifiedToken = authorization(token);
+	if (verifiedToken === undefined)
+		return res.status(401).json({ message: 'Veuillez vous connecter' });
+
+	if (!verifiedToken)
+		return res.status(403).json({ message: 'Action non autorisée' });
+
 	User.deleteOne({ _id: id }, (error: any, user: IUser) => {
 		res.status(200).json(user);
 	});

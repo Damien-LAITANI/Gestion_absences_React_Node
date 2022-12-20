@@ -35,7 +35,7 @@ const AbsenceList = ({
 		setShowAbsenceForm(true);
 	};
 
-	const onDelete = (absenceID?: string) => {
+	const onDelete = async (absenceID?: string) => {
 		const updatedAbsences = user.absences.filter(
 			(absence) => absence._id !== absenceID
 		);
@@ -43,10 +43,17 @@ const AbsenceList = ({
 		const updatedUser = { ...user };
 		updatedUser.absences = updatedAbsences;
 
-		setUser(updatedUser);
-
 		const token = Cookies.get('Token');
-		updateUserToApi({ ...user, absences: updatedAbsences }, token);
+		const response = await updateUserToApi(
+			{ ...user, absences: updatedAbsences },
+			token
+		);
+
+		if (response.status === 200) {
+			setUser(updatedUser);
+		} else {
+			// TODO afficher un message d'erreur
+		}
 	};
 
 	const [absenceToDelete, setAbsenceToDelete] = useState<IAbsence>(

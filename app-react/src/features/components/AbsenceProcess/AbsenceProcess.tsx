@@ -101,7 +101,7 @@ const AbsenceProcess = ({ employees, setEmployees }: IAbsenceProcessProps) => {
 										</p>
 									</td>
 									<td>
-										<p className="my-2">{absence.types}</p>
+										<p className="my-2">{absence.type}</p>
 									</td>
 									<td>
 										<p className="my-2">
