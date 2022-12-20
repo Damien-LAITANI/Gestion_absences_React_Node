@@ -71,6 +71,7 @@ const defaultUser: IUser = {
 
 const App = () => {
 	const [user, setUser] = useState<IUser>(defaultUser);
+	const [userToken, setUserToken] = useState<string>('');
 	const [holidays, setHolidays] = useState(defaultHolidays);
 	const [employees, setEmployees] = useState<any[] | []>([]);
 	const [isManager, setIsManager] = useState(false);
@@ -265,7 +266,12 @@ const App = () => {
 					/>
 					<Route
 						path="/login"
-						element={<Login setUser={setUser} />}
+						element={
+							<Login
+								setUser={setUser}
+								setUserToken={setUserToken}
+							/>
+						}
 					/>
 					<Route path="*" element={<Navigate to="/" />} />
 				</Routes>
