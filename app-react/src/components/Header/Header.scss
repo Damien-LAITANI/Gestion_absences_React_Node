@@ -1,0 +1,20 @@
+.user__info {
+    p {
+        margin: 0.5em 0;
+
+        .user__name {
+            font-weight: bold;
+        }
+    }
+
+    .btn-logout {
+        border: none;
+        background-color: #fff;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    .btn-logout:hover {
+        opacity: 0.7;
+    }
+
+}
