@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import { updateHolidayToApi } from '../../../services/HolidayService/HolidayService';
 
 export interface IHolidayEditProps {
@@ -141,7 +142,8 @@ const HolidayEdit = ({
 		// 	status: 'INITIALE',
 		// };
 		//update bd
-		updateHolidayToApi(updatedHoliday);
+		const token = Cookies.get('Token');
+		updateHolidayToApi(updatedHoliday, token);
 		console.log(updatedHoliday);
 		const updatedHolidays = holidays.map((holiday: any) => {
 			if (holiday._id !== updatedHoliday._id) {

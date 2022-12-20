@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import { postHolidayToApi } from '../../../services/HolidayService/HolidayService';
 
 export interface IHolidayFormProps {
@@ -93,7 +94,8 @@ const HolidayForm = ({
 			status: 'INITIALE',
 		};
 		//save dataBase and get id
-		const response = await postHolidayToApi(newHoliday);
+		const token = Cookies.get('Token');
+		const response = await postHolidayToApi(newHoliday, token);
 
 		console.log(response.data);
 		const id = response.data._id;

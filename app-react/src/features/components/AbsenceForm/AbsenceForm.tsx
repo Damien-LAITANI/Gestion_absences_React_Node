@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router';
 import {
 	IAbsence,
@@ -188,12 +189,14 @@ const AbsenceForm = ({
 			absences: [...user.absences, newAbsence],
 		};
 
-		const response = await updateUserToApi(updatedUser);
+		const token = Cookies.get('Token');
+		const response = await updateUserToApi(updatedUser, token);
 
 		if (response.status === 200) {
-			setUser(response.data);
+			console.log(updatedUser);
+			setUser(updatedUser);
 			toggleShowAbsenceForm();
-			navigate('/');
+			// navigate('/');
 		}
 	};
 

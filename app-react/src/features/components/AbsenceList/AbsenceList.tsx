@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import { useState } from 'react';
 import {
 	IAbsence,
@@ -28,14 +29,32 @@ const AbsenceList = ({
 	setUser,
 	toggleShowAbsenceForm,
 }: IAbsenceListProps) => {
-	const onDelete = (absenceID?: string) => {
+	// useEffect(() => {
+	// 	user.absences?.map((absence) => (absence._id = crypto.randomUUID()));
+	// }, [user]);
+
+	// const toggleShowAbsenceForm = () => {
+	// 	setShowAbsenceForm(true);
+	// };
+
+	const onDelete = async (absenceID?: string) => {
 		const updatedAbsences = user.absences.filter(
 			(absence) => absence._id !== absenceID
 		);
 		const updatedUser = { ...user };
 		updatedUser.absences = updatedAbsences;
-		setUser(updatedUser);
-		updateUserToApi({ ...user, absences: updatedAbsences });
+
+		const token = Cookies.get('Token');
+		const response = await updateUserToApi(
+			{ ...user, absences: updatedAbsences },
+			token
+		);
+
+		if (response.status === 200) {
+			setUser(updatedUser);
+		} else {
+			// TODO afficher un message d'erreur
+		}
 	};
 
 	const [absenceToDelete, setAbsenceToDelete] = useState<IAbsence>(
