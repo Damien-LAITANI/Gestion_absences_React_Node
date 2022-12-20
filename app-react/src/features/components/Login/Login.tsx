@@ -7,9 +7,11 @@ import Cookies from 'js-cookie';
 
 interface ILogin {
 	setUser: Function;
+	setUserToken: Function;
+	setIsManager: Function;
 }
 
-const Login = ({ setUser }: ILogin) => {
+const Login = ({ setUser, setUserToken, setIsManager }: ILogin) => {
 	const [showPassword, setShowPassword] = useState(false);
 	const navigate = useNavigate();
 
@@ -32,6 +34,11 @@ const Login = ({ setUser }: ILogin) => {
 			};
 
 			if (Cookies.set('Token', response.data.token, optionsCookie)) {
+				setUserToken(Cookies.get('Token'));
+				setIsManager(
+					response.data.user.roles.includes('manager') ||
+						response.data.user.roles.includes('admin')
+				);
 				navigate('/');
 			}
 		}
