@@ -75,14 +75,10 @@ const App = () => {
 
 	const getAll = async () => {
 		const response = await getAllUserFromAPI();
-		// console.log(response);
 	};
 
 	const getUser = async () => {
 		const userData = await getUserFromApi(userID);
-		console.log('GET USER');
-		console.log(userData);
-		console.log(userData.data);
 		setUser(userData.data);
 	};
 
@@ -106,7 +102,6 @@ const App = () => {
 			superior: '6399b638770d91e6e0b21c2d',
 		};
 		const response = await postUserToApi(newUser);
-		console.log(response);
 	};
 
 	const updateUser = async () => {
@@ -151,7 +146,6 @@ const App = () => {
 			superior: '6399b638770d91e6e0b21c2d',
 		};
 		const response = await updateUserToApi(newUser);
-		console.log(response);
 	};
 
 	const deleteUser = async () => {
@@ -160,7 +154,6 @@ const App = () => {
 
 	const getEmployeeFromUser = async () => {
 		const response = await getAllEmployeeFromAPI(user._id);
-		console.log(response);
 		if (response.status === 200) {
 			setEmployees(response.data);
 		}
@@ -168,11 +161,9 @@ const App = () => {
 
 	const getHolidays = async () => {
 		const response = await getAllHolidayFromAPI();
-		console.log('COUCOU');
 		if (response.status === 200) {
-			const holidaysData = response.data;
+			// const holidaysData = response.data;
 			// const newHolidays =
-			console.log(response.data);
 			setHolidays(response.data);
 		}
 	};
@@ -183,7 +174,6 @@ const App = () => {
 			email: 'testUpdate',
 			password: 'admin',
 		});
-		console.log(response);
 
 		if (response.status === 200) {
 			setUser(response.data);
