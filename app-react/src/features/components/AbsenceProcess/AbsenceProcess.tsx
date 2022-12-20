@@ -62,7 +62,7 @@ const AbsenceProcess = ({ employees, setEmployees }: IAbsenceProcessProps) => {
 	};
 
 	return (
-		<div className="w-50 d-flex flex-column mx-auto container">
+		<div className="d-flex flex-column mx-auto container">
 			<h1 className="text-center my-3">Validation des demandes</h1>
 			<table className="table table-hover border shadow">
 				<thead>
@@ -99,7 +99,7 @@ const AbsenceProcess = ({ employees, setEmployees }: IAbsenceProcessProps) => {
 										</p>
 									</td>
 									<td>
-										<p className="my-2">{absence.types}</p>
+										<p className="my-2">{absence.type}</p>
 									</td>
 									<td>
 										<p className="my-2">
