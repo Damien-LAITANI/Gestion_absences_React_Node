@@ -70,7 +70,7 @@ const AbsenceList = ({
 				<tbody>
 					{user.absences?.map((absence: IAbsence) => (
 						<AbsenceContainer
-							key={absence._id}
+							key={absence._id || crypto.randomUUID()}
 							user={user}
 							setUser={setUser}
 							absence={absence}
