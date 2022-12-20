@@ -20,13 +20,8 @@ const ReportList = () => {
 								collaborateur
 							</p>
 						</td>
-						<td className="d-flex justify-content-center align-items-center">
-							<button
-								type="button"
-								className="btn btn-warning"
-								data-bs-toggle="modal"
-								data-bs-target="#deleteAbsence"
-							>
+						<td>
+							<button type="button" className="btn btn-warning">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									width="16"
@@ -47,13 +42,8 @@ const ReportList = () => {
 								Histogramme par département et par jour
 							</p>
 						</td>
-						<td className="d-flex justify-content-center align-items-center">
-							<button
-								type="button"
-								className="btn btn-warning"
-								data-bs-toggle="modal"
-								data-bs-target="#deleteAbsence"
-							>
+						<td>
+							<button type="button" className="btn btn-warning">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									width="16"

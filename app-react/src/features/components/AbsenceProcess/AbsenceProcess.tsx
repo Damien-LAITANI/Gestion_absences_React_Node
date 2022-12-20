@@ -109,8 +109,8 @@ const AbsenceProcess = ({ employees, setEmployees }: IAbsenceProcessProps) => {
 											{employee.firstname}
 										</p>
 									</td>
-									<td className="d-flex justify-content-center align-items-center">
-										<ul className="m-0 p-0 d-inline text-center">
+									<td>
+										<ul className="m-0 text-center">
 											<li className="d-inline-block me-1">
 												<button
 													type="button"

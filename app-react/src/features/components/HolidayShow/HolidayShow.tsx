@@ -31,8 +31,8 @@ const HolidayShow = ({
 				<>
 					{holiday.status === 'INITIALE' &&
 					new Date(holiday.date) > new Date() ? (
-						<td className="d-flex justify-content-center align-items-center">
-							<ul className="m-0 p-0 d-inline text-center">
+						<td>
+							<ul className="m-0 text-center">
 								<li className="d-inline-block me-2">
 									<button
 										type="button"
