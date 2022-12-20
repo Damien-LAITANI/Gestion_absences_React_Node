@@ -1,7 +1,9 @@
+type AbsenceType = 'congé payé' | 'RTT' | 'congé sans solde';
+
 export interface IAbsence {
 	startDateISO: Date;
 	endDateISO: Date;
-	type: 'congé payé' | 'RTT' | 'congé sans solde';
+	type: AbsenceType;
 	motif: string;
 	status: 'INITIALE' | 'EN_ATTENTE_VALIDATION' | 'VALIDEE' | 'REJETEE';
 }
