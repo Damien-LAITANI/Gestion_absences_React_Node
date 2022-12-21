@@ -1,13 +1,21 @@
 import { useEffect } from 'react';
 import { IUser } from '../../../services/InterfacesServices/IUserService';
+import { getManagerFromUser } from '../../../services/UserService/UserService';
+import { instance } from '../../../services/UserService/UserService';
 
 export interface IAccueilProps {
 	user: IUser;
 }
 
 const Accueil = ({ user }: IAccueilProps) => {
-	// useEffect
-	console.table(user);
+	const isAdmin = user.roles.includes('admin');
+	const onExecuteScript = () => {
+		instance.get('/script');
+	};
+	useEffect(() => {
+		console.clear();
+		getManagerFromUser(user);
+	}, []);
 	// Afficher le supérieur
 
 	return (
@@ -39,6 +47,11 @@ const Accueil = ({ user }: IAccueilProps) => {
 					jours fériés et RTT employeurs
 				</li>
 			</ul>
+			{isAdmin && (
+				<button type="button" onClick={onExecuteScript}>
+					Exécuter le traitement de nuit
+				</button>
+			)}
 		</>
 	);
 };
