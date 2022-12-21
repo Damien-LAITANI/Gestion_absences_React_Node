@@ -8,9 +8,17 @@ interface IAbsencesProps {
 	user: IUser;
 	setUser: Function;
 	holidays: IHoliday[] | null;
+	errors: any;
+	setErrors: Function;
 }
 
-const Absences = ({ user, setUser, holidays }: IAbsencesProps) => {
+const Absences = ({
+	user,
+	setUser,
+	holidays,
+	errors,
+	setErrors,
+}: IAbsencesProps) => {
 	const [showAbsenceForm, setShowAbsenceForm] = useState<Boolean>(false);
 
 	const toggleShowAbsenceForm = () => {
@@ -26,6 +34,8 @@ const Absences = ({ user, setUser, holidays }: IAbsencesProps) => {
 					setShowAbsenceForm={setShowAbsenceForm}
 					holidays={holidays}
 					toggleShowAbsenceForm={toggleShowAbsenceForm}
+					errors={errors}
+					setErrors={setErrors}
 				/>
 			) : (
 				<AbsenceList
@@ -33,6 +43,8 @@ const Absences = ({ user, setUser, holidays }: IAbsencesProps) => {
 					setUser={setUser}
 					setShowAbsenceForm={setShowAbsenceForm}
 					toggleShowAbsenceForm={toggleShowAbsenceForm}
+					errors={errors}
+					setErrors={setErrors}
 				/>
 			)}
 		</>
