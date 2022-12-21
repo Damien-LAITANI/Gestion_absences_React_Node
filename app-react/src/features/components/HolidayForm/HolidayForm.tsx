@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { useState } from 'react';
 import { getJsDate } from '../../../functions/date';
 import { postHolidayToApi } from '../../../services/HolidayService/HolidayService';
 import { IHoliday } from '../../../services/InterfacesServices/IHolidayService';
@@ -7,27 +8,49 @@ export interface IHolidayFormProps {
 	setShowHolidayForm: Function;
 	setHolidays: Function;
 	holidays: IHoliday[] | null;
+	errors: any;
+	setErrors: Function;
 }
 
 const HolidayForm = ({
 	setShowHolidayForm,
 	setHolidays,
 	holidays,
+	errors,
+	setErrors,
 }: IHolidayFormProps) => {
+	const [errorDateIsRequired, setErrorDateIsRequired] = useState(false);
+	const [errorTypeIsRequired, setErrorTypeIsRequired] = useState(false);
+	const [errorMotifIsRequired, setErrorMotifIsRequired] = useState(false);
+
 	const toggleShowHolidayForm = () => {
 		setShowHolidayForm(false);
 	};
 
 	const isFormValid = (event: any) => {
+		let isValid = true;
 		event.preventDefault();
 		const [date, type, motif] = event.target;
 		const dateValue = date.value;
 		const typeValue = type.value;
 		const motifValue = motif.value;
+
+		setErrorDateIsRequired(false);
+		setErrorTypeIsRequired(false);
+		setErrorMotifIsRequired(false);
+
+		if (!dateValue || dateValue === '') setErrorDateIsRequired(true);
+		if (!motifValue || motifValue === '') setErrorMotifIsRequired(true);
+
 		//Tous les champs sont obligatoires
 		if (!typeValue || !motifValue || !dateValue) {
 			console.log('Tous les champs sont obligatoires');
-			return false;
+			errors = {
+				...errors,
+				requiredStartDate: 'La date de début est obligatoire',
+			};
+
+			isValid = false;
 		}
 		const day = new Date(dateValue);
 		const options: any = { weekday: 'long' };
@@ -78,8 +101,11 @@ const HolidayForm = ({
 				);
 				return false;
 			}
-			//Traiter le formulaire
-			persistHolidayForm(event);
+
+			if (isValid === true) {
+				//Traiter le formulaire
+				persistHolidayForm(event);
+			}
 		}
 	};
 
@@ -128,6 +154,11 @@ const HolidayForm = ({
 						name="date"
 					/>
 					<label htmlFor="date">Date</label>
+					{errorDateIsRequired && (
+						<p className="errors text-danger mx-3">
+							La date est requise
+						</p>
+					)}
 				</div>
 
 				<div className="form-floating mb-3">
@@ -141,6 +172,11 @@ const HolidayForm = ({
 						<option value="RTT employeur">RTT employeur</option>
 					</select>
 					<label>Type</label>
+					{errorTypeIsRequired && (
+						<p className="errors text-danger mx-3">
+							La type est requis
+						</p>
+					)}
 				</div>
 
 				<div className="form-floating mb-3">
@@ -153,6 +189,11 @@ const HolidayForm = ({
 						style={{ height: '150px' }}
 					></textarea>
 					<label htmlFor="motif">Motif</label>
+					{errorMotifIsRequired && (
+						<p className="errors text-danger mx-3">
+							Le motif est requis
+						</p>
+					)}
 				</div>
 
 				<ul className="p-0 text-center mt-3">

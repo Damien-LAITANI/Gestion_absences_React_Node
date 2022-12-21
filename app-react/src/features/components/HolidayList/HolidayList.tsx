@@ -20,6 +20,8 @@ interface IHolidayList {
 	holidays: IHoliday[] | null;
 	setHolidays: Function;
 	isAdmin: Boolean;
+	errors: any;
+	setErrors: Function;
 }
 
 const HolidayList = ({
@@ -27,6 +29,8 @@ const HolidayList = ({
 	holidays,
 	setHolidays,
 	isAdmin,
+	errors,
+	setErrors,
 }: IHolidayList) => {
 	const toggleShowHolidayForm = () => {
 		setShowHolidayForm(true);

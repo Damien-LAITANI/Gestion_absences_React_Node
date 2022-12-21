@@ -8,8 +8,16 @@ interface IHolidaysProps {
 	holidays: IHoliday[] | null;
 	setHolidays: Function;
 	user: IUser;
+	errors: any;
+	setErrors: Function;
 }
-const Holiday = ({ holidays, setHolidays, user }: IHolidaysProps) => {
+const Holiday = ({
+	holidays,
+	setHolidays,
+	user,
+	errors,
+	setErrors,
+}: IHolidaysProps) => {
 	const [showHolidayForm, setShowHolidayForm] = useState<Boolean>(false);
 	const isAdmin = user.roles.includes('admin');
 
@@ -20,6 +28,8 @@ const Holiday = ({ holidays, setHolidays, user }: IHolidaysProps) => {
 					setShowHolidayForm={setShowHolidayForm}
 					setHolidays={setHolidays}
 					holidays={holidays}
+					errors={errors}
+					setErrors={setErrors}
 				/>
 			) : (
 				<HolidayList
@@ -27,6 +37,8 @@ const Holiday = ({ holidays, setHolidays, user }: IHolidaysProps) => {
 					setHolidays={setHolidays}
 					setShowHolidayForm={setShowHolidayForm}
 					isAdmin={isAdmin}
+					errors={errors}
+					setErrors={setErrors}
 				/>
 			)}
 		</>
