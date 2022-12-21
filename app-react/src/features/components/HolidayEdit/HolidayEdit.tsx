@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { updateHolidayToApi } from '../../../services/HolidayService/HolidayService';
 
@@ -17,6 +18,10 @@ const HolidayEdit = ({
 	holidays,
 	setHolidaysToDisplay,
 }: IHolidayEditProps) => {
+	const [errorDateIsRequired, setErrorDateIsRequired] = useState(false);
+	const [errorTypeIsRequired, setErrorTypeIsRequired] = useState(false);
+	const [errorMotifIsRequired, setErrorMotifIsRequired] = useState(false);
+
 	const navigate = useNavigate();
 
 	const onSubmit = () => {
@@ -27,6 +32,13 @@ const HolidayEdit = ({
 			);
 			return false;
 		}
+
+		console.clear();
+		console.log(123);
+
+		setErrorDateIsRequired(false);
+		setErrorTypeIsRequired(false);
+		setErrorMotifIsRequired(false);
 
 		const newDateInput: any = document.querySelector('#date');
 		const newTypeInput: React.DetailedHTMLProps<
@@ -44,6 +56,9 @@ const HolidayEdit = ({
 			HTMLTextAreaElement
 		>;
 
+		const date = newDateInput.value;
+		if (!date || date === '') setErrorDateIsRequired(true);
+
 		const newDay = new Date(newDateInput.value);
 		const options: any = { weekday: 'long' };
 		const updatedHoliday = {
@@ -54,6 +69,9 @@ const HolidayEdit = ({
 			motif: newMotifInput.value,
 			status: 'INITIALE',
 		};
+
+		if (!updatedHoliday.motif || updatedHoliday.motif === '')
+			setErrorMotifIsRequired(true);
 
 		// * Règles métier
 		//Tous les champs sont obligatoires
@@ -123,33 +141,6 @@ const HolidayEdit = ({
 		updateHoliday(updatedHoliday);
 	};
 	const updateHoliday = (updatedHoliday: any) => {
-		// const newDateInput: any = document.querySelector('#date');
-		// const newTypeInput: React.DetailedHTMLProps<
-		// 	React.SelectHTMLAttributes<HTMLSelectElement>,
-		// 	HTMLSelectElement
-		// > = document.querySelector('#type') as React.DetailedHTMLProps<
-		// 	React.SelectHTMLAttributes<HTMLSelectElement>,
-		// 	HTMLSelectElement
-		// >;
-		// const newMotifInput: React.DetailedHTMLProps<
-		// 	React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-		// 	HTMLTextAreaElement
-		// > = document.querySelector('#motif') as React.DetailedHTMLProps<
-		// 	React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-		// 	HTMLTextAreaElement
-		// >;
-
-		// const newDay = new Date(newDateInput.value);
-		// const options: any = { weekday: 'long' };
-		// const updatedHoliday = {
-		// 	_id: holiday._id,
-		// 	date: newDateInput.value,
-		// 	type: newTypeInput.value,
-		// 	jour: new Intl.DateTimeFormat('fr-FR', options).format(newDay),
-		// 	motif: newMotifInput.value,
-		// 	status: 'INITIALE',
-		// };
-		//update bd
 		const token = Cookies.get('Token');
 		updateHolidayToApi(updatedHoliday, token);
 		console.log(updatedHoliday);
@@ -189,6 +180,11 @@ const HolidayEdit = ({
 					className="d-inline form-control"
 				/>
 				<label htmlFor="date">Date</label>
+				{errorDateIsRequired && (
+					<p className="errors text-danger mx-3">
+						La date est requise
+					</p>
+				)}
 			</td>
 
 			<td className="form-floating align-middle">
@@ -203,26 +199,14 @@ const HolidayEdit = ({
 					<option value="RTT employeur">RTT employeur</option>
 				</select>
 				<label htmlFor="type">Type</label>
+				{errorTypeIsRequired && (
+					<p className="errors text-danger mx-3">
+						La type est requis
+					</p>
+				)}
 			</td>
 
-			<td className="form-floating align-middle">
-				{/* <select
-					defaultValue={holiday.jour}
-					name="weekday"
-					id="weekday"
-					className="form-select"
-					aria-label="Floating label select example"
-				>
-					<option value="lundi">Lundi</option>
-					<option value="mardi">Mardi</option>
-					<option value="mercredi">Mercredi</option>
-					<option value="jeudi">Jeudi</option>
-					<option value="vendredi">Vendredi</option>
-					<option value="samedi">Samedi</option>
-					<option value="dimanche">Dimanche</option>
-				</select>
-				<label htmlFor="weekday">Jour</label> */}
-			</td>
+			<td className="form-floating align-middle"></td>
 
 			<td className="form-floating align-middle">
 				<textarea
@@ -231,7 +215,12 @@ const HolidayEdit = ({
 					id="motif"
 					className="d-inline form-control"
 				/>
-				<label htmlFor="motif">Commentaires</label>
+				<label htmlFor="motif">Motif</label>
+				{errorMotifIsRequired && (
+					<p className="errors text-danger mx-3">
+						Le motif est requis
+					</p>
+				)}
 			</td>
 
 			<td className="align-middle">
