@@ -48,7 +48,11 @@ const Accueil = ({ user }: IAccueilProps) => {
 				</li>
 			</ul>
 			{isAdmin && (
-				<button type="button" onClick={onExecuteScript}>
+				<button
+					className="btn btn-warning"
+					type="button"
+					onClick={onExecuteScript}
+				>
 					Exécuter le traitement de nuit
 				</button>
 			)}
