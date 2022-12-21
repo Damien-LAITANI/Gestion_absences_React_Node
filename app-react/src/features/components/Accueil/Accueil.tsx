@@ -1,13 +1,16 @@
 import { useEffect } from 'react';
 import { IUser } from '../../../services/InterfacesServices/IUserService';
+import { getManagerFromUser } from '../../../services/UserService/UserService';
 
 export interface IAccueilProps {
 	user: IUser;
 }
 
 const Accueil = ({ user }: IAccueilProps) => {
-	// useEffect
-	console.table(user);
+	useEffect(() => {
+		console.clear();
+		getManagerFromUser(user);
+	}, []);
 	// Afficher le supérieur
 
 	return (

@@ -83,3 +83,16 @@ export const deleteUserToApi = async (
 		return error.response;
 	}
 };
+
+/** récupère le manager du user */
+export const getManagerFromUser = async (user: IUser) => {
+	if (user) {
+		// const token = Cookies.get('Token');
+		const response = await getAllEmployeeFromAPI(undefined, undefined);
+
+		if (response.status === 200) {
+			console.table(response.data);
+			// return
+		}
+	}
+};
