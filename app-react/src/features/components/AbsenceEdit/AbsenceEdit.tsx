@@ -200,7 +200,7 @@ const AbsenceEdit = ({
 							{errors.rttStartDate}
 						</p>
 						<p className="errors text-danger mx-3">
-							{errors.oldDate}
+							{errors.oldStartDate}
 						</p>
 						<p className="errors text-danger mx-3">
 							{errors.requiredStartDate}
@@ -236,7 +236,7 @@ const AbsenceEdit = ({
 							{errors.weekendEndDate}
 						</p>
 						<p className="errors text-danger mx-3">
-							{errors.oldDate}
+							{errors.oldEndDate}
 						</p>
 						<p className="errors text-danger mx-3">
 							{errors.requiredEndDate}
