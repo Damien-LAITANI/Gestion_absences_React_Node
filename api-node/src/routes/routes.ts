@@ -6,6 +6,7 @@ import {
 	getAllHoliday,
 	updateHoliday,
 } from '../controllers/HolidayController';
+import { executeScript } from '../controllers/ScriptController';
 import {
 	getAllUser,
 	getUser,
@@ -33,5 +34,8 @@ router.get('/holiday', getAllHoliday);
 router.post('/holiday', addHoliday);
 router.put('/holiday', updateHoliday);
 router.delete('/holiday/:id', deleteHoliday);
+
+// Route executer script(traitement de nuit)
+router.get('/script', executeScript);
 
 export default router;
