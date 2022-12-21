@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 import { useState } from 'react';
 import { getRemainingAbsenceCount } from '../../../functions/user';
+import { IHoliday } from '../../../services/InterfacesServices/IHolidayService';
 import {
 	IAbsence,
 	IUser,
@@ -17,6 +18,7 @@ interface IAbsenceListProps {
 	toggleShowAbsenceForm: Function;
 	errors: any;
 	setErrors: Function;
+	holidays: IHoliday[] | null;
 }
 
 const defaultAbsenceToDelete: IAbsence = {
@@ -32,6 +34,7 @@ const AbsenceList = ({
 	user,
 	setUser,
 	toggleShowAbsenceForm,
+	holidays,
 	errors,
 	setErrors,
 }: IAbsenceListProps) => {
@@ -93,6 +96,7 @@ const AbsenceList = ({
 							setAbsenceToDelete={() => {
 								setAbsenceToDelete(absence);
 							}}
+							holidays={holidays}
 							errors={errors}
 							setErrors={setErrors}
 						/>

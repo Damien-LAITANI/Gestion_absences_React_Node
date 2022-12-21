@@ -1,4 +1,6 @@
 import Cookies from 'js-cookie';
+import { formIsValid } from '../../../functions/form';
+import { IHoliday } from '../../../services/InterfacesServices/IHolidayService';
 import {
 	IAbsence,
 	IUser,
@@ -13,6 +15,7 @@ interface IAbsenceEdit {
 	setAbsenceToDelete: void | React.MouseEventHandler<HTMLButtonElement>;
 	errors: any;
 	setErrors: Function;
+	holidays: IHoliday[] | null;
 }
 
 const AbsenceEdit = ({
@@ -23,40 +26,41 @@ const AbsenceEdit = ({
 	setAbsenceToDelete,
 	errors,
 	setErrors,
+	holidays,
 }: IAbsenceEdit) => {
 	const setDate = (dateToUpdate: string) => {
 		return dateToUpdate.split('T')[0];
 	};
-	const MOTIF_MIN_LENGTH = 4;
+	// const MOTIF_MIN_LENGTH = 4;
 
-	const formIsValid = (updatedAbsence: any) => {
-		console.clear();
-		console.table(updatedAbsence);
-		let isValid = true;
+	// const formIsValid = (updatedAbsence: any) => {
+	// 	console.clear();
+	// 	console.table(updatedAbsence);
+	// 	let isValid = true;
 
-		// On vide les erreurs dans le cas ou il y en avait déjà pour éviter les doublons et supprimer les erreurs corriger pas le user
-		let errors = {};
+	// 	// On vide les erreurs dans le cas ou il y en avait déjà pour éviter les doublons et supprimer les erreurs corriger pas le user
+	// 	let errors = {};
 
-		// * Le motif n'est obligatoire que si le type de demande est "congés sans solde"
-		if (
-			updatedAbsence.type === 'congé sans solde' &&
-			updatedAbsence.motif.length < MOTIF_MIN_LENGTH
-		) {
-			console.error(
-				`Le motif des absences de type "congé sans solde" est obligatoire (${MOTIF_MIN_LENGTH} caractères minimum)`
-			);
-			errors = {
-				...errors,
-				motif: 'Le motif est obligatoire quand le type est congé sans solde (au moins 6 caractères)',
-			};
-			isValid = false;
-		}
+	// 	// * Le motif n'est obligatoire que si le type de demande est "congés sans solde"
+	// 	if (
+	// 		updatedAbsence.type === 'congé sans solde' &&
+	// 		updatedAbsence.motif.length < MOTIF_MIN_LENGTH
+	// 	) {
+	// 		console.error(
+	// 			`Le motif des absences de type "congé sans solde" est obligatoire (${MOTIF_MIN_LENGTH} caractères minimum)`
+	// 		);
+	// 		errors = {
+	// 			...errors,
+	// 			motif: 'Le motif est obligatoire quand le type est congé sans solde (au moins 6 caractères)',
+	// 		};
+	// 		isValid = false;
+	// 	}
 
-		console.log(errors);
-		setErrors(errors);
+	// 	console.log(errors);
+	// 	setErrors(errors);
 
-		return isValid;
-	};
+	// 	return isValid;
+	// };
 
 	const updateAbsence = async () => {
 		const startDateInput: any = document.querySelector('#startDate');
@@ -95,7 +99,7 @@ const AbsenceEdit = ({
 			};
 
 			// * Si le formulaire est valide
-			if (formIsValid(updatedAbsence)) {
+			if (formIsValid(updatedAbsence, user, holidays, setErrors)) {
 				// * Une fois modifiée la demande revient au statut INITIALE
 				updatedAbsence.status = 'INITIALE';
 
@@ -144,6 +148,26 @@ const AbsenceEdit = ({
 					className="d-inline form-control"
 				/>
 				<label htmlFor="startDate">Date de début</label>
+				{errors && Object.keys(errors).length !== 0 && (
+					<>
+						<p className="errors text-danger">
+							{errors.weekendStartDate}
+						</p>
+						<p className="errors text-danger">
+							{errors.overlapStartDate}
+						</p>
+						<p className="errors text-danger">
+							{errors.holidayStartDate}
+						</p>
+						<p className="errors text-danger">
+							{errors.rttStartDate}
+						</p>
+						<p className="errors text-danger">{errors.oldDate}</p>
+						<p className="errors text-danger">
+							{errors.requiredStartDate}
+						</p>
+					</>
+				)}
 			</td>
 
 			<td className="form-floating align-middle">
@@ -155,6 +179,29 @@ const AbsenceEdit = ({
 					className="d-inline form-control"
 				/>
 				<label htmlFor="endDate">Date de fin</label>
+				{errors && Object.keys(errors).length !== 0 && (
+					<>
+						<p className="errors color-danger">
+							{errors.endDateFirst}
+						</p>
+						<p className="errors text-danger">
+							{errors.holidayEndDate}
+						</p>
+						<p className="errors text-danger">
+							{errors.overlapEndDate}
+						</p>
+						<p className="errors text-danger">
+							{errors.rttEndDate}
+						</p>
+						<p className="errors text-danger">
+							{errors.weekendEndDate}
+						</p>
+						<p className="errors text-danger">{errors.oldDate}</p>
+						<p className="errors text-danger">
+							{errors.requiredEndDate}
+						</p>
+					</>
+				)}
 			</td>
 
 			<td className="form-floating align-middle">
@@ -181,7 +228,7 @@ const AbsenceEdit = ({
 				/>
 				<label htmlFor="motif">Motif</label>
 				{Object.keys(errors).length !== 0 && (
-					<p className="errors">{errors.motif}</p>
+					<p className="errors text-danger">{errors.motif}</p>
 				)}
 			</td>
 

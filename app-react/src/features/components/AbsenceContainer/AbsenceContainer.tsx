@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { IHoliday } from '../../../services/InterfacesServices/IHolidayService';
 import {
 	IAbsence,
 	IUser,
@@ -13,6 +14,7 @@ interface IAbsenceContainer {
 	setAbsenceToDelete: void | React.MouseEventHandler<HTMLButtonElement>;
 	errors: any;
 	setErrors: Function;
+	holidays: IHoliday[] | null;
 }
 
 const AbsenceContainer = ({
@@ -22,6 +24,7 @@ const AbsenceContainer = ({
 	setAbsenceToDelete,
 	errors,
 	setErrors,
+	holidays,
 }: IAbsenceContainer) => {
 	const [isEditable, setIsEditable] = useState<Boolean>(false);
 	const toggleEdit = () => {
@@ -36,6 +39,7 @@ const AbsenceContainer = ({
 					absence={absence}
 					toggleEdit={toggleEdit}
 					setAbsenceToDelete={setAbsenceToDelete}
+					holidays={holidays}
 					errors={errors}
 					setErrors={setErrors}
 				/>

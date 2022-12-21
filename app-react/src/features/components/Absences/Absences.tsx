@@ -41,6 +41,7 @@ const Absences = ({
 				<AbsenceList
 					user={user}
 					setUser={setUser}
+					holidays={holidays}
 					setShowAbsenceForm={setShowAbsenceForm}
 					toggleShowAbsenceForm={toggleShowAbsenceForm}
 					errors={errors}
