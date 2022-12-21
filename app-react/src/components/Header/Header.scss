@@ -1,3 +1,8 @@
+header {
+    background-color: rgb(229, 231, 255);
+    z-index         : 2;
+}
+
 .user__info {
     p {
         margin: 0.5em 0;
@@ -8,11 +13,12 @@
     }
 
     .btn-logout {
-        border: none;
-        background-color: #fff;
-        cursor: pointer;
-        text-decoration: underline;
+        border          : none;
+        background-color: transparent;
+        cursor          : pointer;
+        text-decoration : underline;
     }
+
     .btn-logout:hover {
         opacity: 0.7;
     }
