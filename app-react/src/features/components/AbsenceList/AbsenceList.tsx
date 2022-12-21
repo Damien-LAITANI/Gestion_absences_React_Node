@@ -15,6 +15,8 @@ interface IAbsenceListProps {
 	user: IUser;
 	setUser: Function;
 	toggleShowAbsenceForm: Function;
+	errors: any;
+	setErrors: Function;
 }
 
 const defaultAbsenceToDelete: IAbsence = {
@@ -30,6 +32,8 @@ const AbsenceList = ({
 	user,
 	setUser,
 	toggleShowAbsenceForm,
+	errors,
+	setErrors,
 }: IAbsenceListProps) => {
 	// useEffect(() => {
 	// 	user.absences?.map((absence) => (absence._id = crypto.randomUUID()));
@@ -89,6 +93,8 @@ const AbsenceList = ({
 							setAbsenceToDelete={() => {
 								setAbsenceToDelete(absence);
 							}}
+							errors={errors}
+							setErrors={setErrors}
 						/>
 					))}
 				</tbody>

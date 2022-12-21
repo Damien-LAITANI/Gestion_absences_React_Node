@@ -25,6 +25,7 @@ const App = () => {
 	const [holidays, setHolidays] = useState<IHoliday[] | null>(null);
 	const [employees, setEmployees] = useState<any[] | []>([]);
 	const [isManager, setIsManager] = useState(false);
+	const [errors, setErrors] = useState<any>({});
 
 	const navigate = useNavigate();
 
@@ -102,6 +103,8 @@ const App = () => {
 										user={user}
 										setUser={setUser}
 										holidays={holidays}
+										errors={errors}
+										setErrors={setErrors}
 									/>
 								}
 							/>

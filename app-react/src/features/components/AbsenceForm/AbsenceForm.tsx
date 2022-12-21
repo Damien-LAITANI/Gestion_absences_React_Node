@@ -18,6 +18,8 @@ interface IAbsenceListProps {
 	user: IUser;
 	holidays: IHoliday[] | null;
 	toggleShowAbsenceForm: Function;
+	errors: any;
+	setErrors: Function;
 }
 
 interface IErrors {
@@ -39,8 +41,9 @@ const AbsenceForm = ({
 	setUser,
 	holidays,
 	toggleShowAbsenceForm,
+	errors,
+	setErrors,
 }: IAbsenceListProps) => {
-	const [errors, setErrors] = useState<any>({});
 	let publicHolidays: IHoliday[] = [];
 	let employerHolidays: IHoliday[] = [];
 

@@ -11,6 +11,8 @@ interface IAbsenceContainer {
 	setUser: Function;
 	absence: IAbsence;
 	setAbsenceToDelete: void | React.MouseEventHandler<HTMLButtonElement>;
+	errors: any;
+	setErrors: Function;
 }
 
 const AbsenceContainer = ({
@@ -18,6 +20,8 @@ const AbsenceContainer = ({
 	absence,
 	setUser,
 	setAbsenceToDelete,
+	errors,
+	setErrors,
 }: IAbsenceContainer) => {
 	const [isEditable, setIsEditable] = useState<Boolean>(false);
 	const toggleEdit = () => {
@@ -32,6 +36,8 @@ const AbsenceContainer = ({
 					absence={absence}
 					toggleEdit={toggleEdit}
 					setAbsenceToDelete={setAbsenceToDelete}
+					errors={errors}
+					setErrors={setErrors}
 				/>
 			) : (
 				<AbsenceShow

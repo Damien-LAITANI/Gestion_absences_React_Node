@@ -11,6 +11,8 @@ interface IAbsenceEdit {
 	absence: IAbsence;
 	toggleEdit: Function;
 	setAbsenceToDelete: void | React.MouseEventHandler<HTMLButtonElement>;
+	errors: any;
+	setErrors: Function;
 }
 
 const AbsenceEdit = ({
@@ -19,6 +21,8 @@ const AbsenceEdit = ({
 	absence,
 	toggleEdit,
 	setAbsenceToDelete,
+	errors,
+	setErrors,
 }: IAbsenceEdit) => {
 	const setDate = (dateToUpdate: string) => {
 		return dateToUpdate.split('T')[0];
@@ -28,6 +32,10 @@ const AbsenceEdit = ({
 	const formIsValid = (updatedAbsence: any) => {
 		console.clear();
 		console.table(updatedAbsence);
+		let isValid = true;
+
+		// On vide les erreurs dans le cas ou il y en avait déjà pour éviter les doublons et supprimer les erreurs corriger pas le user
+		let errors = {};
 
 		// * Le motif n'est obligatoire que si le type de demande est "congés sans solde"
 		if (
@@ -37,10 +45,17 @@ const AbsenceEdit = ({
 			console.error(
 				`Le motif des absences de type "congé sans solde" est obligatoire (${MOTIF_MIN_LENGTH} caractères minimum)`
 			);
-			return false;
+			errors = {
+				...errors,
+				motif: 'Le motif est obligatoire quand le type est congé sans solde (au moins 6 caractères)',
+			};
+			isValid = false;
 		}
 
-		return true;
+		console.log(errors);
+		setErrors(errors);
+
+		return isValid;
 	};
 
 	const updateAbsence = async () => {
@@ -65,8 +80,7 @@ const AbsenceEdit = ({
 		if (
 			startDateInput.value &&
 			endDateInput.value &&
-			updateTypeInput.value &&
-			updateMotifInput.value
+			updateTypeInput.value
 		) {
 			const startDate = new Date(startDateInput.value).toISOString();
 			const endDate = new Date(endDateInput.value).toISOString();
@@ -166,6 +180,9 @@ const AbsenceEdit = ({
 					className="d-inline form-control"
 				/>
 				<label htmlFor="motif">Motif</label>
+				{Object.keys(errors).length !== 0 && (
+					<p className="errors">{errors.motif}</p>
+				)}
 			</td>
 
 			<td className="form-floating align-middle">
