@@ -5,6 +5,7 @@ import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import AbsenceProcess from './features/components/AbsenceProcess/AbsenceProcess';
 import Absences from './features/components/Absences/Absences';
+import Accueil from './features/components/Accueil/Accueil';
 import Holiday from './features/components/Holiday/Holiday';
 import Login from './features/components/Login/Login';
 import Planning from './features/components/Planning/Planning';
@@ -87,13 +88,13 @@ const App = () => {
 	}, [user]);
 
 	return (
-		<div className="app container-fluid min-vh-100 d-flex flex-column px-5">
+		<div className="app container-fluid min-vh-100 d-flex flex-column p-0">
 			{user ? (
 				<>
 					<Header user={user} isManager={isManager} logout={logout} />
-					<main className="flex-grow-1">
+					<main className="flex-grow-1 p-5">
 						<Routes>
-							<Route path="/" element={<h1>Accueil</h1>} />
+							<Route path="/" element={<Accueil user={user} />} />
 							<Route
 								path="/absences"
 								element={
