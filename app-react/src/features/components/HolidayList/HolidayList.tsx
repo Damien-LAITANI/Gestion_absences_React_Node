@@ -107,7 +107,7 @@ const HolidayList = ({
 						<th scope="col">Date</th>
 						<th scope="col">Type</th>
 						<th scope="col">Jour</th>
-						<th scope="col">Commentaires</th>
+						<th scope="col">Motif</th>
 						{isAdmin && (
 							<th scope="col" className="text-center">
 								Actions
