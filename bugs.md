@@ -2,8 +2,7 @@
 
 ## Majeurs
 
--   Un Holiday au status 'INITIAL' apparaît dans le calendrier
--   Les employés ne voient pas les holidays (dans jours fériés : vide)
+-   Bug modification holiday
 -   Expliquer pourquoi les formulaires ne sont pas validés (règles métier ou champs requis)
     -   Login
     -   Create & update d'Absence et Holiday

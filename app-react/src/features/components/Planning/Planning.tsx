@@ -21,22 +21,26 @@ const Plannig = ({ absences, holidays }: any) => {
 		}
 	};
 	for (let holiday of holidays) {
-		events.push({
-			id: holiday._id,
-			title: holiday.type,
-			start: holiday.date.split('T')[0],
-			end: holiday.date.split('T')[0],
-			backgroundColor: colorEvent(holiday.type),
-		});
+		if (holiday.status === 'VALIDEE') {
+			events.push({
+				id: holiday._id,
+				title: holiday.type,
+				start: holiday.date.split('T')[0],
+				end: holiday.date.split('T')[0],
+				backgroundColor: colorEvent(holiday.type),
+			});
+		}
 	}
 	for (let absence of absences) {
-		events.push({
-			id: absence._id,
-			title: absence.type,
-			start: absence.startDateISO.split('T')[0],
-			end: absence.endDateISO.split('T')[0],
-			backgroundColor: colorEvent(absence.type),
-		});
+		if (absence.status === 'VALIDEE') {
+			events.push({
+				id: absence._id,
+				title: absence.type,
+				start: absence.startDateISO.split('T')[0],
+				end: absence.endDateISO.split('T')[0],
+				backgroundColor: colorEvent(absence.type),
+			});
+		}
 	}
 
 	return (
