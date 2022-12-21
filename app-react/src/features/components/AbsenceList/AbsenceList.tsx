@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import { useState } from 'react';
+import { getRemainingAbsenceCount } from '../../../functions/user';
 import {
 	IAbsence,
 	IUser,
@@ -99,10 +100,19 @@ const AbsenceList = ({
 			>
 				Demander une absence
 			</button>
-			<p>Soldes des compteurs</p>
+			<p>
+				Nombre d'absences pouvant être demandées pour l'année{' '}
+				{new Date().getFullYear()} :
+			</p>
 			<ul>
-				<li>Congés payés : 15</li>
-				<li>RTT : 3</li>
+				<li>
+					Congés payés :{' '}
+					{getRemainingAbsenceCount(user, 'congé payé')}
+				</li>
+				<li>RTT employés : {getRemainingAbsenceCount(user, 'RTT')}</li>
+				<li>
+					RTT employeur : <span style={{ color: 'red' }}>TODO</span>
+				</li>
 			</ul>
 
 			<AbsenceModal
