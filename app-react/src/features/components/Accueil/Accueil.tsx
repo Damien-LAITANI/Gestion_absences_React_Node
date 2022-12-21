@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { IUser } from '../../../services/InterfacesServices/IUserService';
 import { getManagerFromUser } from '../../../services/UserService/UserService';
 import { instance } from '../../../services/UserService/UserService';
@@ -8,8 +8,10 @@ export interface IAccueilProps {
 }
 
 const Accueil = ({ user }: IAccueilProps) => {
+	const [canExecuteScript, setCanExecuteScript] = useState(true);
 	const isAdmin = user.roles.includes('admin');
 	const onExecuteScript = () => {
+		setCanExecuteScript(false);
 		instance.get('/script');
 	};
 	useEffect(() => {
@@ -47,11 +49,21 @@ const Accueil = ({ user }: IAccueilProps) => {
 					jours fériés et RTT employeurs
 				</li>
 			</ul>
-			{isAdmin && (
+			{isAdmin && canExecuteScript && (
 				<button
 					className="btn btn-warning"
 					type="button"
 					onClick={onExecuteScript}
+				>
+					Exécuter le traitement de nuit
+				</button>
+			)}
+			{isAdmin && !canExecuteScript && (
+				<button
+					className="btn btn-secondary"
+					type="button"
+					// aria-disabled="true"
+					// disabled={true}
 				>
 					Exécuter le traitement de nuit
 				</button>

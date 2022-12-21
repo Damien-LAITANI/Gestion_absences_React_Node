@@ -1,0 +1,2 @@
+-   Se connecter en tant qu'employés
+-   Montrer tous les composants
