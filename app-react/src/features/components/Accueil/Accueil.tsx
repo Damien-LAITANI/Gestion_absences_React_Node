@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { IUser } from '../../../services/InterfacesServices/IUserService';
+import { getManagerFromUser } from '../../../services/UserService/UserService';
 import { instance } from '../../../services/UserService/UserService';
 
 export interface IAccueilProps {
@@ -8,11 +9,13 @@ export interface IAccueilProps {
 
 const Accueil = ({ user }: IAccueilProps) => {
 	const isAdmin = user.roles.includes('admin');
-	// useEffect
-	console.table(user);
 	const onExecuteScript = () => {
 		instance.get('/script');
 	};
+	useEffect(() => {
+		console.clear();
+		getManagerFromUser(user);
+	}, []);
 	// Afficher le supérieur
 
 	return (
