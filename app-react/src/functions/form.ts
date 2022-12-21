@@ -104,7 +104,7 @@ export const formIsValid = (
 
 		// Cas 1 - La date de début de newAbsence est avant la date de début de absence
 		if (
-			newAbsence.startDateISO !== '' &&
+			newAbsence.startDateISO === '' &&
 			newAbsenceStartDate.valueOf() <= absenceStartDate.valueOf()
 		) {
 			// => Si la date de fin de newAbsence est après la date de début de absence alors il y a chevauchement
@@ -120,7 +120,7 @@ export const formIsValid = (
 
 		// Cas 2 - La date de début de newAbsence est après la date de début de absence
 		if (
-			newAbsence.endDateISO !== '' &&
+			newAbsence.endDateISO === '' &&
 			absenceStartDate.valueOf() <= newAbsenceStartDate.valueOf()
 		) {
 			// => Si la date de début de newAbsence est avant la date de fin de absence alors il y a chevauchement

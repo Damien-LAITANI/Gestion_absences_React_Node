@@ -187,20 +187,22 @@ const AbsenceEdit = ({
 				<label htmlFor="startDate">Date de début</label>
 				{errors && Object.keys(errors).length !== 0 && (
 					<>
-						<p className="errors text-danger">
+						<p className="errors text-danger mx-3">
 							{errors.weekendStartDate}
 						</p>
-						<p className="errors text-danger">
+						<p className="errors text-danger mx-3">
 							{errors.overlapStartDate}
 						</p>
-						<p className="errors text-danger">
+						<p className="errors text-danger mx-3">
 							{errors.holidayStartDate}
 						</p>
-						<p className="errors text-danger">
+						<p className="errors text-danger mx-3">
 							{errors.rttStartDate}
 						</p>
-						<p className="errors text-danger">{errors.oldDate}</p>
-						<p className="errors text-danger">
+						<p className="errors text-danger mx-3">
+							{errors.oldDate}
+						</p>
+						<p className="errors text-danger mx-3">
 							{errors.requiredStartDate}
 						</p>
 					</>
@@ -218,23 +220,25 @@ const AbsenceEdit = ({
 				<label htmlFor="endDate">Date de fin</label>
 				{errors && Object.keys(errors).length !== 0 && (
 					<>
-						<p className="errors color-danger">
+						<p className="errors color-danger mx-3">
 							{errors.endDateFirst}
 						</p>
-						<p className="errors text-danger">
+						<p className="errors text-danger mx-3">
 							{errors.holidayEndDate}
 						</p>
-						<p className="errors text-danger">
+						<p className="errors text-danger mx-3">
 							{errors.overlapEndDate}
 						</p>
-						<p className="errors text-danger">
+						<p className="errors text-danger mx-3">
 							{errors.rttEndDate}
 						</p>
-						<p className="errors text-danger">
+						<p className="errors text-danger mx-3">
 							{errors.weekendEndDate}
 						</p>
-						<p className="errors text-danger">{errors.oldDate}</p>
-						<p className="errors text-danger">
+						<p className="errors text-danger mx-3">
+							{errors.oldDate}
+						</p>
+						<p className="errors text-danger mx-3">
 							{errors.requiredEndDate}
 						</p>
 					</>
@@ -265,7 +269,7 @@ const AbsenceEdit = ({
 				/>
 				<label htmlFor="motif">Motif</label>
 				{Object.keys(errors).length !== 0 && (
-					<p className="errors text-danger">{errors.motif}</p>
+					<p className="errors text-danger mx-3">{errors.motif}</p>
 				)}
 			</td>
 
