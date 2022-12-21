@@ -47,11 +47,16 @@ const Nav = ({ user, isManager }: INavProps) => {
 							Planning des absences
 						</NavLink>
 					</li>
-					<li className="nav-item d-flex align-items-center">
-						<NavLink to="/absences-process" className="nav-link">
-							Validation demandes
-						</NavLink>
-					</li>
+					{isManager && (
+						<li className="nav-item d-flex align-items-center">
+							<NavLink
+								to="/absences-process"
+								className="nav-link"
+							>
+								Validation demandes
+							</NavLink>
+						</li>
+					)}
 					{isManager && (
 						<li className="nav-item d-flex align-items-center">
 							<NavLink to="/report-list" className="nav-link">
