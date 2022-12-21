@@ -67,6 +67,15 @@ const AbsenceForm = ({
 		// On vide les erreurs dans le cas ou il y en avait déjà pour éviter les doublons et supprimer les erreurs corriger pas le user
 		let errors = {};
 
+		// * Date de début postérieur à aujourd'hui
+		if (
+			datesAreOnSameDay(new Date(), getJsDate(newAbsence.startDateISO)) ||
+			getJsDate(newAbsence.startDateISO).valueOf() < new Date().valueOf()
+		) {
+			console.error('La date demandée est déjà passée');
+			return false;
+		}
+
 		// * Motif obligatoire si type sans solde
 		if (
 			newAbsence.type === 'congé sans solde' &&

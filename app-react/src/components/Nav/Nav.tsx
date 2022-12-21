@@ -9,7 +9,7 @@ const Nav = ({ user, isManager }: INavProps) => {
 	// const isManager = user.roles.includes('manager');
 
 	return (
-		<nav className="navbar navbar-expand-lg navbar-light bg-light d-flex align-items-center">
+		<nav className="navbar navbar-expand-lg d-flex align-items-center p-0">
 			<button
 				className="navbar-toggler"
 				type="button"

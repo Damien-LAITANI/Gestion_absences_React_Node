@@ -10,7 +10,10 @@ interface IHeaderProps {
 
 const Header = ({ user, isManager, logout }: IHeaderProps) => {
 	return (
-		<header className="d-flex justify-content-between">
+		<header
+			className="d-flex justify-content-between px-5 py-2"
+			style={{ position: 'sticky', top: '0' }}
+		>
 			<Nav user={user} isManager={isManager} />
 			<div className="user__info">
 				<p className="text-center">
