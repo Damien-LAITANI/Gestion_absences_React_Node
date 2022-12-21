@@ -165,7 +165,8 @@ const HolidayEdit = ({
 
 		toggleEdit();
 		// eslint-disable-next-line react-hooks/rules-of-hooks
-		navigate('/holiday');
+		//navigate('/holiday');
+		window.location.reload();
 	};
 
 	const setDate = (dateToUpdate: string) => {
