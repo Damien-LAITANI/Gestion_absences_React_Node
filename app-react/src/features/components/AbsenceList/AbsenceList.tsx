@@ -1,6 +1,5 @@
 import Cookies from 'js-cookie';
 import { useState } from 'react';
-import { getRemainingAbsenceCount } from '../../../functions/user';
 import { IHoliday } from '../../../services/InterfacesServices/IHolidayService';
 import {
 	IAbsence,
