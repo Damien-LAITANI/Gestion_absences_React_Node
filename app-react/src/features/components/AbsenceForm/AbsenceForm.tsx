@@ -1,17 +1,12 @@
 import Cookies from 'js-cookie';
+import { formIsValid } from '../../../functions/form';
+import { getRemainingAbsenceCount } from '../../../functions/user';
+import { IHoliday } from '../../../services/InterfacesServices/IHolidayService';
 import {
 	IAbsence,
 	IUser,
 } from '../../../services/InterfacesServices/IUserService';
 import { updateUserToApi } from '../../../services/UserService/UserService';
-import { IHoliday } from '../../../services/InterfacesServices/IHolidayService';
-import { getJsDate, datesAreOnSameDay } from '../../../functions/date';
-import {
-	getAbsencesByYear,
-	getRemainingAbsenceCount,
-} from '../../../functions/user';
-import { useState } from 'react';
-import { formIsValid } from '../../../functions/form';
 
 interface IAbsenceListProps {
 	setShowAbsenceForm: Function;
@@ -23,19 +18,6 @@ interface IAbsenceListProps {
 	setErrors: Function;
 }
 
-interface IErrors {
-	motif: string;
-	endDateFirst: string;
-	overlapStartDate: string;
-	overlapEndDate: string;
-	holidayStartDate: string;
-	holidayEndDate: string;
-	rttStartDate: string;
-	rttEndDate: string;
-	weekendStartDate: string;
-	weekendEndDate: string;
-}
-
 const AbsenceForm = ({
 	setShowAbsenceForm,
 	user,
@@ -45,24 +27,6 @@ const AbsenceForm = ({
 	errors,
 	setErrors,
 }: IAbsenceListProps) => {
-	let publicHolidays: IHoliday[] = [];
-	let employerHolidays: IHoliday[] = [];
-	// setErrors({});
-
-	console.log(errors);
-
-	if (holidays) {
-		/** - Liste des holidays qui sont des jours fériés uniquement */
-		publicHolidays = holidays.filter((holiday) => holiday.type === 'Férié');
-
-		/** - Liste des holidays qui sont des rtt employeurs uniquement */
-		employerHolidays = holidays.filter(
-			(holiday) => holiday.type === 'RTT employeur'
-		);
-	}
-
-	console.log(errors);
-
 	const onFormProcess = (event: any) => {
 		event.preventDefault();
 
