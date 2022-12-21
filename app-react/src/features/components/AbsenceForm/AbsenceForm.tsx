@@ -10,6 +10,7 @@ import {
 	getAbsencesByYear,
 	getRemainingAbsenceCount,
 } from '../../../functions/user';
+import { useState } from 'react';
 
 interface IAbsenceListProps {
 	setShowAbsenceForm: Function;
@@ -19,6 +20,19 @@ interface IAbsenceListProps {
 	toggleShowAbsenceForm: Function;
 }
 
+interface IErrors {
+	motif: string;
+	endDateFirst: string;
+	overlapStartDate: string;
+	overlapEndDate: string;
+	holidayStartDate: string;
+	holidayEndDate: string;
+	rttStartDate: string;
+	rttEndDate: string;
+	weekendStartDate: string;
+	weekendEndDate: string;
+}
+
 const AbsenceForm = ({
 	setShowAbsenceForm,
 	user,
@@ -26,8 +40,12 @@ const AbsenceForm = ({
 	holidays,
 	toggleShowAbsenceForm,
 }: IAbsenceListProps) => {
+	const [errors, setErrors] = useState<any>({});
 	let publicHolidays: IHoliday[] = [];
 	let employerHolidays: IHoliday[] = [];
+
+	console.log(errors);
+
 	if (holidays) {
 		/** - Liste des holidays qui sont des jours fériés uniquement */
 		publicHolidays = holidays.filter((holiday) => holiday.type === 'Férié');
@@ -41,6 +59,10 @@ const AbsenceForm = ({
 	const formIsValid = (newAbsence: IAbsence) => {
 		const newAbsenceStartDate = getJsDate(newAbsence.startDateISO);
 		const newAbsenceEndDate = getJsDate(newAbsence.endDateISO);
+		let isValid = true;
+
+		// On vide les erreurs dans le cas ou il y en avait déjà pour éviter les doublons et supprimer les erreurs corriger pas le user
+		let errors = {};
 
 		// * Date de début postérieur à aujourd'hui
 		if (
@@ -59,7 +81,11 @@ const AbsenceForm = ({
 			console.error(
 				'Le motif est obligatoire quand le type est congé sans solde (au moins 6 caractères)'
 			);
-			return false;
+			errors = {
+				...errors,
+				motif: 'Le motif est obligatoire quand le type est congé sans solde (au moins 6 caractères)',
+			};
+			isValid = false;
 		}
 
 		// * La date de fin est après la date de début
@@ -68,7 +94,11 @@ const AbsenceForm = ({
 			getJsDate(newAbsence.endDateISO).valueOf()
 		) {
 			console.error('La date de fin est après la date de début');
-			return false;
+			errors = {
+				...errors,
+				endDateFirst: 'La date de fin est après la date de début',
+			};
+			isValid = false;
 		}
 
 		// * Une demande de congés ne doit pas chevaucher une autre demande de congés existante.
@@ -85,7 +115,11 @@ const AbsenceForm = ({
 				// => Si la date de fin de newAbsence est après la date de début de absence alors il y a chevauchement
 				if (absenceStartDate.valueOf() <= newAbsenceEndDate.valueOf()) {
 					console.error('Erreur : chevauchement des dates');
-					return false;
+					errors = {
+						...errors,
+						overlapStartDate: 'chevauchement de la date de début',
+					};
+					isValid = false;
 				}
 			}
 
@@ -94,7 +128,11 @@ const AbsenceForm = ({
 				// => Si la date de début de newAbsence est avant la date de fin de absence alors il y a chevauchement
 				if (newAbsenceStartDate.valueOf() <= absenceEndDate.valueOf()) {
 					console.error('Erreur : chevauchement des dates');
-					return false;
+					errors = {
+						...errors,
+						overlapEndDate: 'chevauchement de la date de fin',
+					};
+					isValid = false;
 				}
 			}
 		}
@@ -104,7 +142,24 @@ const AbsenceForm = ({
 		for (const publicHoliday of publicHolidays) {
 			if (datesAreOnSameDay(newAbsenceStartDate, publicHoliday.date)) {
 				console.error('Erreur : La date de début est un jour férié');
-				return false;
+				errors = {
+					...errors,
+					holidayStartDate: 'La date de début est un jour férié',
+				};
+				isValid = false;
+			}
+		}
+
+		// * La date de fin ne peut pas être un jour férié, une RTT employeur ou un week-end
+		// * un jour férié
+		for (const publicHoliday of publicHolidays) {
+			if (datesAreOnSameDay(newAbsenceEndDate, publicHoliday.date)) {
+				console.error('Erreur : La date de fin est un jour férié');
+				errors = {
+					...errors,
+					holidayEndDate: 'La date de fin est un jour férié',
+				};
+				isValid = false;
 			}
 		}
 
@@ -114,7 +169,23 @@ const AbsenceForm = ({
 				console.error(
 					'Erreur : La date de début est une rtt employeur'
 				);
-				return false;
+				errors = {
+					...errors,
+					rttStartDate: 'La date de début est une rtt employeur',
+				};
+				isValid = false;
+			}
+		}
+
+		// * une RTT employeur
+		for (const employerHoliday of employerHolidays) {
+			if (datesAreOnSameDay(newAbsenceEndDate, employerHoliday.date)) {
+				console.error('Erreur : La date de fin est une rtt employeur');
+				errors = {
+					...errors,
+					rttEndDate: 'La date de fin est une rtt employeur',
+				};
+				isValid = false;
 			}
 		}
 
@@ -124,24 +195,11 @@ const AbsenceForm = ({
 			newAbsenceStartDate.getDay() === 6
 		) {
 			console.error('Erreur : la date de début est le weekend');
-			return false;
-		}
-
-		// * La date de fin ne peut pas être un jour férié, une RTT employeur ou un week-end
-		// * un jour férié
-		for (const publicHoliday of publicHolidays) {
-			if (datesAreOnSameDay(newAbsenceEndDate, publicHoliday.date)) {
-				console.error('Erreur : La date de fin est un jour férié');
-				return false;
-			}
-		}
-
-		// * une RTT employeur
-		for (const employerHoliday of employerHolidays) {
-			if (datesAreOnSameDay(newAbsenceEndDate, employerHoliday.date)) {
-				console.error('Erreur : La date de fin est une rtt employeur');
-				return false;
-			}
+			errors = {
+				...errors,
+				weekendStartDate: 'La date de début est le weekend',
+			};
+			isValid = false;
 		}
 
 		// * Week-end
@@ -150,13 +208,21 @@ const AbsenceForm = ({
 			newAbsenceEndDate.getDay() === 6
 		) {
 			console.error('Erreur : la date de fin est le weekend');
-			return false;
+			errors = {
+				...errors,
+				weekendEndDate: 'la date de fin est le weekend',
+			};
+			isValid = false;
 		}
 
 		// * Une demande d'absence ne modifie pas le solde des compteurs de congés. Cette opération est effectuée par le traitement de nuit.
+		console.table(errors);
+		setErrors(errors);
 
-		return true;
+		return isValid;
 	};
+
+	console.log(errors);
 
 	const onFormProcess = (event: any) => {
 		event.preventDefault();
@@ -240,6 +306,14 @@ const AbsenceForm = ({
 						name="startDate"
 					/>
 					<label htmlFor="startDate">Date de début</label>
+					{errors && Object.keys(errors).length !== 0 && (
+						<>
+							<p className="errors">{errors.weekendStartDate}</p>
+							<p className="errors">{errors.overlapStartDate}</p>
+							<p className="errors">{errors.holidayStartDate}</p>
+							<p className="errors">{errors.rttStartDate}</p>
+						</>
+					)}
 				</div>
 
 				<div className="form-floating mb-3">
@@ -250,6 +324,15 @@ const AbsenceForm = ({
 						name="endDate"
 					/>
 					<label htmlFor="endDate">Date de fin</label>
+					{errors && Object.keys(errors).length !== 0 && (
+						<>
+							<p className="errors">{errors.endDateFirst}</p>
+							<p className="errors">{errors.holidayEndDate}</p>
+							<p className="errors">{errors.overlapEndDate}</p>
+							<p className="errors">{errors.rttEndDate}</p>
+							<p className="errors">{errors.weekendEndDate}</p>
+						</>
+					)}
 				</div>
 
 				<div className="form-floating mb-3">
@@ -278,6 +361,9 @@ const AbsenceForm = ({
 						style={{ height: '150px' }}
 					></textarea>
 					<label htmlFor="motif">Motif</label>
+					{errors && Object.keys(errors).length !== 0 && (
+						<p className="errors">{errors.motif}</p>
+					)}
 				</div>
 
 				<ul className="p-0 text-center mt-3">
