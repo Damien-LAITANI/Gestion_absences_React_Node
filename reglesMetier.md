@@ -40,7 +40,7 @@
 
 # `Visualiser les jours fériés et RTT employeur (page 7)`
 
--   ❌ En tant que collaborateur, quel que soit le profil, j'ai accès à la liste des jours fériés et RTT employeur.
+-   ✅ En tant que collaborateur, quel que soit le profil, j'ai accès à la liste des jours fériés et RTT employeur.
 -   ✅ Un admin peut ajouter, modifier et supprimer, un jour férié ou une RTT employeur
 
 # `Ajouter un jour férié ou RTT employeur (page 8)`
@@ -76,7 +76,7 @@
 
 -   ✅ Le planning affiche les absences pour un mois donné
 -   ✅ Les jours fériés apparaissent dans une couleur différente des absences gérées par l'utilisateur
--   ❌ Le solde des congés payés et des RTT est affiché.
+-   ✅ Le solde des congés payés et des RTT est affiché.
 
 ## Je peux effectuer les actions suivantes:
 

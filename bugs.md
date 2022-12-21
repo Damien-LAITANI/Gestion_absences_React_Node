@@ -10,8 +10,6 @@
 ## Intermédiaires
 
 -   Afficher le compte de rtt employeurs
--   Modification d'absence : on ne peut pas validé les changements quand rien n'a été modifié
--   Afficher le solde d'absence dans le calendrier
 
 ## Mineurs
 

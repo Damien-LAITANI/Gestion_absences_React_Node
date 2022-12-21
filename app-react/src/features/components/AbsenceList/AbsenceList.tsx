@@ -8,6 +8,7 @@ import {
 import { updateUserToApi } from '../../../services/UserService/UserService';
 import AbsenceContainer from '../AbsenceContainer/AbsenceContainer';
 import AbsenceModal from '../AbsenceModal/AbsenceModal';
+import AbsenceSolde from '../AbsenceSolde/AbsenceSolde';
 
 interface IAbsenceListProps {
 	setShowAbsenceForm: Function;
@@ -100,20 +101,8 @@ const AbsenceList = ({
 			>
 				Demander une absence
 			</button>
-			<p>
-				Nombre d'absences pouvant être demandées pour l'année{' '}
-				{new Date().getFullYear()} :
-			</p>
-			<ul>
-				<li>
-					Congés payés :{' '}
-					{getRemainingAbsenceCount(user, 'congé payé')}
-				</li>
-				<li>RTT employés : {getRemainingAbsenceCount(user, 'RTT')}</li>
-				<li>
-					RTT employeur : <span style={{ color: 'red' }}>TODO</span>
-				</li>
-			</ul>
+
+			<AbsenceSolde user={user} />
 
 			<AbsenceModal
 				absenceToDelete={absenceToDelete!}

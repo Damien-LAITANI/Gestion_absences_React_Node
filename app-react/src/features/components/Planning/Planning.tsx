@@ -1,7 +1,8 @@
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import AbsenceSolde from '../AbsenceSolde/AbsenceSolde';
 
-const Plannig = ({ absences, holidays }: any) => {
+const Plannig = ({ absences, holidays, user }: any) => {
 	let events: any = [];
 	const colorEvent = (type: any) => {
 		if (type === 'RTT') {
@@ -44,15 +45,19 @@ const Plannig = ({ absences, holidays }: any) => {
 	}
 
 	return (
-		<div className="w-75 mx-auto">
-			<h1 className="text-center mt-2">Planning des absences</h1>
-			<FullCalendar
-				plugins={[dayGridPlugin]}
-				initialView="dayGridMonth"
-				weekends={true}
-				events={events}
-			/>
-		</div>
+		<>
+			<div className="w-75 mx-auto">
+				<h1 className="text-center mt-2">Planning des absences</h1>
+				<FullCalendar
+					plugins={[dayGridPlugin]}
+					initialView="dayGridMonth"
+					weekends={true}
+					events={events}
+				/>
+			</div>
+
+			<AbsenceSolde user={user} />
+		</>
 	);
 };
 
