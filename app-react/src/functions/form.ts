@@ -62,10 +62,22 @@ export const formIsValid = (
 		datesAreOnSameDay(new Date(), getJsDate(newAbsence.startDateISO)) ||
 		getJsDate(newAbsence.startDateISO).valueOf() < new Date().valueOf()
 	) {
-		console.error('La date demandée est déjà passée');
+		console.error('La date de début demandée est déjà passée');
 		errors = {
 			...errors,
-			oldDate: 'La date demandée est déjà passée',
+			oldStartDate: 'La date de début demandée est déjà passée',
+		};
+		isValid = false;
+	}
+	// * Date de fin postérieur à aujourd'hui
+	if (
+		datesAreOnSameDay(new Date(), getJsDate(newAbsence.endDateISO)) ||
+		getJsDate(newAbsence.endDateISO).valueOf() < new Date().valueOf()
+	) {
+		console.error('La date de fin demandée est déjà passée');
+		errors = {
+			...errors,
+			oldEndDate: 'La date de fin demandée est déjà passée',
 		};
 		isValid = false;
 	}
