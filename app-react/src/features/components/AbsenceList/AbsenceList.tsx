@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import { useState } from 'react';
+import { getRemainingAbsenceCount } from '../../../functions/user';
 import {
 	IAbsence,
 	IUser,
@@ -7,6 +8,7 @@ import {
 import { updateUserToApi } from '../../../services/UserService/UserService';
 import AbsenceContainer from '../AbsenceContainer/AbsenceContainer';
 import AbsenceModal from '../AbsenceModal/AbsenceModal';
+import AbsenceSolde from '../AbsenceSolde/AbsenceSolde';
 
 interface IAbsenceListProps {
 	setShowAbsenceForm: Function;
@@ -99,11 +101,8 @@ const AbsenceList = ({
 			>
 				Demander une absence
 			</button>
-			<p>Soldes des compteurs</p>
-			<ul>
-				<li>Congés payés : 15</li>
-				<li>RTT : 3</li>
-			</ul>
+
+			<AbsenceSolde user={user} />
 
 			<AbsenceModal
 				absenceToDelete={absenceToDelete!}

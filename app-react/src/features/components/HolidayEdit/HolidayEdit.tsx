@@ -18,14 +18,16 @@ const HolidayEdit = ({
 	setHolidaysToDisplay,
 }: IHolidayEditProps) => {
 	const navigate = useNavigate();
-	const isFormValid = () => {
-		//Il n'est pas possible de modifier une RTT employeur VALIDEE
+
+	const onSubmit = () => {
+		// Il n'est pas possible de modifier une RTT employeur VALIDEE
 		if (holiday.status === 'VALIDEE') {
 			console.log(
 				"Il n'est pas possible de modifier une RTT employeur VALIDEE"
 			);
 			return false;
 		}
+
 		const newDateInput: any = document.querySelector('#date');
 		const newTypeInput: React.DetailedHTMLProps<
 			React.SelectHTMLAttributes<HTMLSelectElement>,
@@ -52,6 +54,8 @@ const HolidayEdit = ({
 			motif: newMotifInput.value,
 			status: 'INITIALE',
 		};
+
+		// * Règles métier
 		//Tous les champs sont obligatoires
 		if (
 			!updatedHoliday.type ||
@@ -235,7 +239,7 @@ const HolidayEdit = ({
 						<button
 							type="button"
 							className="btn btn-success"
-							onClick={isFormValid}
+							onClick={onSubmit}
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"

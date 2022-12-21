@@ -28,7 +28,8 @@ export const getRemainingAbsenceCount = (
 	year: number = new Date().getFullYear()
 ) => {
 	const absenceCount = getAbsencesByYear(user, year).filter(
-		(absence) => absence.type === absenceType
+		(absence) =>
+			absence.type === absenceType && absence.status === 'VALIDEE'
 	).length;
 
 	if (absenceType === 'RTT') return MAX_RTT_COUNT - absenceCount;

@@ -110,6 +110,7 @@ const App = () => {
 									<Planning
 										absences={user.absences}
 										holidays={holidays}
+										user={user}
 									/>
 								}
 							/>
