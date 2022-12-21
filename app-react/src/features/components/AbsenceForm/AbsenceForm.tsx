@@ -114,12 +114,24 @@ const AbsenceForm = ({
 					<label htmlFor="startDate">Date de début</label>
 					{errors && Object.keys(errors).length !== 0 && (
 						<>
-							<p className="errors">{errors.weekendStartDate}</p>
-							<p className="errors">{errors.overlapStartDate}</p>
-							<p className="errors">{errors.holidayStartDate}</p>
-							<p className="errors">{errors.rttStartDate}</p>
-							<p className="errors">{errors.oldDate}</p>
-							<p className="errors">{errors.requiredStartDate}</p>
+							<p className="errors text-danger mx-3">
+								{errors.weekendStartDate}
+							</p>
+							<p className="errors text-danger mx-3">
+								{errors.overlapStartDate}
+							</p>
+							<p className="errors text-danger mx-3">
+								{errors.holidayStartDate}
+							</p>
+							<p className="errors text-danger mx-3">
+								{errors.rttStartDate}
+							</p>
+							<p className="errors text-danger mx-3">
+								{errors.oldDate}
+							</p>
+							<p className="errors text-danger mx-3">
+								{errors.requiredStartDate}
+							</p>
 						</>
 					)}
 				</div>
@@ -134,13 +146,27 @@ const AbsenceForm = ({
 					<label htmlFor="endDate">Date de fin</label>
 					{errors && Object.keys(errors).length !== 0 && (
 						<>
-							<p className="errors">{errors.endDateFirst}</p>
-							<p className="errors">{errors.holidayEndDate}</p>
-							<p className="errors">{errors.overlapEndDate}</p>
-							<p className="errors">{errors.rttEndDate}</p>
-							<p className="errors">{errors.weekendEndDate}</p>
-							<p className="errors">{errors.oldDate}</p>
-							<p className="errors">{errors.requiredEndDate}</p>
+							<p className="errors text-danger mx-3">
+								{errors.endDateFirst}
+							</p>
+							<p className="errors text-danger mx-3">
+								{errors.holidayEndDate}
+							</p>
+							<p className="errors text-danger mx-3">
+								{errors.overlapEndDate}
+							</p>
+							<p className="errors text-danger mx-3">
+								{errors.rttEndDate}
+							</p>
+							<p className="errors text-danger mx-3">
+								{errors.weekendEndDate}
+							</p>
+							<p className="errors text-danger mx-3">
+								{errors.oldDate}
+							</p>
+							<p className="errors text-danger mx-3">
+								{errors.requiredEndDate}
+							</p>
 						</>
 					)}
 				</div>
@@ -172,7 +198,9 @@ const AbsenceForm = ({
 					></textarea>
 					<label htmlFor="motif">Motif</label>
 					{errors && Object.keys(errors).length !== 0 && (
-						<p className="errors">{errors.motif}</p>
+						<p className="errors text-danger mx-3">
+							{errors.motif}
+						</p>
 					)}
 				</div>
 

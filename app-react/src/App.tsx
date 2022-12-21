@@ -140,6 +140,8 @@ const App = () => {
 										holidays={holidays}
 										setHolidays={setHolidays}
 										user={user}
+										errors={errors}
+										setErrors={setErrors}
 									/>
 								}
 							/>

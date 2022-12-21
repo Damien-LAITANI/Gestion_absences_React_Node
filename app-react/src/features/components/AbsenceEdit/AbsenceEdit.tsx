@@ -134,7 +134,44 @@ const AbsenceEdit = ({
 	};
 
 	const onUpdate = (event: any) => {
-		updateAbsence();
+		const startDateInput: any = document.querySelector('#startDate');
+		const endDateInput: any = document.querySelector('#endDate');
+		const updateTypeInput: React.DetailedHTMLProps<
+			React.SelectHTMLAttributes<HTMLSelectElement>,
+			HTMLSelectElement
+		> = document.querySelector('#type') as React.DetailedHTMLProps<
+			React.SelectHTMLAttributes<HTMLSelectElement>,
+			HTMLSelectElement
+		>;
+		const updateMotifInput: React.DetailedHTMLProps<
+			React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+			HTMLTextAreaElement
+		> = document.querySelector('#motif') as React.DetailedHTMLProps<
+			React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+			HTMLTextAreaElement
+		>;
+
+		if (
+			startDateInput.value &&
+			endDateInput.value &&
+			updateTypeInput.value
+		) {
+			const startDate = new Date(startDateInput.value).toISOString();
+			const endDate = new Date(endDateInput.value).toISOString();
+
+			const updatedAbsence = {
+				_id: absence._id,
+				startDateISO: startDate,
+				endDateISO: endDate,
+				type: updateTypeInput.value,
+				status: absence.status,
+				motif: updateMotifInput.value,
+			};
+
+			if (formIsValid(updatedAbsence, user, holidays, setErrors))
+				updateAbsence();
+			else console.error('Absence non modifiée car invalide');
+		}
 	};
 
 	return (
