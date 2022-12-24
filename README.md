@@ -1,12 +1,29 @@
-# `Projet Respire`
+# `Respire`
 
 ## `Informations`
 
-Projet final pour la formation [JS Fullstack](https://www.diginamic.fr/catalogue/developpement-web-et-mobile/formation-developpeur-fullstack-js/) à Diginamic.
+Projet final de la formation [JS Fullstack](https://www.diginamic.fr/catalogue/developpement-web-et-mobile/formation-developpeur-fullstack-js/) à Diginamic.
 
-Frontend avec React (TypeScript)
+Il fallait réaliser le projet en trinôme, grâce à ce que l'on avait appris avec React et Node.
 
-Backend avec NodeJS (TypeScript)
+On a beaucoup fait de <abbr title="Plusieurs développeurs travaillent ensemble sur un même poste de travail.">programmation par pairs</abbr>, environ 40% du temps. Le reste était du travail individuel mais dans la même pièce.
+
+**Date** : 13 au 21 décembre 2022
+
+**Durée** : 7 jours ouvrés
+
+### `Objectif`
+
+Réaliser une application de gestion des demandes de congés pour une société.
+
+[Sujet complet](./sujet.pdf)
+
+## `Outils`
+
+-   Github
+-   Trello
+-   React
+-   Node
 
 ## `Liens`
 
@@ -30,12 +47,25 @@ Backend avec NodeJS (TypeScript)
     -   Email : *valentin.silvestre@hotmail.com*
     -   [Linkedin](https://www.linkedin.com/feed/)
 
-## `Documentation et liens utiles`
+## `Installation`
 
--   [Mongoose](https://mongoosejs.com/docs/guide.html)
+Pour utiliser le projet il faut tout d'abord installer [NodeJS](https://nodejs.org/en/).
 
--   [Icônes Bootstrap](https://icons.getbootstrap.com/)
+Ensuite on installe les dépendances de React et de Node séparément:
 
--   [React](https://reactjs.org/docs/getting-started.html)
+-   `cd ~/.../Respire/app-react && npm install`
+-   `cd ~/.../Respire/api-node && npm install`
 
--   [React Typescript](https://react-typescript-cheatsheet.netlify.app/docs/basic/setup)
+Puis on lance le serveur node sur le port 3000 (choix par défaut) :
+
+-   `cd ~/.../Respire/api-node && npm start`
+
+On fait de même pour React :
+
+-   `cd ~/.../Respire/app-react && npm start`
+
+Le port 3000 étant utilisé il vous proposera le port 3001.
+
+Pour accéder à l'application il faudra vous rendre depuis votre navigateur à l'addresse suivante : http://localhost:3001/
+
+Enfin pour connecter l'application à une base de donnée, on a utilisé mongodb dans le fichier **_api-node/src/controllers/ConnectController.ts_**, il faudra donc créé une collection `absenceApp` qui tourne à cette addresse.
