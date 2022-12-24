@@ -1,0 +1,22 @@
+.container__login {
+    img {
+        width: 100px;
+    }
+
+    .app__name {
+        margin-bottom: 2em;
+    }
+
+    form {
+        width: 110%;
+
+        #email,
+        #password {
+            width: 94%;
+        }
+
+        .showPass {
+            cursor: pointer;
+        }
+    }
+}
