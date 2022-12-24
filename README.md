@@ -69,3 +69,13 @@ Le port 3000 étant utilisé il vous proposera le port 3001.
 Pour accéder à l'application il faudra vous rendre depuis votre navigateur à l'addresse suivante : http://localhost:3001/
 
 Enfin pour connecter l'application à une base de donnée, on a utilisé mongodb dans le fichier **_api-node/src/controllers/ConnectController.ts_**, il faudra donc créé une collection `absenceApp` qui tourne à cette addresse.
+
+Pour finir il vous faudra vous connecter avec les utilisateurs que nous avons manuellement créé car il n'est pas possible de s'inscrire.
+Voici leurs identifiants :
+|Email|Mot de passe|Rôle|
+| - | - | - |
+| admin@gmail.com | admin | admin |
+| manager@gmail.com | admin | manager |
+| damien@gmail.com | admin | employé |
+| otmane@gmail.com | admin | employé |
+| valentin@gmail.com | admin | employé |
