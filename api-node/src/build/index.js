@@ -1,10 +1,9 @@
-import express, { urlencoded } from 'express';
-import router from './routes/routes';
-import { script } from './scripts/script';
+import express from 'express';
+import router from './routes/routes.js';
+import { script } from './scripts/script.js';
 import schedule from 'node-schedule';
 import * as dotenv from 'dotenv';
 dotenv.config();
-
 const app = express();
 const port = process.env.NODE_ENV === 'production' ? 443 : 3000;
 app.use(express.json());
@@ -19,16 +18,7 @@ app.use(function (req, res, next) {
 	next();
 });
 app.use(router);
-console.log('test');
 
 app.listen(port, () => {
-	console.clear();
-	console.log(`
-\t\t\t\t********************************************
-\t\t\t\t*                                          *
-\t\t\t\t*      API Node : listen on port ${port}      *
-\t\t\t\t*                                          *
-\t\t\t\t********************************************
-`);
 	schedule.scheduleJob('* * 0 * *', script);
 });

@@ -1,4 +1,6 @@
 import jwt from 'jsonwebtoken';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 /**
  * On vérifie la présence et la validité du token
@@ -11,7 +13,7 @@ export const authorization = (token: string | undefined) => {
 
 	try {
 		// On controle que la clé secrete corresponde
-		return jwt.verify(token, '832afcf0-7a23-11ed-9825-4b3929766098');
+		return jwt.verify(token, process.env.SECRET_KEY!);
 	} catch (error) {
 		return false;
 	}
