@@ -12,6 +12,7 @@ module.exports = {
 
 	deploy: {
 		production: {
+			key: 'C:/Users/dlait/.ssh/known_hosts',
 			user: 'u350660357',
 			host: '37.59.180.217',
 			ref: 'origin/main',

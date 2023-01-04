@@ -6,9 +6,6 @@ import User from '../models/User/User';
 
 connect(dbURI);
 export const script = () => {
-	console.log(
-		'Execution du script de nuit ======================================='
-	);
 	scriptHolidays();
 	scriptAbsences();
 };
@@ -40,5 +37,4 @@ const scriptAbsences = async () => {
 			}
 		);
 	}
-	console.log(absencesToUpdateStatus);
 };
